@@ -20,11 +20,11 @@ Os desenvolvimentos feitos pela Infinitfy, devem seguir as seguintes nomenclatur
     - [Include](#Include ) 
   - [Grupo de Função](#Grupo-de-Função)
   - [Módulo de Função](#Módulo-de-Função)
-  - [Adobe Forms – Formulário](#Adobe-Forms-–-Formulário)
-  - [Adobe Forms – Interface](#Adobe-Forms-–-Interface)
+  - [Adobe Forms Formulário](#Adobe-Forms-Formulário)
+  - [Adobe Forms Interface](#Adobe-Forms-Interface)
   - [Adobe Interactive Forms](#Adobe-Interactive-Forms)
-  - [Smartforms – Formulário](#Smartforms-–-Formulário)
-  - [Smartforms – Estilo](#Smartforms-–-Estilo)
+  - [Smartforms Formulário](#Smartforms-Formulário)
+  - [Smartforms Estilo](#Smartforms-Estilo)
   - [Sapscript](#Sapscript)
   - [Classe (Orientação a Objeto)](#Classe-(Orientação-a-Objeto))
 - [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento)
@@ -248,9 +248,9 @@ Padrão geral: <span style="color:red">**ZFM_**</span><span style="color:green">
 
 **OBS**.: Utilize, sempre que possível, um Grupo de Função para cada Módulo de Função, utilizando em ambos o mesmo valor colocado em LIVRE.  
 
-### Adobe Forms – Formulário  
+### Adobe Forms Formulário  
 
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Adobe-Forms-–-Formulário)
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Adobe-Forms-Formulário)
 
 Transação: SFP  
 
@@ -263,9 +263,9 @@ Padrão geral: <span style="color:red">**ZAF_**</span><span style="color:green">
 - <span style="color:red">**ZAF_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
 - <span style="color:green">**LIVRE**</span> - Descrição de uso livre
 
-### Adobe Forms – Interface  
+### Adobe Forms Interface  
 
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Adobe-Forms-–-Interface)
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Adobe-Forms-Interface)
 
 Transação: SFP  
 
@@ -293,9 +293,9 @@ Padrão geral: <span style="color:red">**ZIF_**</span><span style="color:green">
 - <span style="color:red">**ZIF_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
 - <span style="color:green">**LIVRE**</span> - Descrição de uso livre
 
-### Smartforms – Formulário
+### Smartforms Formulário
 
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Smartforms-–-Formulário)
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Smartforms-Formulário)
 
 Transação: SMARTFORMS  
 
@@ -308,9 +308,9 @@ Padrão geral: <span style="color:red">**ZSF_**</span><span style="color:green">
 - <span style="color:red">**ZSF_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
 - <span style="color:green">**LIVRE**</span> - Descrição de uso livre
 
-### Smartforms – Estilo
+### Smartforms Estilo
 
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Smartforms-–-Estilo)
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Smartforms-Estilo)
 
 Transação: SMARTFORMS, SMARTSTYLES  
 
@@ -408,8 +408,8 @@ Não deixar textos fixos dentro do programa, sempre utilizar os ‘Símbolos de 
 
 ##### Onde: 
 
--  <span style="color:green">**XXXXXXXXXXXX**</span> Literal com o conteúdo do texto. 
--  <span style="color:blue">**YYY**</span> Identificação de 3 caracteres para o texto. Com duplo clique, o texto é inserido
+-  <span style="color:green">**XXXXXXXXXXXX**</span> - Literal com o conteúdo do texto. 
+-  <span style="color:blue">**YYY**</span> - Identificação de 3 caracteres para o texto. Com duplo clique, o texto é inserido
 
 ##### Exemplo:
 
@@ -432,9 +432,9 @@ Padrão geral:<span style="color:red"> **ZF_**</span><span style="color:green">*
 
 ##### Onde:
 
-- **ZF** Valor fixo.
-- **_** Valor fixo (underline), separador.
-- **Livre** Descrição de uso livre do consultor.
+- **ZF** - Valor fixo.
+- **_**  - Valor fixo (underline), separador.
+- **Livre** -  Descrição de uso livre do consultor.
 
 ##### **OBS**:
 
@@ -449,9 +449,9 @@ Padrão geral: <span style="color:ORANGE">**YYY**</span><span style="color:green
 
 ##### Onde:
 
-- **YYY** Código que identifica de onde é o Module: PBO ou PAI. 
-- **_** Valor fixo (underline), separador.
-- **Livre** Descrição livre para identificação do Module. Cerca de 25 caracteres. 
+- **YYY** - Código que identifica de onde é o Module: PBO ou PAI. 
+- **_** - Valor fixo (underline), separador.
+- **Livre** - Descrição livre para identificação do Module. Cerca de 25 caracteres. 
 
 ### **Projeto user-exit**
 
@@ -463,13 +463,13 @@ Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**X
 
 ##### Onde:
 
-- **Z**    Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+- **Z** - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
 
-- **XX**   Módulo.
+- **XX** - Módulo.
 
-- **_**    Valor fixo (underline), separador.
+- **_** - Valor fixo (underline), separador.
 
-- **Livre** Descrição de uso livre do consultor.
+- **Livre** - Descrição de uso livre do consultor.
 
 ### **Transação**
 
@@ -481,9 +481,9 @@ Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**X
 
 ##### Onde:
 
-- ​		  **Z**    Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
-- ​          **XX**   Módulo.
-- ​          **Livre** Descrição de uso livre do consultor.
+- **Z** - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+- **XX** - Módulo.
+- **Livre** -  Descrição de uso livre do consultor.
 
 ### **Intervalo de Numeração**
 
@@ -495,8 +495,8 @@ Padrão geral: <span style="color:red"> **ZNR**</span><span style="color:green">
 
 ##### Onde:
 
-- **ZNR** Valor fixo.
-- **Livre** Descrição de uso livre do consultor.
+- **ZNR** - Valor fixo.
+- **Livre** - Descrição de uso livre do consultor.
 
 ### **Interface**
 
@@ -508,11 +508,11 @@ Padrão geral: <span style="color:red"> **ZINT_**</span><span style="color:blue"
 
 ##### Onde:
 
-- **ZINT** Valor fixo.
+- **ZINT** - Valor fixo.
 
-- **XX** Módulo.
+- **XX** - Módulo.
 
-- **Livre** Descrição de uso livre do consultor.
+- **Livre** - Descrição de uso livre do consultor.
 
 ### **Badi**
 
@@ -524,11 +524,11 @@ Padrão geral: <span style="color:red"> **Z**</span><span style="color:ORANGE">*
 
 ##### Onde:
 
--  **Z** Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+-  **Z** - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
 
--  _ Valor fixo (underline), separador.
+-  _ - Valor fixo (underline), separador.
 
--  **YYYY** Nome da BADI original (standard).
+-  **YYYY** - Nome da BADI original (standard).
 
 ### **Enhancement**
 
@@ -540,9 +540,9 @@ Padrão geral:  <span style="color:red"> **ZENHP_**</span><span style="color:blu
 
 ##### Onde:
 
-- **ZENHP** Valor fixo.
-- **XX** Módulo.
-- **Livre** Descrição de uso livre do consultor.
+- **ZENHP** - Valor fixo.
+- **XX** - Módulo.
+- **Livre** - Descrição de uso livre do consultor.
 
 **IMPORTANTE:** Para todo Enhancement deve-se criar um programa Include que conterá toda a lógica.
 
@@ -556,8 +556,8 @@ Padrão geral:<span style="color:red"> **ZCM_**</span><span style="color:blue">*
 
 ##### Onde:
 
-- **ZENHP** Valor fixo.
-- **XX** Módulo.
+- **ZENHP** - Valor fixo.
+- **XX** - Módulo.
 
 **IMPORTANTE:** Para toda Classe de mensagem criada, sempre incluir a mensagem número 000 com “& & & &”, ou seja, a primeira mensagem de código 000 poderá ser usada de forma genérica com até 4 parâmetros.
 
@@ -571,8 +571,8 @@ Padrão geral: <span style="color:red"> **ZIMG**</span><span style="color:green"
 
 ##### Onde:
 
-- **ZIMG** Valor fixo.
-- **Livre** Descrição de uso livre do consultor.
+- **ZIMG** - Valor fixo.
+- **Livre** - Descrição de uso livre do consultor.
 
 ### **Authority Check**
 
@@ -582,9 +582,9 @@ Transação: SU21 Tamanho
 Tamanho máximo: 70 caracteres
 Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**XXXX**</span><span style="color:green">**LIVRE**  </span>
 
-- ​		  **Z**    Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
-- ​          **XX**   Módulo.
-- ​          **Livre** Descrição de uso livre do consultor.
+- **Z** - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+- **XX** - Módulo.
+- **Livre** - Descrição de uso livre do consultor.
 
  Comentários em Programas
 
