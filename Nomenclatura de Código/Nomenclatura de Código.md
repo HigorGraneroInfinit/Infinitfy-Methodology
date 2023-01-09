@@ -16,16 +16,15 @@ Os desenvolvimentos feitos pela Infinitfy, devem seguir as seguintes nomenclatur
     - [View](#View)
     - [Ajuda de pesquisa](#Ajuda-de-pesquisa)
   - [Programas](#Programas)
-    - [Informações gerais](#Informações-gerais)
     - [Report e Module Pool](#Report-e-Module-Pool)
     - [Include](#Include ) 
   - [Grupo de Função](#Grupo-de-Função)
   - [Módulo de Função](#Módulo-de-Função)
-  - [Adobe Forms – Formulário](#Adobe-Forms-–-Formulário)
-  - [Adobe Forms – Interface](#Adobe-Forms-–-Interface)
+  - [Adobe Forms Formulário](#Adobe-Forms-Formulário)
+  - [Adobe Forms Interface](#Adobe-Forms-Interface)
   - [Adobe Interactive Forms](#Adobe-Interactive-Forms)
-  - [Smartforms – Formulário](#Smartforms-–-Formulário)
-  - [Smartforms – Estilo](#Smartforms-–-Estilo)
+  - [Smartforms Formulário](#Smartforms-Formulário)
+  - [Smartforms Estilo](#Smartforms-Estilo)
   - [Sapscript](#Sapscript)
   - [Classe (Orientação a Objeto)](#Classe-(Orientação-a-Objeto))
 - [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento)
@@ -43,6 +42,11 @@ Os desenvolvimentos feitos pela Infinitfy, devem seguir as seguintes nomenclatur
   - [Classe de Mensagem](#Classe-de-Mensagem)
   - [Imagem](#Imagem)
   - [Authority Check](#Authority-Check)
+- [Comentários em Programas](#Comentários-em-Programas)
+  - [Informações Gerais](#Informações-Gerais)
+  - [Cabeçalho](#Cabeçalho)
+  - [Comentário em Bloco](#Comentário-em-Bloco)
+  - [Comentário em Linha](#Comentário-em-Linha)
 
 
 
@@ -106,7 +110,7 @@ Padrão geral: <span style="color:red">**ZDE_**</span><span style="color:green">
 
 ##### Onde:  
 
-- <span style="color:red">**ZTB_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
+- <span style="color:red">**ZDE_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
 - <span style="color:green">**LIVRE**</span> - Descrição de uso livre
 
 #### **Domínio** 
@@ -178,12 +182,6 @@ Padrão geral: <span style="color:red">**ZSH_**</span><span style="color:green">
 
 > [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Programas)
 
-#### Informações gerais  
-
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Programas](#Programas) > [Seção atual](#Informações-gerais ) 
-
-Em todos os comentários realizados nos programas, não utilize o nome do cliente.  
-
 #### **Report e Module Pool** 
 
 > [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Programas](#Programas) > [Seção atual](#Report-e-Module-Pool) 
@@ -250,9 +248,9 @@ Padrão geral: <span style="color:red">**ZFM_**</span><span style="color:green">
 
 **OBS**.: Utilize, sempre que possível, um Grupo de Função para cada Módulo de Função, utilizando em ambos o mesmo valor colocado em LIVRE.  
 
-### Adobe Forms – Formulário  
+### Adobe Forms Formulário  
 
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Adobe-Forms-–-Formulário)
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Adobe-Forms-Formulário)
 
 Transação: SFP  
 
@@ -265,9 +263,9 @@ Padrão geral: <span style="color:red">**ZAF_**</span><span style="color:green">
 - <span style="color:red">**ZAF_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
 - <span style="color:green">**LIVRE**</span> - Descrição de uso livre
 
-### Adobe Forms – Interface  
+### Adobe Forms Interface  
 
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Adobe-Forms-–-Interface)
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Adobe-Forms-Interface)
 
 Transação: SFP  
 
@@ -295,9 +293,9 @@ Padrão geral: <span style="color:red">**ZIF_**</span><span style="color:green">
 - <span style="color:red">**ZIF_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
 - <span style="color:green">**LIVRE**</span> - Descrição de uso livre
 
-### Smartforms – Formulário
+### Smartforms Formulário
 
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Smartforms-–-Formulário)
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Smartforms-Formulário)
 
 Transação: SMARTFORMS  
 
@@ -310,9 +308,9 @@ Padrão geral: <span style="color:red">**ZSF_**</span><span style="color:green">
 - <span style="color:red">**ZSF_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
 - <span style="color:green">**LIVRE**</span> - Descrição de uso livre
 
-### Smartforms – Estilo
+### Smartforms Estilo
 
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Smartforms-–-Estilo)
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Smartforms-Estilo)
 
 Transação: SMARTFORMS, SMARTSTYLES  
 
@@ -410,8 +408,8 @@ Não deixar textos fixos dentro do programa, sempre utilizar os ‘Símbolos de 
 
 ##### Onde: 
 
--  <span style="color:green">**XXXXXXXXXXXX**</span> Literal com o conteúdo do texto. 
--  <span style="color:blue">**YYY**</span> Identificação de 3 caracteres para o texto. Com duplo clique, o texto é inserido
+-  <span style="color:green">**XXXXXXXXXXXX**</span> - Literal com o conteúdo do texto. 
+-  <span style="color:blue">**YYY**</span> - Identificação de 3 caracteres para o texto. Com duplo clique, o texto é inserido
 
 ##### Exemplo:
 
@@ -434,9 +432,9 @@ Padrão geral:<span style="color:red"> **ZF_**</span><span style="color:green">*
 
 ##### Onde:
 
-- **ZF** Valor fixo.
-- **_** Valor fixo (underline), separador.
-- **Livre** Descrição de uso livre do consultor.
+- **ZF** - Valor fixo.
+- **_**  - Valor fixo (underline), separador.
+- **Livre** -  Descrição de uso livre do consultor.
 
 ##### **OBS**:
 
@@ -451,9 +449,9 @@ Padrão geral: <span style="color:ORANGE">**YYY**</span><span style="color:green
 
 ##### Onde:
 
-- **YYY** Código que identifica de onde é o Module: PBO ou PAI. 
-- **_** Valor fixo (underline), separador.
-- **Livre** Descrição livre para identificação do Module. Cerca de 25 caracteres. 
+- **YYY** - Código que identifica de onde é o Module: PBO ou PAI. 
+- **_** - Valor fixo (underline), separador.
+- **Livre** - Descrição livre para identificação do Module. Cerca de 25 caracteres. 
 
 ### **Projeto user-exit**
 
@@ -465,13 +463,13 @@ Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**X
 
 ##### Onde:
 
-- **Z**    Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+- **Z** - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
 
-- **XX**   Módulo.
+- **XX** - Módulo.
 
-- **_**    Valor fixo (underline), separador.
+- **_** - Valor fixo (underline), separador.
 
-- **Livre** Descrição de uso livre do consultor.
+- **Livre** - Descrição de uso livre do consultor.
 
 ### **Transação**
 
@@ -483,9 +481,9 @@ Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**X
 
 ##### Onde:
 
-- ​		  **Z**    Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
-- ​          **XX**   Módulo.
-- ​          **Livre** Descrição de uso livre do consultor.
+- **Z** - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+- **XX** - Módulo.
+- **Livre** -  Descrição de uso livre do consultor.
 
 ### **Intervalo de Numeração**
 
@@ -497,8 +495,8 @@ Padrão geral: <span style="color:red"> **ZNR**</span><span style="color:green">
 
 ##### Onde:
 
-- **ZNR** Valor fixo.
-- **Livre** Descrição de uso livre do consultor.
+- **ZNR** - Valor fixo.
+- **Livre** - Descrição de uso livre do consultor.
 
 ### **Interface**
 
@@ -510,11 +508,11 @@ Padrão geral: <span style="color:red"> **ZINT_**</span><span style="color:blue"
 
 ##### Onde:
 
-- **ZINT** Valor fixo.
+- **ZINT** - Valor fixo.
 
-- **XX** Módulo.
+- **XX** - Módulo.
 
-- **Livre** Descrição de uso livre do consultor.
+- **Livre** - Descrição de uso livre do consultor.
 
 ### **Badi**
 
@@ -526,11 +524,11 @@ Padrão geral: <span style="color:red"> **Z**</span><span style="color:ORANGE">*
 
 ##### Onde:
 
--  **Z** Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+-  **Z** - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
 
--  _ Valor fixo (underline), separador.
+-  _ - Valor fixo (underline), separador.
 
--  **YYYY** Nome da BADI original (standard).
+-  **YYYY** - Nome da BADI original (standard).
 
 ### **Enhancement**
 
@@ -542,9 +540,9 @@ Padrão geral:  <span style="color:red"> **ZENHP_**</span><span style="color:blu
 
 ##### Onde:
 
-- **ZENHP** Valor fixo.
-- **XX** Módulo.
-- **Livre** Descrição de uso livre do consultor.
+- **ZENHP** - Valor fixo.
+- **XX** - Módulo.
+- **Livre** - Descrição de uso livre do consultor.
 
 **IMPORTANTE:** Para todo Enhancement deve-se criar um programa Include que conterá toda a lógica.
 
@@ -558,8 +556,8 @@ Padrão geral:<span style="color:red"> **ZCM_**</span><span style="color:blue">*
 
 ##### Onde:
 
-- **ZENHP** Valor fixo.
-- **XX** Módulo.
+- **ZENHP** - Valor fixo.
+- **XX** - Módulo.
 
 **IMPORTANTE:** Para toda Classe de mensagem criada, sempre incluir a mensagem número 000 com “& & & &”, ou seja, a primeira mensagem de código 000 poderá ser usada de forma genérica com até 4 parâmetros.
 
@@ -573,8 +571,8 @@ Padrão geral: <span style="color:red"> **ZIMG**</span><span style="color:green"
 
 ##### Onde:
 
-- **ZIMG** Valor fixo.
-- **Livre** Descrição de uso livre do consultor.
+- **ZIMG** - Valor fixo.
+- **Livre** - Descrição de uso livre do consultor.
 
 ### **Authority Check**
 
@@ -584,8 +582,160 @@ Transação: SU21 Tamanho
 Tamanho máximo: 70 caracteres
 Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**XXXX**</span><span style="color:green">**LIVRE**  </span>
 
-- ​		  **Z**    Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
-- ​          **XX**   Módulo.
-- ​          **Livre** Descrição de uso livre do consultor.
+- **Z** - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+- **XX** - Módulo.
+- **Livre** - Descrição de uso livre do consultor.
 
- 
+ Comentários em Programas
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Seção atual](#Comentários-em-Programas)
+
+### Informações Gerais
+
+>[Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Comentários em Programas](#Comentários-em-Programas) > [Seção atual](#Informações-Gerais)
+
+Em todos os comentários realizados nos programas, não utilize o nome do cliente.  
+
+Fazer uso de comentários dentro dos programas para considerações realmente relevantes para o entendimento do código e lógica criados. 
+
+Exemplo: 
+
+```{abap}
+*&---------------------------------------------------------------------* 
+*&  Function           ZFM_CONSUME_BIGDATA 
+*&---------------------------------------------------------------------* 
+*& Nome: ZFM_CONSUME_BIGDATA 
+*& Tipo: Function - RFC 
+*& Objetivo: Consumo de BIGDATA 
+*& Data/Hora: Thursday, July 28, 2021 (GMT-3) - 02:59 
+*& Desenvolvedor: Higor Lopes(Burger King) 
+*&---------------------------------------------------------------------* 
+*& Versão 1: Higor Lopes(Burger King) - Inicio Desenvolvimento - BKDK984103 
+*& Versão 2: ? 
+*& Versão 3: ? 
+*&---------------------------------------------------------------------* 
+
+TABLES: /xnfe/innfehd. 
+
+TYPES: 
+*&---------------------------------------------------------------------* 
+*&  GLOBAL TYPES(TY_) 
+*&---------------------------------------------------------------------* 
+  BEGIN OF ty_bkoffice, 
+    nfeid TYPE c LENGTH 44, 
+    check TYPE c LENGTH 1, 
+  END OF ty_bkoffice, 
+  BEGIN OF ty_innfeit, 
+    guid_header TYPE /xnfe/innfeit-guid_header, 
+    cfop        TYPE /xnfe/innfeit-cfop, 
+  END OF ty_innfeit. 
+  
+DATA: 
+*&---------------------------------------------------------------------* 
+*&  GLOBAL INTERNAL TABLES(IT_) 
+*&---------------------------------------------------------------------* 
+it_innfehd TYPE STANDARD TABLE OF /xnfe/innfehd, 
+it_innfeit TYPE STANDARD TABLE OF ty_innfeit, 
+  
+*&---------------------------------------------------------------------* 
+*&  GLOBAL VARIABLES(VG_) 
+*&---------------------------------------------------------------------* 
+vg_status TYPE c LENGTH 1, 
+
+*&---------------------------------------------------------------------* 
+*&  GLOBAL OBJECT(OO_) 
+*&---------------------------------------------------------------------* 
+oo_bkoffice TYPE REF TO zbko_cl_bkoffice. 
+
+*&---------------------------------------------------------------------* 
+*&  GLOBAL CONSTANTS(C_) 
+*&---------------------------------------------------------------------* 
+CONSTANTS:  
+  BEGIN OF c_bkoxml, 
+    pend TYPE c LENGTH 1 VALUE 'P',   " XML não existe na base do BKOffice 
+    succ TYPE c LENGTH 1 VALUE 'S',   " XML encontrado na base do BKOffice 
+    erro TYPE c LENGTH 1 VALUE 'E',   " Erro na consulta de Status Integração XML 
+    nrel TYPE c LENGTH 1 VALUE 'N',   " XML não relevante para BKOffice. 
+  END OF c_bkoxml. 
+```
+
+
+
+### Cabeçalho
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Comentários em Programas](#Comentários-em-Programas) > [Seção atual](#Cabeçalho)
+
+Utilizar esse padrão abaixo para os objetos do tipo: Programas Report, Include, Module Pool, Módulo de 
+
+Função, BADI e Classe. 
+
+```{abap}
+*&---------------------------------------------------------------------* 
+*& Nome: ZBKO_P_JOB_STATUS_XML_PLK 
+*& Tipo: Report 
+*& Objetivo: Integrar BKOffice 
+*& Data/Hora: Thursday, July 8, 2021 (GMT-3) - 02:59 
+*& Desenvolvedor: Higor Lopes(Burger King) 
+*& Request: PD1K900537 
+*&---------------------------------------------------------------------* 
+*&                            VERSÕES 
+*&---------------------------------------------------------------------* 
+*& Request: ? 
+*& Motivo/Correção: ? 
+*& Nome: ? 
+*&---------------------------------------------------------------------* 
+```
+
+### Comentário em Bloco
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Comentários em Programas](#Comentários-em-Programas) > [Seção atual](#Comentário-em-Bloco)
+
+Para grandes trechos de modificações, utilizar os identificadores abaixo para destacar o início (BEGIN) e fim (END) do bloco modificado: 
+
+```{abap}
+* --->>> BEGIN >>> changed by Usuário(NomeDev.) in Data - v1[Chamado] - BKDK983899 
+
+* <<<--- END <<< changed by Usuário(NomeDev.) in Data - v1[Chamado] - BKDK983899 
+```
+
+Exemplo:
+
+```{abap}
+* --->>> BEGIN >>> changed by HLOPES(Higor) in Data - v1[C0016 - BKDK983899 
+
+* <<<--- END <<< changed by HLOPES(Higor) in Data - v1[C0016] - BKDK983899 
+```
+
+### Comentário em Linha
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Comentários em Programas](#Comentários-em-Programas) > [Seção atual](#Comentário-em-Linha)
+
+Para identificar individualmente as linhas que foram modificadas, use os padrões abaixo para cada caso: 
+
+##### Linhas incluídas (ADD):  <span style="color:red">**"add**</span> **DD.MM.AAAA** – <span style="color:red">**v**</span>**XX** 
+
+```ABAP
+DATA: lv_addrn type adrc-ADDRNUMBER,
+	  lv_matnr TYPE mara-matnr, "add 06.01.2023 - v02
+	  lv_kunnr TYPE kna1-kunnr. "add 06.01.2023 - v02
+```
+
+##### Linhas excluídas (DEL): <span style="color:red">**"del**</span> **DD.MM.AAAA** – <span style="color:red">**v**</span>**XX** 
+
+```ABAP
+DATA: lv_addrn type adrc-ADDRNUMBER, "del 09.01.2023 - v03
+	  lv_matnr TYPE mara-matnr, "add 06.01.2023 - v02 "del 09.01.2023 - v03
+	  lv_kunnr TYPE kna1-kunnr. "add 06.01.2023 - v02
+```
+
+##### Onde: 
+
+- <span style="color:red">**"**</span> - Valor fixo, identifica que é um comentário no final da linha. 
+- <span style="color:red">**Add**</span> - Valor fixo, identifica que é uma linha que foi adicionada. 
+- <span style="color:red">**Del**</span> - Valor fixo, identifica que é uma linha que foi excluída. 
+- **dd.mm.aaaa** - Data, mês e ano da inclusão. 
+- -- Valor fixo, separador. 
+- v - Valor fixo, letra V, identificador para versão. 
+- **XX** - Identifica o número da versão colocada no cabeçalho do programa. 
+
+**Linhas modificadas:** copiar a linha que será alterada (CTRL+D). Colocar comentário com "DEL" no final da linha e na linha copiada (depois de alterada) colocar comentário "ADD". Desabilitar (comentar) a linha inteira que ficou como "DEL". 
