@@ -33,7 +33,7 @@ Os desenvolvimentos feitos pela Infinitfy, devem seguir as seguintes nomenclatur
   - [Objetos Locais](#Objetos-Locais)
   - [Elemento de Texto](#Elemento-de-Texto)
   - [Perform](#Perform)
-  - [Module PBO & PAI](#Module(PBO-&-PAI))
+  - [Module PBO & PAI](#Module-PBO-&-PAI)
   - [Projeto user-exit](#Projeto-user-exit)
   - [Transação](#Transação)
   - [Intervalo de Numeração](#Intervalo-de-Numeração)
