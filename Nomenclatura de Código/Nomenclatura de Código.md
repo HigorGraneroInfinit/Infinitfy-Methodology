@@ -16,7 +16,6 @@ Os desenvolvimentos feitos pela Infinitfy, devem seguir as seguintes nomenclatur
     - [View](#View)
     - [Ajuda de pesquisa](#Ajuda-de-pesquisa)
   - [Programas](#Programas)
-    - [Informações gerais](#Informações-gerais)
     - [Report e Module Pool](#Report-e-Module-Pool)
     - [Include](#Include ) 
   - [Grupo de Função](#Grupo-de-Função)
@@ -43,6 +42,11 @@ Os desenvolvimentos feitos pela Infinitfy, devem seguir as seguintes nomenclatur
   - [Classe de Mensagem](#Classe-de-Mensagem)
   - [Imagem](#Imagem)
   - [Authority Check](#Authority-Check)
+- [Comentários em Programas](#Comentários-em-Programas)
+  - [Informações Gerais](#Informações-Gerais)
+  - [Cabeçalho](#Cabeçalho)
+  - [Comentário em Bloco](#Comentário-em-Bloco)
+  - [Comentário em Linha](#Comentário-em-Linha)
 
 
 
@@ -177,12 +181,6 @@ Padrão geral: <span style="color:red">**ZSH_**</span><span style="color:green">
 ### **Programas**
 
 > [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Programas)
-
-#### Informações gerais  
-
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Programas](#Programas) > [Seção atual](#Informações-gerais ) 
-
-Em todos os comentários realizados nos programas, não utilize o nome do cliente.  
 
 #### **Report e Module Pool** 
 
@@ -588,4 +586,156 @@ Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**X
 - ​          **XX**   Módulo.
 - ​          **Livre** Descrição de uso livre do consultor.
 
- 
+ Comentários em Programas
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Seção atual](#Comentários-em-Programas)
+
+### Informações Gerais
+
+>[Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Comentários em Programas](#Comentários-em-Programas) > [Seção atual](#Informações-Gerais)
+
+Em todos os comentários realizados nos programas, não utilize o nome do cliente.  
+
+Fazer uso de comentários dentro dos programas para considerações realmente relevantes para o entendimento do código e lógica criados. 
+
+Exemplo: 
+
+```{abap}
+*&---------------------------------------------------------------------* 
+*&  Function           ZFM_CONSUME_BIGDATA 
+*&---------------------------------------------------------------------* 
+*& Nome: ZFM_CONSUME_BIGDATA 
+*& Tipo: Function - RFC 
+*& Objetivo: Consumo de BIGDATA 
+*& Data/Hora: Thursday, July 28, 2021 (GMT-3) - 02:59 
+*& Desenvolvedor: Higor Lopes(Burger King) 
+*&---------------------------------------------------------------------* 
+*& Versão 1: Higor Lopes(Burger King) - Inicio Desenvolvimento - BKDK984103 
+*& Versão 2: ? 
+*& Versão 3: ? 
+*&---------------------------------------------------------------------* 
+
+TABLES: /xnfe/innfehd. 
+
+TYPES: 
+*&---------------------------------------------------------------------* 
+*&  GLOBAL TYPES(TY_) 
+*&---------------------------------------------------------------------* 
+  BEGIN OF ty_bkoffice, 
+    nfeid TYPE c LENGTH 44, 
+    check TYPE c LENGTH 1, 
+  END OF ty_bkoffice, 
+  BEGIN OF ty_innfeit, 
+    guid_header TYPE /xnfe/innfeit-guid_header, 
+    cfop        TYPE /xnfe/innfeit-cfop, 
+  END OF ty_innfeit. 
+  
+DATA: 
+*&---------------------------------------------------------------------* 
+*&  GLOBAL INTERNAL TABLES(IT_) 
+*&---------------------------------------------------------------------* 
+it_innfehd TYPE STANDARD TABLE OF /xnfe/innfehd, 
+it_innfeit TYPE STANDARD TABLE OF ty_innfeit, 
+  
+*&---------------------------------------------------------------------* 
+*&  GLOBAL VARIABLES(VG_) 
+*&---------------------------------------------------------------------* 
+vg_status TYPE c LENGTH 1, 
+
+*&---------------------------------------------------------------------* 
+*&  GLOBAL OBJECT(OO_) 
+*&---------------------------------------------------------------------* 
+oo_bkoffice TYPE REF TO zbko_cl_bkoffice. 
+
+*&---------------------------------------------------------------------* 
+*&  GLOBAL CONSTANTS(C_) 
+*&---------------------------------------------------------------------* 
+CONSTANTS:  
+  BEGIN OF c_bkoxml, 
+    pend TYPE c LENGTH 1 VALUE 'P',   " XML não existe na base do BKOffice 
+    succ TYPE c LENGTH 1 VALUE 'S',   " XML encontrado na base do BKOffice 
+    erro TYPE c LENGTH 1 VALUE 'E',   " Erro na consulta de Status Integração XML 
+    nrel TYPE c LENGTH 1 VALUE 'N',   " XML não relevante para BKOffice. 
+  END OF c_bkoxml. 
+```
+
+
+
+### Cabeçalho
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Comentários em Programas](#Comentários-em-Programas) > [Seção atual](#Cabeçalho)
+
+Utilizar esse padrão abaixo para os objetos do tipo: Programas Report, Include, Module Pool, Módulo de 
+
+Função, BADI e Classe. 
+
+```{abap}
+*&---------------------------------------------------------------------* 
+*& Nome: ZBKO_P_JOB_STATUS_XML_PLK 
+*& Tipo: Report 
+*& Objetivo: Integrar BKOffice 
+*& Data/Hora: Thursday, July 8, 2021 (GMT-3) - 02:59 
+*& Desenvolvedor: Higor Lopes(Burger King) 
+*& Request: PD1K900537 
+*&---------------------------------------------------------------------* 
+*&                            VERSÕES 
+*&---------------------------------------------------------------------* 
+*& Request: ? 
+*& Motivo/Correção: ? 
+*& Nome: ? 
+*&---------------------------------------------------------------------* 
+```
+
+### Comentário em Bloco
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Comentários em Programas](#Comentários-em-Programas) > [Seção atual](#Comentário-em-Bloco)
+
+Para grandes trechos de modificações, utilizar os identificadores abaixo para destacar o início (BEGIN) e fim (END) do bloco modificado: 
+
+```{abap}
+* --->>> BEGIN >>> changed by Usuário(NomeDev.) in Data - v1[Chamado] - BKDK983899 
+
+* <<<--- END <<< changed by Usuário(NomeDev.) in Data - v1[Chamado] - BKDK983899 
+```
+
+Exemplo:
+
+```{abap}
+* --->>> BEGIN >>> changed by HLOPES(Higor) in Data - v1[C0016 - BKDK983899 
+
+* <<<--- END <<< changed by HLOPES(Higor) in Data - v1[C0016] - BKDK983899 
+```
+
+### Comentário em Linha
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Comentários em Programas](#Comentários-em-Programas) > [Seção atual](#Comentário-em-Linha)
+
+Para identificar individualmente as linhas que foram modificadas, use os padrões abaixo para cada caso: 
+
+##### Linhas incluídas (ADD):  <span style="color:red">**"add**</span> **DD.MM.AAAA** – <span style="color:red">**v**</span>**XX** 
+
+```ABAP
+DATA: lv_addrn type adrc-ADDRNUMBER,
+	  lv_matnr TYPE mara-matnr, "add 06.01.2023 - v02
+	  lv_kunnr TYPE kna1-kunnr. "add 06.01.2023 - v02
+```
+
+##### Linhas excluídas (DEL): <span style="color:red">**"del**</span> **DD.MM.AAAA** – <span style="color:red">**v**</span>**XX** 
+
+```ABAP
+DATA: lv_addrn type adrc-ADDRNUMBER, "del 09.01.2023 - v03
+	  lv_matnr TYPE mara-matnr, "add 06.01.2023 - v02 "del 09.01.2023 - v03
+	  lv_kunnr TYPE kna1-kunnr. "add 06.01.2023 - v02
+```
+
+##### Onde: 
+
+- <span style="color:red">**"**</span> - Valor fixo, identifica que é um comentário no final da linha. 
+- <span style="color:red">**Add**</span> - Valor fixo, identifica que é uma linha que foi adicionada. 
+- <span style="color:red">**Del**</span> - Valor fixo, identifica que é uma linha que foi excluída. 
+- **dd.mm.aaaa** - Data, mês e ano da inclusão. 
+- -- Valor fixo, separador. 
+- v - Valor fixo, letra V, identificador para versão. 
+- **XX** - Identifica o número da versão colocada no cabeçalho do programa. 
+
+**Linhas modificadas:** copiar a linha que será alterada (CTRL+D). Colocar comentário com "DEL" no final da linha e na linha copiada (depois de alterada) colocar comentário "ADD". Desabilitar (comentar) a linha inteira que ficou como "DEL". 
