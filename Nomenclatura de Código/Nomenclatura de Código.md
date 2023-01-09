@@ -110,7 +110,7 @@ Padrão geral: <span style="color:red">**ZDE_**</span><span style="color:green">
 
 ##### Onde:  
 
-- <span style="color:red">**ZTB_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
+- <span style="color:red">**ZDE_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
 - <span style="color:green">**LIVRE**</span> - Descrição de uso livre
 
 #### **Domínio** 
@@ -584,7 +584,7 @@ Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**X
 
 - **Z** - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
 - **XX** - Módulo.
-- **Livre** - Descrição de uso livre do consultor.
+- **Livre** - Descrição de uso livre do consultor.
 
  Comentários em Programas
 
