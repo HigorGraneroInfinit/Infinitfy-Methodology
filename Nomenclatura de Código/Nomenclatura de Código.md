@@ -5,7 +5,6 @@ Os desenvolvimentos feitos pela Infinitfy, devem seguir as seguintes nomenclatur
 ## Conteúdo
 
 - [Legendas](#Legendas)
-
 - [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) 
   - [Pacote](#Pacote)
   - [Dicionário de dados](#Dicionário-de-dados)
@@ -16,7 +15,6 @@ Os desenvolvimentos feitos pela Infinitfy, devem seguir as seguintes nomenclatur
     - [Tipo de tabela](#Tipo-de-tabela)
     - [View](#View)
     - [Ajuda de pesquisa](#Ajuda-de-pesquisa)
-  
   - [Programas](#Programas)
     - [Informações gerais](#Informações-gerais)
     - [Report e Module Pool](#Report-e-Module-Pool)
@@ -30,6 +28,22 @@ Os desenvolvimentos feitos pela Infinitfy, devem seguir as seguintes nomenclatur
   - [Smartforms – Estilo](#Smartforms-–-Estilo)
   - [Sapscript](#Sapscript)
   - [Classe (Orientação a Objeto)](#Classe-(Orientação-a-Objeto))
+- [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento)
+  - [Objetos Globais](#Objetos-Globais)
+  - [Objetos Locais](#Objetos-Locais)
+  - [Elemento de Texto](#Elemento-de-Texto)
+  - [Perform](#Perform)
+  - [Module(PBO & PAI)](#Module(PBO-&-PAI))
+  - [Projeto(user-exit)](#Projeto(user-exit))
+  - [Transação](#Transação)
+  - [Intervalo de Numeração](#Intervalo-de-Numeração)
+  - [Interface](#Interface)
+  - [BADI](#Perform)
+  - [Enhancement](#Enhancement)
+  - [Classe de Mensagem](#Classe-de-Mensagem)
+  - [Imagem](#Imagem)
+  - [Authority Check](#Authority-Check)
+
 
 
 
@@ -344,4 +358,240 @@ Padrão geral: <span style="color:red">**ZCL**</span><span style="color:blue">**
 - <span style="color:blue">**XXXX_**</span> - Módulo
 - <span style="color:green">**LIVRE**</span> - Descrição de uso livre
 
-**OBS**.: Para a criação de Classe local, utilize o padrão: <span style="color:red">**ZLC_**</span><span style="color:green">**LIVRE**</span>. 
+**OBS**.: Para a criação de Classe local, utilize o padrão: <span style="color:red">**ZLC_**</span><span style="color:green">**LIVRE**</span>.
+
+
+
+## Nomenclatura Desenvolvimento
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Seção atual](#Nomenclatura-Desenvolvimento)
+
+### **Objetos Globais**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Objetos-Globais)
+
+| **Tipo**       | **Iniciar Com** |
+| :------------- | :-------------- |
+| Variáveis      | gv_             |
+| Constantes     | gc_             |
+| Tabela Interna | it_             |
+| Workarea       | wa_             |
+| Range          | gr_             |
+| Field Symbol   | <fs_>           |
+| Types          | ty_             |
+| Estruturas     | st_             |
+| Parameters     | p_              |
+| Select-Options | s_              |
+| Checkbox       | cb_             |
+| Radio-button   | rb_             |
+| Objetos OO     | oo_             |
+
+### **Objetos Locais**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Objetos-Locais)
+
+| **Tipo**       | **Iniciar Com** |
+| -------------- | --------------- |
+| Variáveis      | lv_             |
+| Constantes     | lc_             |
+| Tabela Interna | lt_             |
+| Workarea       | lw_             |
+| Range          | lr_             |
+| Field Symbol   | <lfs_>          |
+| Types          | ly_             |
+| Estruturas     | ls_             |
+| Classe         | lcl_            |
+
+### **Elemento de Texto**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Elemento-de-Texto)
+
+Não deixar textos fixos dentro do programa, sempre utilizar os ‘Símbolos de texto’ em ‘Elementos de texto’. Para esse contexto, utilize o padrão: <span style="color:green">**XXXXXXXXXXXX**</span> (<span style="color:blue">**YYY**</span>).
+
+##### Onde: 
+
+-  <span style="color:green">**XXXXXXXXXXXX**</span> Literal com o conteúdo do texto. 
+-  <span style="color:blue">**YYY**</span> Identificação de 3 caracteres para o texto. Com duplo clique, o texto é inserido
+
+##### Exemplo:
+
+```{ABAP}
+REPORT zns_001.
+DATA: vg_texto TYPE c LENGTH 100.
+vg_texto = 'Olá &1, hoje é &2.'(001).
+REPLACE ALL OCCURRENCES OF '&1' IN vg_texto with sy-uname.
+REPLACE ALL OCCURRENCES OF '&2' IN vg_texto with sy-datum.
+MESSAGE vg_texto
+	TYPE 'I'.
+```
+
+### **Peform**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Perform)
+
+Tamanho máximo: 30 caracteres 
+Padrão geral:<span style="color:red"> **ZF_**</span><span style="color:green">**LIVRE**  </span> 
+
+##### Onde:
+
+- **ZF** Valor fixo.
+- **_** Valor fixo (underline), separador.
+- **Livre** Descrição de uso livre do consultor.
+
+##### **OBS**:
+
+- Sempre que possível, ao criar um Perform, crie um parâmetro do tipo CHANGING chamado P_ERRO que servirá para validar se houve algum erro na execução desse Perform. Inicie o processamento desse Perform limpando o parâmetro P_ERRO e caso haja algum erro, atribuir um '**X**' à esse parâmetro. Não esquecer de fazer a verificação desse parâmetro P_ERRO após a execução do Perform.
+
+### **Module(PBO & PAI)**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Module(PBO-&-PAI))
+
+Tamanho máximo: 30 caracteres 
+Padrão geral: <span style="color:ORANGE">**YYY**</span><span style="color:green">**LIVRE**  </span>
+
+##### Onde:
+
+- **YYY** Código que identifica de onde é o Module: PBO ou PAI. 
+- **_** Valor fixo (underline), separador.
+- **Livre** Descrição livre para identificação do Module. Cerca de 25 caracteres. 
+
+### **Projeto(user-exit)**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Projeto(user-exit))
+
+Transação: CMOD
+Tamanho máximo: 8 caracteres
+Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**XXXX**</span><span style="color:green">**LIVRE**  </span> 
+
+##### Onde:
+
+- **Z**    Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+
+- **XX**   Módulo.
+
+- **_**    Valor fixo (underline), separador.
+
+- **Livre** Descrição de uso livre do consultor.
+
+### **Transação**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Transação)
+
+Transação: SE93
+Tamanho máximo: 20 caracteres
+Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**XXXX**</span><span style="color:green">**LIVRE**  </span> 
+
+##### Onde:
+
+- ​		  **Z**    Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+- ​          **XX**   Módulo.
+- ​          **Livre** Descrição de uso livre do consultor.
+
+### **Intervalo de Numeração**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Intervalo-de-Numeração)
+
+Transação: SRNO
+Tamanho máximo: 10 caracteres
+Padrão geral: <span style="color:red"> **ZNR**</span><span style="color:green">**LIVRE**  </span>
+
+##### Onde:
+
+- **ZNR** Valor fixo.
+- **Livre** Descrição de uso livre do consultor.
+
+### **Interface**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Interface)
+
+Transação: SE24
+Tamanho máximo: 30 caracteres
+Padrão geral: <span style="color:red"> **ZINT_**</span><span style="color:blue">**XXXX**</span><span style="color:red"> **_**</span><span style="color:green">**LIVRE**  </span>
+
+##### Onde:
+
+- **ZINT** Valor fixo.
+
+- **XX** Módulo.
+
+- **Livre** Descrição de uso livre do consultor.
+
+### **BADI**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#BADI)
+
+Transação: SE18, SE19
+Tamanho máximo: 30 caracteres
+Padrão geral: <span style="color:red"> **Z**</span><span style="color:ORANGE">**YYYY**</span>
+
+##### Onde:
+
+-  **Z** Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+
+-  _ Valor fixo (underline), separador.
+
+-  **YYYY** Nome da BADI original (standard).
+
+### **Enhancement**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Enhancement)
+
+Transação: SE20
+Tamanho máximo: 30 caracteres
+Padrão geral:  <span style="color:red"> **ZENHP_**</span><span style="color:blue">**XXXX**</span><span style="color:red"> **_**</span><span style="color:green">**LIVRE**  </span>
+
+##### Onde:
+
+- **ZENHP** Valor fixo.
+- **XX** Módulo.
+- **Livre** Descrição de uso livre do consultor.
+
+**IMPORTANTE:** Para todo Enhancement deve-se criar um programa Include que conterá toda a lógica.
+
+### **Classe de Mensagem**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Classe-de-Mensagem)
+
+Transação: SE91
+Tamanho máximo: 20 caracteres
+Padrão geral:<span style="color:red"> **ZCM_**</span><span style="color:blue">**XXXX**</span>
+
+##### Onde:
+
+- **ZENHP** Valor fixo.
+- **XX** Módulo.
+
+**IMPORTANTE:** Para toda Classe de mensagem criada, sempre incluir a mensagem número 000 com “& & & &”, ou seja, a primeira mensagem de código 000 poderá ser usada de forma genérica com até 4 parâmetros.
+
+**Exemplo:**
+
+![image-20230106134852619](C:\Users\Felyp\AppData\Roaming\Typora\typora-user-images\image-20230106134852619.png)
+
+
+
+### **Imagem**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Imagem)
+
+Transação: SE78
+Tamanho máximo: 70 caracteres
+Padrão geral: <span style="color:red"> **ZIMG**</span><span style="color:green">**LIVRE**  </span>
+
+##### Onde:
+
+- **ZIMG** Valor fixo.
+- **Livre** Descrição de uso livre do consultor.
+
+### **Authority Check**
+
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento) > [Seção atual](#Authority-Check)
+
+Transação: SU21 Tamanho
+Tamanho máximo: 70 caracteres
+Padrão geral: <span style="color:red"> **Z**</span><span style="color:blue">**XXXX**</span><span style="color:green">**LIVRE**  </span>
+
+- ​		  **Z**    Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3.
+- ​          **XX**   Módulo.
+- ​          **Livre** Descrição de uso livre do consultor.
+
+ 
