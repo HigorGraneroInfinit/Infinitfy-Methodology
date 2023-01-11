@@ -413,7 +413,7 @@ Não deixar textos fixos dentro do programa, sempre utilizar os ‘Símbolos de 
 
 ##### Exemplo:
 
-```{ABAP}
+```ABAP
 REPORT zns_001.
 DATA: vg_texto TYPE c LENGTH 100.
 vg_texto = 'Olá &1, hoje é &2.'(001).
@@ -600,7 +600,7 @@ Fazer uso de comentários dentro dos programas para considerações realmente re
 
 Exemplo: 
 
-```{abap}
+```ABAP
 *&---------------------------------------------------------------------* 
 *&  Function           ZFM_CONSUME_BIGDATA 
 *&---------------------------------------------------------------------* 
@@ -669,7 +669,7 @@ Utilizar esse padrão abaixo para os objetos do tipo: Programas Report, Include,
 
 Função, BADI e Classe. 
 
-```{abap}
+```ABAP
 *&---------------------------------------------------------------------* 
 *& Nome: ZBKO_P_JOB_STATUS_XML_PLK 
 *& Tipo: Report 
@@ -692,7 +692,7 @@ Função, BADI e Classe.
 
 Para grandes trechos de modificações, utilizar os identificadores abaixo para destacar o início (BEGIN) e fim (END) do bloco modificado: 
 
-```{abap}
+```ABAP
 * --->>> BEGIN >>> changed by Usuário(NomeDev.) in Data - v1[Chamado] - BKDK983899 
 
 * <<<--- END <<< changed by Usuário(NomeDev.) in Data - v1[Chamado] - BKDK983899 
@@ -700,7 +700,7 @@ Para grandes trechos de modificações, utilizar os identificadores abaixo para 
 
 Exemplo:
 
-```{abap}
+```ABAP
 * --->>> BEGIN >>> changed by HLOPES(Higor) in Data - v1[C0016 - BKDK983899 
 
 * <<<--- END <<< changed by HLOPES(Higor) in Data - v1[C0016] - BKDK983899 
