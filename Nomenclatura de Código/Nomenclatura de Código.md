@@ -26,7 +26,7 @@ Os desenvolvimentos feitos pela Infinitfy, devem seguir as seguintes nomenclatur
   - [Smartforms Formulário](#Smartforms-Formulário)
   - [Smartforms Estilo](#Smartforms-Estilo)
   - [Sapscript](#Sapscript)
-  - [Classe (Orientação a Objeto)](#Classe-(Orientação-a-Objeto))
+  - [Classe Orientação a Objeto](#Classe-Orientação-a-Objeto)
 - [Nomenclatura Desenvolvimento](#Nomenclatura-Desenvolvimento)
   - [Objetos Globais](#Objetos-Globais)
   - [Objetos Locais](#Objetos-Locais)
@@ -338,9 +338,9 @@ Padrão geral: <span style="color:red">**ZSS_**</span><span style="color:green">
 - <span style="color:red">**ZSS_**</span>  - Valor fixo, constante que identifica que o objeto não pertence ao standard do R/3
 - <span style="color:green">**LIVRE**</span> - Descrição de uso livre
 
-### Classe (Orientação a Objeto)
+### Classe Orientação a Objeto
 
-> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Classe-(Orientação-a-Objeto))
+> [Nomenclatura de Código](#Nomenclatura-de-Código) > [Conteúdo](#Conteúdo) > [Nomenclatura de Objetos](#Nomenclatura-de-Objetos) > [Seção atual](#Classe-Orientação-a-Objeto)
 
 Transação: SE24  
 
