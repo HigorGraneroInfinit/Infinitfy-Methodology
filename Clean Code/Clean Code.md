@@ -6,20 +6,20 @@
 
 ### Use constantes ao invés de hardcode
 
-```{Abap}
+```ABAP
 IF abap_type = cl_abap_typedescr=>typekind_date.
 ```
 
 pois é mais claro que 
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF abap_type = 'D'.
 ```
 
 ### Prefira classes de enumeração a interfaces constantes
 
-```{abap}
+```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
   PUBLIC SECTION.
     CONSTANTS:
@@ -30,7 +30,7 @@ ENDCLASS.
 
 ou
 
-```{abap}
+```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
   PUBLIC SECTION.
     CLASS-DATA:
@@ -42,7 +42,7 @@ ENDCLASS.
 
 Ao em vez de misturar coisas não relacionadas ou enganar as pessoas para a conclusão de que coleções de constantes poderiam ser "implementadas":
 
-```{Abap}
+```ABAP
 " Fora do padrão
 INTERFACE /dirty/common_constants.
   CONSTANTS:
@@ -57,7 +57,7 @@ ENDINTERFACE.
 
 Se você coletar constantes de forma solta, por exemplo em uma interface, agrupe-as:
 
-```{abap}
+```ABAP
 CONSTANTS:
   BEGIN OF message_severity,
     lc_warning TYPE symsgty VALUE 'W',
@@ -71,7 +71,7 @@ CONSTANTS:
 
 Torna a relação mais clara do que:
 
-```{abap}
+```ABAP
 " Fora do padrão
 CONSTANTS:
   warning      TYPE symsgty VALUE 'W',
@@ -82,7 +82,7 @@ CONSTANTS:
 
 O grupo também permite acesso em grupo, por exemplo, para validação de entrada:
 
-```{abap}
+```ABAP
 DO.
   ASSIGN COMPONENT sy-index OF STRUCTURE message_severity TO FIELD-SYMBOL(lfs_<constant>).
   IF sy-subrc IS INITIAL.
@@ -100,7 +100,7 @@ ENDDO.
 
 ### Prefira declarações inlinha a declarações antecipadas
 
-```{abap}
+```ABAP
 METHOD do_something.
   DATA(lv_name) = 'something'.
   DATA(lv_reader) = /clean/reader=>get_instance_for( lv_name ).
@@ -110,7 +110,7 @@ ENDMETHOD.
 
 do que declarar variáveis com uma `DATA` seção separada no início do método
 
-```{abap}
+```ABAP
 " Fora do padrão
 METHOD do_something.
   DATA:
@@ -124,7 +124,7 @@ ENDMETHOD.
 
 ### Não declare inline em ramificações opcionais
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF has_entries = abap_true.
   DATA(lv_value) = 1.
@@ -135,7 +135,7 @@ ENDIF.
 
 Isso funciona bem porque o ABAP lida com declarações inline como se estivessem no início do método. No entanto, é extremamente confuso para os leitores, especialmente se o método for mais longo e você não identificar a declaração imediatamente. Nesse caso, interrompa o inline e coloque a declaração na frente:
 
-```{abap}
+```ABAP
 DATA lv_value TYPE i.
 IF has_entries = abap_true.
   lv_value = 1.
@@ -146,7 +146,7 @@ ENDIF.
 
 ### Não encadeie declarações iniciais
 
-```{abap}
+```ABAP
 DATA name TYPE seoclsname.
 DATA reader TYPE REF TO reader.
 ```
@@ -155,7 +155,7 @@ O encadeamento sugere que as variáveis definidas estão relacionadas em um nív
 
 O encadeamento também complica desnecessariamente a reformatação e a refatoração porque cada linha parece diferente e alterá-las requer a interferência de dois-pontos, pontos e vírgulas, que não valem o esforço.
 
-```{abap}
+```ABAP
 " Fora do padrão
 DATA:
   name   TYPE seoclsname,
@@ -174,7 +174,7 @@ DATA:
 
 ### Evite a CHAVE PADRÃO
 
-```{ABAP}
+```ABAP
 " Fora do padrão
 DATA itab TYPE STANDARD TABLE OF row_type WITH DEFAULT KEY.
 ```
@@ -183,13 +183,13 @@ As chaves padrão geralmente são adicionadas apenas para fazer com que as instr
 
 Especifique os principais componentes explicitamente
 
-```{abap}
+```ABAP
 DATA itab2 TYPE STANDARD TABLE OF row_type WITH NON-UNIQUE KEY comp1 comp2.
 ```
 
 ou recorra a `EMPTY KEY`ela se não precisar de uma chave.
 
-```{abap}
+```ABAP
 DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 ```
 
@@ -197,7 +197,7 @@ DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 
 ### Prefira INSERT INTO TABLE a APPEND TO
 
-```{abap}
+```ABAP
 INSERT VALUE #( ... ) INTO TABLE itab.
 ```
 
@@ -207,13 +207,13 @@ Use `APPEND TO`apenas se você usar uma `STANDARD`tabela de maneira semelhante a
 
 ### Prefira LINE_EXISTS a READ TABLE ou LOOP AT
 
-```{abap}
+```ABAP
 IF line_exists( my_table[ key = 'A' ] ).
 ```
 
 expressa a intenção de forma mais clara e mais curta do que
 
-```{abap}
+```ABAP
 " Fora do padrão
 READ TABLE my_table TRANSPORTING NO FIELDS WITH KEY key = 'A'.
 IF sy-subrc = 0.
@@ -221,7 +221,7 @@ IF sy-subrc = 0.
 
 ou mesmo 
 
-```{abap}
+```ABAP
 " Fora do padrão
 LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
   line_exists = abap_true.
@@ -231,13 +231,13 @@ ENDLOOP.
 
 ### Prefira READ TABLE a LOOP AT
 
-```{abap}
+```ABAP
 READ TABLE my_table REFERENCE INTO DATA(line) WITH KEY key = 'A'.
 ```
 
 expressa a intenção de forma mais clara e mais curta do que
 
-```{abap}
+```ABAP
 " Fora do padrão
 LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
   EXIT.
@@ -246,7 +246,7 @@ ENDLOOP.
 
 ou mesmo
 
-```{abap}
+```ABAP
 " Fora do padrão
 LOOP AT my_table REFERENCE INTO DATA(line).
   IF line->key = 'A'.
@@ -257,13 +257,13 @@ ENDLOOP.
 
 ### Prefira LOOP AT WHERE a IF aninhado
 
-```{abap}
+```ABAP
 LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
 ```
 
 expressa a intenção de forma mais clara e mais curta do que
 
-```{abap}
+```ABAP
 LOOP AT my_table REFERENCE INTO DATA(line).
   IF line->key = 'A'.
     EXIT.
@@ -275,7 +275,7 @@ ENDLOOP.
 
 Caso você *espere* que uma linha esteja lá, leia uma vez e reaja à exceção,
 
-```{abap}
+```ABAP
 TRY.
     DATA(row) = my_table[ key = input ].
   CATCH cx_sy_itab_line_not_found.
@@ -285,7 +285,7 @@ ENDTRY.
 
 em vez de desarrumar e desacelerar o fluxo de controle principal com uma leitura dupla
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF NOT line_exists( my_table[ key = input ] ).
   RAISE EXCEPTION NEW /clean/my_data_not_found( ).
@@ -299,14 +299,14 @@ DATA(row) = my_table[ key = input ].
 
 ### Use ` para definir literais
 
-```{abap}
+```ABAP
 CONSTANTS gc_some_constant TYPE string VALUE `ABC`.
 DATA(gc_some_string) = `ABC`.  " --> TYPE string
 ```
 
 Evite usar `'`, pois adiciona uma conversão de tipo supérflua e confunde o leitor se ele está lidando com um `CHAR`ou `STRING`:
 
-```{abap}
+```ABAP
 " Fora do padrão
 DATA gc_some_string TYPE string.
 gc_some_string = 'ABC'.
@@ -314,20 +314,20 @@ gc_some_string = 'ABC'.
 
 `|`geralmente está bem, mas não pode ser usado `CONSTANTS`e adiciona sobrecarga desnecessária ao especificar um valor fixo:
 
-```{abap}
+```ABAP
 " Fora do padrão
 DATA(gc_some_string) = |ABC|.
 ```
 
 ### Usar | montar texto
 
-```{abap}
+```ABAP
 DATA(message) = |Received HTTP code { status_code } with message { text }|.
 ```
 
 Os modelos de string destacam melhor o que é literal e o que é variável, especialmente se você incorporar várias variáveis em um texto.
 
-```{abap}
+```ABAP
 " Fora do padrão
 DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message ` && text.
 ```
@@ -340,27 +340,27 @@ DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message 
 
 Frequentemente encontramos casos em que booleanos parecem ser uma escolha natural
 
-```{abap}
+```ABAP
 " fora do padrão
 is_archived = abap_true.
 ```
 
 até que uma mudança de ponto de vista sugere que deveríamos ter escolhido uma enumeração
 
-```{abap}
+```ABAP
 archiving_status = /clean/archivation_status=>archiving_in_process.
 ```
 
 Geralmente, os booleanos são uma má escolha para distinguir tipos de coisas porque você quase sempre encontrará casos que não são exclusivamente um ou outro
 
-```{abap}
+```ABAP
 assert_true( xsdbool( document->is_archived( ) = abap_true AND
                       document->is_partially_archived( ) = abap_true ) ).
 ```
 
 ### Use ABAP_BOOL para booleanos
 
-```{abap}
+```ABAP
 DATA has_entries TYPE abap_bool.
 ```
 
@@ -372,14 +372,14 @@ Em alguns casos, você pode precisar de um elemento de dicionário de dados, por
 
 ### Use ABAP_TRUE e ABAP_FALSE para comparações
 
-```{abap}
+```ABAP
 has_entries = abap_true.
 IF has_entries = abap_false.
 ```
 
 Não use os equivalentes de caracteres `'X'`e `' '`ou `space`; eles tornam difícil ver que esta é uma expressão booleana:
 
-```{abap}
+```ABAP
 " Fora do padrão
 has_entries = 'X'.
 IF has_entries = space.
@@ -387,20 +387,20 @@ IF has_entries = space.
 
 Evite comparações com `INITIAL`- isso força os leitores a lembrar que `abap_bool`o padrão é `abap_false`:
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF has_entries IS NOT INITIAL.
 ```
 
 ### Use XSDBOOL para definir variáveis booleanas
 
-```{abap}
+```ABAP
 DATA(has_entries) = xsdbool( line IS NOT INITIAL ).
 ```
 
 O equivalente `IF`- `THEN`- `ELSE`é muito mais longo para nada:
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF line IS INITIAL.
   has_entries = abap_false.
@@ -415,7 +415,7 @@ Concordamos que o nome `xsdbool`é azarado e enganoso; afinal, não estamos nem 
 
 Uma alternativa possível `xsdbool`é a `COND`forma ternária. Sua sintaxe é intuitiva, mas um pouco mais longa porque repete desnecessariamente o `THEN abap_true`segmento, e requer conhecimento do valor padrão implícito `abap_false`- por isso sugerimos apenas como solução secundária.
 
-```{abap}
+```ABAP
 DATA(has_entries) = COND abap_bool( WHEN line IS NOT INITIAL THEN abap_true ).
 ```
 
@@ -425,20 +425,20 @@ DATA(has_entries) = COND abap_bool( WHEN line IS NOT INITIAL THEN abap_true ).
 
 ### Tente tornar as condições positivas
 
-```{abap}
+```ABAP
 IF has_entries = abap_true.
 ```
 
 Para comparação, veja como fica difícil entender a mesma declaração ao invertê-la:
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF has_no_entries = abap_false.
 ```
 
 A "tentativa" no título da seção significa que você não deve forçar isso a ponto de acabar com algo como ramificações IF vazias :
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF has_entries = abap_true.
 ELSE.
@@ -448,7 +448,7 @@ ENDIF.
 
 ### Prefira IS NOT do que NOT IS
 
-```{abap}
+```ABAP
 IF variable IS NOT INITIAL.
 IF variable NP 'TODO*'.
 IF variable <> 42.
@@ -456,7 +456,7 @@ IF variable <> 42.
 
 A negação é logicamente equivalente, mas requer uma "reviravolta mental" que a torna mais difícil de entender.
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF NOT variable IS INITIAL.
 IF NOT variable CP 'TODO*'.
@@ -467,13 +467,13 @@ IF NOT variable = 42.
 
 O método predicativo chama métodos booleanos, por exemplo
 
-```{abap}
+```ABAP
 IF [ NOT ] condition_is_fulfilled( ).
 ```
 
 não é apenas muito compacto, mas também permite manter o código mais próximo da linguagem natural como a expressão de comparação:
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF condition_is_fulfilled( ) = abap_true / abap_false.
 ```
@@ -484,7 +484,7 @@ Lembre-se de que a chamada de método predicativo `... meth( ) ...`é apenas uma
 
 As condições podem se tornar mais fáceis ao decompô-las nas partes elementares que as compõem:
 
-```{abap}
+```ABAP
 DATA(example_provided) = xsdbool( example_a IS NOT INITIAL OR
                                   example_b IS NOT INITIAL ).
 
@@ -498,7 +498,7 @@ IF example_provided = abap_true AND
 
 em vez de deixar tudo no lugar:
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF ( example_a IS NOT INITIAL OR
      example_b IS NOT INITIAL ) AND
@@ -511,7 +511,7 @@ IF ( example_a IS NOT INITIAL OR
 
 É quase sempre uma boa ideia extrair condições complexas para métodos próprios:
 
-```{abap}
+```ABAP
 IF is_provided( example ).
 
 METHOD is_provided.
@@ -529,7 +529,7 @@ ENDMETHOD.
 
 ### Nenhuma ramificação IF vazia
 
-```{abap}
+```ABAP
 IF has_entries = abap_false.
   " do some magic
 ENDIF.
@@ -537,7 +537,7 @@ ENDIF.
 
 é mais curto e mais claro do que
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF has_entries = abap_true.
 ELSE.
@@ -547,7 +547,7 @@ ENDIF.
 
 ### Prefira CASE a ELSE IF para várias condições alternativas
 
-```{abap}
+```ABAP
 CASE type.
   WHEN type-some_type.
     " ...
@@ -560,7 +560,7 @@ ENDCASE.
 
 `CASE`torna fácil ver um conjunto de alternativas que se excluem mutuamente. Ele pode ser mais rápido do que uma série de `IF`s porque pode traduzir para um comando de microprocessador diferente em vez de uma série de condições avaliadas posteriormente. Você pode introduzir novos casos rapidamente, sem ter que repetir a variável perspicaz repetidamente. A instrução ainda evita alguns erros que podem ocorrer ao aninhar acidentalmente os `IF`-s `ELSEIF`.
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF type = type-some_type.
   " ...
@@ -573,7 +573,7 @@ ENDIF.
 
 ### Mantenha a profundidade de nidificação baixa
 
-```{abap}
+```ABAP
 " Fora do padrão 
 IF <this>.
   IF <that>.
@@ -593,13 +593,13 @@ As árvores de decisão geralmente podem ser desmontadas formando submétodos e 
 
 Outros casos podem ser simplificados pela fusão de IFs, como
 
-```{abap}
+```ABAP
 IF <this> AND <that>.
 ```
 
 em vez do aninhado desnecessariamente
 
-```{abap}
+```ABAP
 " Fora do padrão
 IF <this>.
   IF <that>.
