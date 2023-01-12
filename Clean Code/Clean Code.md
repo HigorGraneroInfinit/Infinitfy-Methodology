@@ -1,10 +1,30 @@
 # Clean Code
 
+Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Clean Code), é imprescindível a utilização das seguintes práticas.
 
+## Conteúdo
+
+- [Constantes](#Constantes)
+
+  - [Use constantes ao invés de hardcode](#Use-constantes-ao-invés-de-hardcode)
+  - [Agrupamento](#[Agrupamento]())
+    - [Classes de Enumeração](#Classes-de-Enumeração)
+    - [Estruturas Constantes](#Estruturas-Constantes)
+
+- [Variáveis](#Variáveis)
+
+  - [Declarações em Métodos](#Declarações-em-Métodos)
+  - [Declarações dentro de IF-ELSE](#Declarações-dentro-de-IF-ELSE)
+
+  
 
 ## Constantes
 
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Constantes)
+
 ### Use constantes ao invés de hardcode
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Seção atual](#Use-constantes-ao-invés-de-hardcode)
 
 ```ABAP
 IF abap_type = cl_abap_typedescr=>typekind_date.
@@ -17,7 +37,17 @@ pois é mais claro que
 IF abap_type = 'D'.
 ```
 
-### Prefira classes de enumeração a interfaces constantes
+### Agrupamento
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Seção atual](#Agrupamento)
+
+Para o agrupamento de constantes utilize uma das seguintes alternativas.
+
+#### Classes de Enumeração
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Agrupamento](#Agrupamento) >[Seção atual](#Classes-de-Enumeração)
+
+Utilize classes ao invés de interfaces para agrupar constantes.
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
@@ -28,11 +58,11 @@ CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
 ENDCLASS.
 ```
 
-ou
+ou:
 
 ```ABAP
 CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
-  PUBLIC SECTION.
+  PUBLIC SECTION.v
     CLASS-DATA:
       gc_warning TYPE REF TO /clean/message_severity READ-ONLY,
       gc_error   TYPE REF TO /clean/message_severity READ-ONLY.
@@ -40,7 +70,7 @@ CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
 ENDCLASS.
 ```
 
-Ao em vez de misturar coisas não relacionadas ou enganar as pessoas para a conclusão de que coleções de constantes poderiam ser "implementadas":
+Ao invés de:
 
 ```ABAP
 " Fora do padrão
@@ -53,9 +83,11 @@ INTERFACE /dirty/common_constants.
 ENDINTERFACE.
 ```
 
-### Se você não usa classes de enumeração, agrupe suas constantes 
+#### Estruturas Constantes
 
-Se você coletar constantes de forma solta, por exemplo em uma interface, agrupe-as:
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Agrupamento](#Agrupamento) >[Seção atual](#Estruturas-Constantes)
+
+Utilize estruturas constantes ao invés de constantes soltas.
 
 ```ABAP
 CONSTANTS:
@@ -80,7 +112,7 @@ CONSTANTS:
   persisted    TYPE i       VALUE 2,
 ```
 
-O grupo também permite acesso em grupo, por exemplo, para validação de entrada:
+Dessa forma é possível realizar a seguinte validação:
 
 ```ABAP
 DO.
@@ -98,7 +130,13 @@ ENDDO.
 
 ## Variáveis
 
-### Prefira declarações inlinha a declarações antecipadas
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Variáveis)
+
+#### Declarações em Métodos
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Declarações-em-Métodos)
+
+Utilize declarações in-line:
 
 ```ABAP
 METHOD do_something.
@@ -108,7 +146,7 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-do que declarar variáveis com uma `DATA` seção separada no início do método
+ao invés de um bloco `DATA` separado no início do método:
 
 ```ABAP
 " Fora do padrão
@@ -122,7 +160,11 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-### Não declare inline em ramificações opcionais
+#### Declarações dentro de IF-ELSE
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Declarações-dentro-de IF-ELSE)
+
+Não utilize declarações in-line dentro de IF-ELSE's.
 
 ```ABAP
 " Fora do padrão
@@ -623,7 +665,7 @@ As expressões regulares também costumam consumir mais memória e tempo de proc
 
 ### Prefira verificações de base a expressões regulares
 
-```abap
+```ABAP
 CALL FUNCTION 'SEO_CLIF_CHECK_NAME'
   EXPORTING
     cls_name = class_name
@@ -661,7 +703,7 @@ Se você pensar em tornar uma classe ou método estático, a resposta quase semp
 
 Uma exceção aceita a essa regra são as classes utils de tipo simples. Seus métodos facilitam a interação com certos tipos ABAP. Eles não são apenas completamente sem estado, mas tão básicos que se parecem com instruções ABAP ou funções internas. O fator discriminatório é que seus consumidores os amarram em seu código de forma tão forte que eles realmente não querem zombar deles em testes de unidade.
 
-```abap
+```ABAP
 CLASS /clean/string_utils DEFINITION [...].
   CLASS-METHODS trim
    IMPORTING
@@ -692,7 +734,7 @@ Não misture os paradigmas de programação sem estado e com estado na mesma cla
 
 Na programação sem estado, os métodos recebem entrada e produzem saída, *sem nenhum efeito colateral* , resultando em métodos que produzem o mesmo resultado, independentemente de quando e em que ordem são chamados.
 
-```abap
+```ABAP
 CLASS /clean/xml_converter DEFINITION PUBLIC FINAL CREATE PUBLIC.
   PUBLIC SECTION.
     METHODS convert
@@ -717,7 +759,7 @@ ENDCLASS.
 
 Na programação com estado, manipulamos o estado interno dos objetos por meio de seus métodos, o que significa que está *cheio de efeitos colaterais* .
 
-```abap
+```ABAP
 CLASS /clean/log DEFINITION PUBLIC CREATE PUBLIC.
   PUBLIC SECTION.
     METHODS add_message IMPORTING message TYPE /clean/message.
@@ -779,7 +821,7 @@ Internos de classes devem ser disponibilizados para outros apenas em uma base de
 
 Um imutável é um objeto que nunca muda após sua construção. Para esse tipo de objeto, considere o uso de atributos públicos somente leitura em vez de métodos getter.
 
-```ABAP
+```
 CLASS /clean/some_data_container DEFINITION.
   PUBLIC SECTION.
     METHODS constructor
@@ -820,7 +862,7 @@ Em segundo lugar, a adição funciona sutilmente diferente do que as pessoas pod
 
 #### Prefira NEW a CREATE OBJECT
 
-```abap
+```ABAP
 DATA object TYPE REF TO /clean/some_number_range.
 object = NEW #( '/CLEAN/CXTGEN' )
 ...
@@ -831,7 +873,7 @@ DATA(object) = CAST /clean/number_range( NEW /clean/some_number_range( '/CLEAN/C
 
 em vez do desnecessariamente mais longo
 
-```abap
+```ABAP
 " Fora do padrão
 DATA object TYPE REF TO /dirty/some_number_range.
 CREATE OBJECT object
@@ -841,7 +883,7 @@ CREATE OBJECT object
 
 exceto onde você precisa de tipos dinâmicos, é claro
 
-```abap
+```ABAP
 CREATE OBJECT number_range TYPE (dynamic_type)
   EXPORTING
     number_range = '/CLEAN/CXTGEN'.
@@ -849,7 +891,7 @@ CREATE OBJECT number_range TYPE (dynamic_type)
 
 #### Se sua classe global for CREATE PRIVATE, deixe o CONSTRUCTOR public
 
-```abap
+```ABAP
 CLASS /clean/some_api DEFINITION PUBLIC FINAL CREATE PRIVATE.
   PUBLIC SECTION.
     METHODS constructor.
@@ -861,7 +903,7 @@ Isso se aplica apenas a classes globais. Nas classes locais, torne o construtor 
 
 #### Prefira vários métodos de criação estáticos a parâmetros opcionais
 
-```abap
+```
 CLASS-METHODS describe_by_data IMPORTING data TYPE any [...]
 CLASS-METHODS describe_by_name IMPORTING name TYPE any [...]
 CLASS-METHODS describe_by_object_ref IMPORTING object_ref TYPE REF TO object [...]
@@ -870,7 +912,7 @@ CLASS-METHODS describe_by_data_ref IMPORTING data_ref TYPE REF TO data [...]
 
 ABAP não suporta [sobrecarga](https://en.wikipedia.org/wiki/Function_overloading) . Use variações de nomes e não parâmetros opcionais para obter a semântica desejada.
 
-```abap
+```ABAP
 " Fora do padrão
 METHODS constructor
   IMPORTING
@@ -889,7 +931,7 @@ Considere resolver construções complexas em uma construção de várias etapas
 
 Boas palavras para iniciar os métodos de criação são `new_`, `create_`e `construct_`. As pessoas os conectam intuitivamente à construção de objetos. Eles também se encaixam bem em frases verbais como `new_from_template`, `create_as_copy`ou `create_by_name`.
 
-```abap
+```ABAP
 CLASS-METHODS new_describe_by_data IMPORTING p_data TYPE any [...]
 CLASS-METHODS new_describe_by_name IMPORTING p_name TYPE any [...]
 CLASS-METHODS new_describe_by_object_ref IMPORTING p_object_ref TYPE REF TO object [...]
@@ -898,7 +940,7 @@ CLASS-METHODS new_describe_by_data_ref IMPORTING p_data_ref TYPE REF TO data [..
 
 em vez de algo sem sentido como
 
-```abap
+```ABAP
 " Fora do padrão
 CLASS-METHODS create_1 IMPORTING p_data TYPE any [...]
 CLASS-METHODS create_2 IMPORTING p_name TYPE any [...]
@@ -908,7 +950,7 @@ CLASS-METHODS create_4 IMPORTING p_data_ref TYPE REF TO data [...]
 
 #### Faça singletons apenas onde várias instâncias não fazem sentido
 
-```abap
+```ABAP
 METHOD new.
   IF singleton IS NOT BOUND.
     singleton = NEW /clean/my_class( ).
@@ -929,13 +971,13 @@ Não use o padrão singleton por hábito ou porque alguma regra de desempenho as
 
 Para chamar um método estático, use
 
-```abap
+```ABAP
 cl_my_class=>static_method( ).
 ```
 
 Em vez de chamá-lo por meio de uma variável de instância para`cl_my_class`
 
-```abap
+```ABAP
 " Fora do padrão
 lo_my_instance->static_method( ).
 ```
@@ -944,7 +986,7 @@ Um método estático é anexado à própria classe e chamá-lo por meio de uma v
 
 Não há problema em chamar um método estático da mesma classe sem qualificá-lo em outro método estático.
 
-```abap
+```ABAP
 METHOD static_method.
   another_static_method( ).
   yet_another( ).
@@ -953,7 +995,7 @@ ENDMETHOD.
 
 No entanto, dentro de um método de instância, mesmo ao chamar um método estático da mesma classe, você ainda deve qualificar a chamada com o nome da classe:
 
-```abap
+```ABAP
 CLASS cl_my_class IMPLEMENTATION.
 
   METHOD instance_method.
@@ -987,7 +1029,7 @@ CALL METHOD modify->update
 
 Se a digitação dinâmica proibir chamadas funcionais, recorra ao estilo procedural
 
-```abap
+```ABAP
 CALL METHOD modify->(method_name)
   EXPORTING
     node           = /clean/my_bo_c=>node-item
@@ -1006,7 +1048,7 @@ DATA(sum) = aggregate_values( values ).
 
 em vez do desnecessariamente mais longo
 
-```abap
+```ABAP
 " Fora do padrão
 aggregate_values(
   EXPORTING
@@ -1017,7 +1059,7 @@ aggregate_values(
 
 #### Omita a palavra-chave opcional EXPORTING
 
-```abap
+```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
                 key            = item->key
                 data           = item
@@ -1026,7 +1068,7 @@ modify->update( node           = /clean/my_bo_c=>node-item
 
 em vez do desnecessariamente mais longo
 
-```abap
+```ABAP
 " Fora do padrão
 modify->update(
   EXPORTING
@@ -1038,20 +1080,20 @@ modify->update(
 
 #### Omitir o nome do parâmetro em chamadas de parâmetro único
 
-```abap
+```ABAP
 DATA(unique_list) = remove_duplicates( list ).
 ```
 
 em vez do desnecessariamente mais longo
 
-```abap
+```ABAP
 " Fora do padrão
 DATA(unique_list) = remove_duplicates( list = list ).
 ```
 
 Há casos, no entanto, em que o nome do método sozinho não é claro o suficiente e repetir o nome do parâmetro pode facilitar a compreensão:
 
-```abap
+```ABAP
 car->drive( speed = 50 ).
 update( asynchronous = abap_true ).
 ```
@@ -1060,25 +1102,22 @@ update( asynchronous = abap_true ).
 
 Como a auto-referência `me->`é definida implicitamente pelo sistema, omita-a ao chamar um atributo ou método de instância
 
-```abap
+```ABAP
 DATA(sum) = aggregate_values( values ).
 ```
 
 em vez do desnecessariamente mais longo
 
-```ABAP
+```
 " Fora do padrão
 DATA(sum) = aggregate_values( me->values ).
-```
-
-```abap
 " Fora do padrão
 DATA(sum) = me->aggregate_values( values ).
 ```
 
 a menos que haja um conflito de escopo entre uma variável local ou parâmetro de importação e um atributo de instância
 
-```abap
+```ABAP
 me->logger = logger.
 ```
 
@@ -1088,13 +1127,13 @@ me->logger = logger.
 
 Os métodos devem ser membros de instância por padrão. Os métodos de instância refletem melhor o "objeto" da classe. Eles podem ser ridicularizados mais facilmente em testes de unidade.
 
-```abap
+```ABAP
 METHODS publish.
 ```
 
 Os métodos devem ser estáticos apenas em casos excepcionais, como métodos de criação estáticos.
 
-```abap
+```ABAP
 CLASS-METHODS create_instance
   RETURNING
     VALUE(result) TYPE REF TO /clean/blog_post.
@@ -1104,7 +1143,7 @@ CLASS-METHODS create_instance
 
 Os métodos de instância pública sempre devem fazer parte de uma interface. Isso separa as dependências e simplifica a zombaria delas em testes de unidade.
 
-```abap
+```ABAP
 METHOD /clean/blog_post~publish.
 ```
 
@@ -1114,7 +1153,7 @@ Na orientação a objetos limpa, ter um método público sem uma interface não 
 
 #### Apontar para poucos parâmetros de IMPORTING, na melhor das hipóteses, menos de três
 
-```abap
+```ABAP
 FUNCTION seo_class_copy
   IMPORTING
     clskey      TYPE seoclskey
@@ -1126,7 +1165,7 @@ FUNCTION seo_class_copy
 
 seria muito mais claro do que
 
-```abap
+```ABAP
 " Fora do padrão
 FUNCTION seo_class_copy
   IMPORTING
@@ -1157,7 +1196,7 @@ METHODS do_another_thing IMPORTING something_else TYPE i.
 
 para obter a semântica desejada, pois o ABAP não suporta [sobrecarga](https://en.wikipedia.org/wiki/Function_overloading) .
 
-```abap
+```ABAP
 " Fora do padrão
 METHODS do_one_or_the_other
   IMPORTING
@@ -1183,7 +1222,7 @@ Um bom método faz *uma coisa* , e isso deve ser refletido pelo método também 
 
 Há casos em que a saída é uma entidade lógica que consiste em várias coisas. Estes são mais facilmente representados retornando uma estrutura ou objeto:
 
-```abap
+```ABAP
 TYPES:
   BEGIN OF check_result,
     result      TYPE result_type,
@@ -1200,7 +1239,7 @@ METHODS check_business_partners
 
 em vez de
 
-```abap
+```ABAP
 " Fora do padrão
 METHODS check_business_partners
   IMPORTING
@@ -1215,7 +1254,7 @@ Especialmente em comparação com vários parâmetros de EXPORTAÇÃO, isso perm
 
 Em vez de vários parâmetros de saída opcionais, considere dividir o método de acordo com padrões de chamada significativos:
 
-```abap
+```ABAP
 TYPES:
   BEGIN OF check_result,
     result      TYPE result_type,
@@ -1240,7 +1279,7 @@ METHODS check_and_report
 
 #### Prefira RETURNING a EXPORTING
 
-```abap
+```ABAP
 METHODS square
   IMPORTING
     number        TYPE i
@@ -1252,7 +1291,7 @@ DATA(result) = square( 42 ).
 
 Em vez do desnecessariamente mais longo
 
-```abap
+```ABAP
 " Fora do padrão
 METHODS square
   IMPORTING
@@ -1273,7 +1312,7 @@ square(
 
 Embora a documentação da linguagem ABAP e os guias de desempenho digam o contrário, raramente encontramos casos em que entregar uma tabela grande ou profundamente aninhada em um parâmetro VALUE *realmente* causa problemas de desempenho. Portanto, recomendamos o uso geral
 
-```abap
+```ABAP
 METHODS get_large_table
   RETURNING
     VALUE(result) TYPE /clean/some_table_type.
@@ -1301,4 +1340,3 @@ get_large_table( IMPORTING result = DATA(my_table) ).
 ```
 
 > Esta seção contradiz as Diretrizes de Programação ABAP e as verificações do Inspetor de Código, que sugerem que tabelas grandes devem ser EXPORTADAS por referência para evitar déficits de desempenho. Falhamos consistentemente em reproduzir quaisquer déficits de desempenho e memória e recebemos um aviso sobre a otimização do kernel que geralmente melhora o desempenho do RETURNING, consulte [*Compartilhamento entre objetos de dados dinâmicos* na Ajuda da linguagem ABAP](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenmemory_consumption_3.htm) .
-
