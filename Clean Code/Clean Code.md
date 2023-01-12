@@ -4,19 +4,345 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 
 ## Conteúdo
 
-- [Constantes](#Constantes)
+- [Como](#Como)
+  - [Como começar com código limpo](#Como-começar-com-código-limpo)
+  -  [Como refatorar código legado](#Como-refatorar-código-legado)
+- [Nomes](#Nomes)
+  - 
 
+- [Constantes](#Constantes)
   - [Use constantes ao invés de hardcode](#Use-constantes-ao-invés-de-hardcode)
   - [Agrupamento](#[Agrupamento]())
     - [Classes de Enumeração](#Classes-de-Enumeração)
     - [Estruturas Constantes](#Estruturas-Constantes)
-
 - [Variáveis](#Variáveis)
 
   - [Declarações em Métodos](#Declarações-em-Métodos)
   - [Declarações dentro de IF-ELSE](#Declarações-dentro-de-IF-ELSE)
 
-  
+
+
+
+
+
+## Como
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Como)
+
+### Como começar com código limpo
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Como](#Como) > [Seção atual](#Como-começar-com-código-limpo)
+
+Se você é novo no Clean Code, você deve primeiro ler o Clean Code de Robert C. Martin . A iniciativa Clean Code Developer pode ajudá-lo a começar com uma introdução passo a passo didaticamente suave ao tópico em geral.
+
+Recomendamos que você comece com coisas que são facilmente compreendidas e amplamente aceitas, como Booleans , Conditions e Ifs .
+
+Você provavelmente se beneficiará mais com a seção Methods , especialmente Do one thing, do it well, do it only e Small , porque eles melhoram tremendamente a estrutura geral do seu código.
+
+Alguns tópicos aqui podem gerar discussões difíceis em equipes experientes no que fazem, mas novas no Clean Code; esses tópicos são perfeitamente "saudáveis", mas as pessoas podem ter problemas para se sentirem confortáveis com eles no começo.
+
+Continue com esses tópicos mais controversos mais tarde; especialmente Comentários , Nomes e Formatação podem levar a disputas quase religiosas e devem ser abordadas apenas por equipes que já viram provas dos efeitos positivos do Código Limpo.
+
+### Como refatorar código legado
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Como](#Como) > [Seção atual](#Como-refatorar-código-legado)
+
+Os tópicos Booleans , Conditions , Ifs e Methods são mais recompensadores se você estiver trabalhando em um projeto legado com toneladas de código que não pode ou não deseja alterar porque pode ser aplicado a um novo código sem conflitos.
+
+O tópico Nomes é muito exigente para projetos legados, pois pode introduzir uma brecha entre o código antigo e o novo, a ponto de seções como Evitar codificações, esp. É melhor ignorar a notação e os prefixos húngaros .
+
+Tente não misturar diferentes estilos de desenvolvimento dentro do mesmo objeto de desenvolvimento ao realizar uma refatoração. Se o código legado contiver apenas declarações iniciais e uma refatoração completa para usar declarações inline não for possível, provavelmente é melhor manter o estilo legado em vez de misturar os dois estilos. Existem várias situações semelhantes em que a mistura de estilos pode causar confusão, por exemplo:
+
+- Mixagem `REF TO`e `FIELD-SYMBOL`quando em loop.
+- Misturando `NEW`e `CREATE OBJECT`chamando um arquivo `CONSTRUCTOR`.
+- Misturando `RETURNING`e `EXPORTING`nas assinaturas de método de métodos retornando/exportando apenas um parâmetro.
+
+Observamos bons resultados com um plano de quatro etapas para refatoração:
+
+1. Coloque a equipe a bordo. Comunique e explique o novo estilo e faça com que todos na equipe do projeto concordem com ele. Você não precisa comprometer todas as diretrizes de uma vez, apenas comece com um pequeno subconjunto indiscutível e evolua a partir daí.
+2. Siga a *regra do escoteiro* para sua rotina diária de trabalho: *sempre deixe o código que você edita um pouco mais limpo do que você o encontrou* . Não fique obcecado com isso gastando horas "limpando o acampamento", apenas gaste alguns minutos extras e observe como as melhorias se acumulam com o tempo.
+3. Construa *ilhas limpas* : de vez em quando, pegue um pequeno objeto ou componente e tente deixá-lo limpo em todos os aspectos. Essas ilhas demonstram o benefício do que você está fazendo e formam bases domésticas solidamente testadas para refatoração adicional.
+4. Fale sobre isso. Não importa se você configura revisões de código Fagan da velha escola , realiza sessões de informações ou forma quadros de discussão em sua ferramenta de bate-papo favorita: você precisará falar sobre suas experiências e aprendizados para permitir que a equipe desenvolva um entendimento comum.
+
+### Como verificar automaticamente
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Como](#Como) > [Seção atual](#Como-verificar-automaticamente)
+
+[code pal for ABAP](https://github.com/SAP/code-pal-for-abap) fornece um conjunto abrangente de verificações automáticas para Clean ABAP.
+
+ABAP Test Cockpit, Code Inspector, Extended Check e Checkman fornecem algumas verificações que podem ajudá-lo a encontrar certos problemas.
+
+[abapOpenChecks](https://github.com/larshp/abapOpenChecks) , uma coleção de código-fonte aberto de verificações do Code Inspector, também abrange alguns dos antipadrões descritos.
+
+[abaplint](https://github.com/abaplint/abaplint) é uma reimplementação de código aberto do analisador ABAP. Ele funciona sem um sistema SAP e deve ser usado em código serializado usando abapGit. Ele oferece múltiplas integrações (GitHub Actions, Jenkins, editores de texto...), cobre alguns dos antipadrões e também pode ser usado para verificar formatação e convenções de código.
+
+### Como se relacionar com outros guias
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Como](#Como) > [Seção atual](#Como-se-relacionar-com-outros-guias)
+
+Nosso guia segue o espírito do Clean Code, o que significa que ajustamos algumas coisas para a linguagem de programação ABAP, por exemplo, Throw CX_STATIC_CHECK para exceções gerenciáveis .
+
+Alguns fatos são das [Diretrizes de Programação ABAP](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_pgl.htm) , com as quais este guia é mais compatível; os desvios são indicados e sempre no espírito do código mais limpo.
+
+Este guia também respeita as [Recomendações do DSAG para Desenvolvimento ABAP](https://www.dsag.de/sites/default/files/2020-12/dsag_recommendation_abap_development.pdf) , embora sejamos mais precisos na maioria dos detalhes.
+
+Desde sua publicação, Clean ABAP tornou-se um guia de referência para muitas das equipes de desenvolvimento internas da SAP, incluindo várias centenas de codificadores que trabalham no S/4HANA.
+
+## Nomes
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Nomes)
+
+### Use nomes descritivos
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Use-nomes-descritivos)
+
+Use nomes que transmitam o conteúdo e o significado das coisas.
+
+```ABAP
+CONSTANTS max_wait_time_in_seconds TYPE i ...
+DATA customizing_entries TYPE STANDARD TABLE ...
+METHODS read_user_preferences ...
+CLASS /clean/user_preference_reader ...
+```
+
+Não se concentre no tipo de dados ou na codificação técnica. Eles dificilmente contribuem para a compreensão do código.
+
+```ABAP
+" Fora do padrão
+CONSTANTS sysubrc_04 TYPE sysubrc ...
+DATA iso3166tab TYPE STANDARD TABLE ...
+METHODS read_t005 ...
+CLASS /dirty/t005_reader ...
+```
+
+Não tente corrigir nomes ruins por meio de comentários.
+
+### Prefira termos de domínio de solução e domínio de problema
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Prefira-termos-de-domínio-de-solução-e-domínio-de-problema)
+
+Pesquise bons nomes no domínio da solução, ou seja, termos da ciência da computação, como "fila" ou "árvore", e no domínio do problema, ou seja, termos do campo de negócios, como "conta" ou "razão".
+
+Camadas que são semelhantes a negócios soarão melhor quando nomeadas de acordo com o domínio do problema. Isso é especialmente verdadeiro para componentes projetados com o Domain-Driven Design, como APIs e objetos de negócios.
+
+Camadas que fornecem principalmente funcionalidade técnica, como classes de fábrica e algoritmos abstratos, soarão melhor quando nomeadas de acordo com o domínio da solução.
+
+De qualquer forma, não tente criar sua própria linguagem. Precisamos ser capazes de trocar informações entre desenvolvedores, proprietários de produtos, parceiros e clientes, então escolha nomes com os quais todos possam se relacionar sem um dicionário personalizado.
+
+### Use nomes pronunciáveis
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Use-nomes-pronunciáveis)
+
+Pensamos e falamos muito sobre objetos, então use nomes que você consiga pronunciar, por exemplo prefira `detection_object_types`algo enigmático como `dobjt`.
+
+### Evite abreviaturas
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Evite-abreviaturas)
+
+Se você tiver espaço suficiente, escreva os nomes completos. Comece a abreviar apenas se exceder os limites de comprimento.
+
+Se você tiver que abreviar, comece com as palavras *sem importância .*
+
+Abreviar as coisas pode parecer eficiente à primeira vista, mas torna-se ambíguo muito rapidamente. Por exemplo, "cust" `cust`significa "personalizar", "cliente" ou "personalizar"? Todos os três são comuns em aplicativos SAP.
+
+### Use as mesmas abreviações em todos os lugares
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Use-as-mesmas-abreviações-em-todos-os-lugares)
+
+As pessoas pesquisarão por palavras-chave para encontrar códigos relevantes. Apoie isso usando a mesma abreviação para a mesma coisa. Por exemplo, sempre abrevie "tipo de objeto de detecção" para "dobjt" em vez de misturar "dot", "dotype", "detobjtype" e assim por diante.
+
+### Use substantivos para classes e verbos para métodos
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Use-substantivos-para-classes-e-verbos-para-métodos)
+
+Use substantivos ou locuções substantivas para nomear classes, interfaces e objetos:
+
+```ABAP
+CLASS /clean/account
+CLASS /clean/user_preferences
+INTERFACE /clean/customizing_reader
+```
+
+Use verbos ou frases verbais para nomear métodos:
+
+```abap
+METHODS withdraw
+METHODS add_message
+METHODS read_entries
+```
+
+Iniciar métodos booleanos com verbos como `is_`e `has_`gera um bom fluxo de leitura:
+
+```ABAP
+IF is_empty( table ).
+```
+
+Recomendamos nomear funções como métodos:
+
+```abap
+FUNCTION /clean/read_alerts
+```
+
+### Evite palavras de ruído 
+
+Como "dados", "informações", "objeto".
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Evite-palavras-de-ruído )
+
+Omitir palavras de ruído
+
+```ABAP
+account  " instead of account_data
+alert    " instead of alert_object
+```
+
+ou substituí-los por algo específico que realmente agregue valor
+
+```ABAP
+user_preferences          " instead of user_info
+response_time_in_seconds  " instead of response_time_variable
+```
+
+### Escolha uma palavra por conceito
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Escolha-uma-palavra-por-conceito )
+
+```abap
+METHODS read_this.
+METHODS read_that.
+METHODS read_those.
+```
+
+Escolha um termo para um conceito e atenha-se a ele; não misture outros sinônimos. Sinônimos farão o leitor perder tempo procurando uma diferença que não existe
+
+```ABAP
+" Fora do padrão
+METHODS read_this.
+METHODS retrieve_that.
+METHODS query_those.
+```
+
+### Uso de nome padrão é opcional
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Uso-de-nome-padrão-é-opcional)
+
+Não use os nomes dos padrões de design de software para classes e interfaces, a menos que você realmente queira dizer isso. Por exemplo, não chame sua classe `file_factory`a menos que ela realmente implemente o padrão de design de fábrica. Os padrões mais comuns incluem: [singleton](https://en.wikipedia.org/wiki/Singleton_pattern), [factory](https://en.wikipedia.org/wiki/Factory_method_pattern), [facade](https://en.wikipedia.org/wiki/Facade_pattern), [composite](https://en.wikipedia.org/wiki/Composite_pattern), [decorator](https://en.wikipedia.org/wiki/Decorator_pattern), [iterator](https://en.wikipedia.org/wiki/Iterator_pattern), [observer](https://en.wikipedia.org/wiki/Observer_pattern), e [strategy](https://en.wikipedia.org/wiki/Strategy_pattern).
+
+### Evite obscurecer as funções integradas
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Evite-obscurecer-as-funções-integradas)
+
+Dentro de uma classe, uma função interna é sempre obscurecida pelos métodos da classe se eles tiverem o mesmo nome, independentemente do número e tipo de argumentos na função. A função também é obscurecida independentemente do número e tipo de parâmetros do método. As funções incorporadas são, por exemplo, `condense( )`, `lines( )`, `line_exists( )`, `strlen( )`, etc.
+
+```ABAP
+" Fora do padrão
+METHODS lines RETURNING VALUE(result) TYPE i.    
+METHODS line_exists RETURNING VALUE(result) TYPE i.  
+```
+
+```ABAP
+" Fora do padrão 
+CLASS-METHODS condense RETURNING VALUE(result) TYPE i.   
+CLASS-METHODS strlen RETURNING VALUE(result) TYPE i.  
+```
+
+## Linguagem
+
+### Cuidado com o legado
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo)  > [Seção atual](#Linguagem)
+
+Se você codificar para releases ABAP mais antigos, siga os conselhos deste guia com cuidado: Muitas recomendações abaixo fazem uso de sintaxe e construções relativamente novas que podem não ser suportadas em releases ABAP mais antigos. Valide as diretrizes que deseja seguir na versão mais antiga à qual você deve dar suporte. Não descarte simplesmente o Código Limpo como um todo - a grande maioria das regras (por exemplo, nomeação, comentários) funcionará em *qualquer* versão ABAP.
+
+### Prefira a orientação a objetos à programação processual
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Linguagem](#Linguagem) > [Seção atual](#Prefira-a-orientação-a-objetos-à-programação-processual)
+
+Programas orientados a objetos (classes, interfaces) são melhor segmentados e podem ser refatorados e testados mais facilmente do que códigos procedurais (funções, programas). Embora existam situações em que você deve fornecer objetos procedurais (uma função para um RFC, um programa para uma transação), esses objetos devem fazer pouco mais do que chamar uma classe correspondente que forneça o recurso real:
+
+```ABAP
+FUNCTION check_business_partner [...].
+  DATA(validator) = NEW /clean/biz_partner_validator( ).
+  result = validator->validate( business_partners ).
+ENDFUNCTION.
+```
+
+### Prefira construções de linguagem funcional a procedimental
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Linguagem](#Linguagem) > [Seção atual](#Prefira-construções-de-linguagem-funcional-a-procedimental)
+
+Eles geralmente são mais curtos e são mais naturais para os programadores modernos.
+
+```ABAP
+DATA(variable) = 'A'.
+" MOVE 'A' TO variable.
+
+DATA(uppercase) = to_upper( lowercase ).
+" TRANSLATE lowercase TO UPPER CASE.
+
+index += 1.         " >= NW 7.54
+index = index + 1.  " < NW 7.54
+" ADD 1 TO index.
+
+DATA(object) = NEW /clean/my_class( ).
+" CREATE OBJECT object TYPE /dirty/my_class.
+
+result = VALUE #( FOR row IN input ( row-text ) ).
+" LOOP AT input INTO DATA(row).
+"  INSERT row-text INTO TABLE result.
+" ENDLOOP.
+
+DATA(line) = value_pairs[ name = 'A' ]. " entry must exist
+DATA(line) = VALUE #( value_pairs[ name = 'A' ] OPTIONAL ). " entry can be missing
+" READ TABLE value_pairs INTO DATA(line) WITH KEY name = 'A'.
+
+DATA(exists) = xsdbool( line_exists( value_pairs[ name = 'A' ] ) ).
+IF line_exists( value_pairs[ name = 'A' ] ).
+" READ TABLE value_pairs TRANSPORTING NO FIELDS WITH KEY name = 'A'.
+" DATA(exists) = xsdbool( sy-subrc = 0 ).
+```
+
+Muitas das regras detalhadas abaixo são apenas reiterações específicas deste conselho geral.
+
+### Evite elementos de linguagem obsoletos
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Linguagem](#Linguagem) > [Seção atual](#Evite-elementos-de-linguagem-obsoletos)
+
+Ao atualizar sua versão ABAP, verifique se há elementos de linguagem obsoletos e evite usá-los.
+
+Por exemplo, as `@`variáveis "host" com escape na instrução a seguir deixam um pouco mais claro o que é uma variável de programa e o que é uma coluna no banco de dados,
+
+```ABAP
+SELECT *
+  FROM spfli
+  WHERE carrid = @carrid AND
+        connid = @connid
+  INTO TABLE @itab.
+```
+
+em comparação com a [forma obsoleta sem escape](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenopen_sql_hostvar_obsolete.htm)
+
+```ABAP
+SELECT *
+  FROM spfli
+  WHERE carrid = carrid AND
+        connid = connid
+  INTO TABLE itab.
+```
+
+Alternativas mais recentes tendem a melhorar a legibilidade do código e reduzir os conflitos de design com os paradigmas de programação modernos, de modo que mudar para eles pode limpar seu código automaticamente.
+
+Enquanto continuam a funcionar, elementos obsoletos podem deixar de se beneficiar de otimizações em termos de velocidade de processamento e consumo de memória.
+
+Com elementos de linguagem modernos, você pode integrar jovens ABAPers mais facilmente, que podem não estar mais familiarizados com as construções desatualizadas porque não são mais ensinadas nos treinamentos da SAP.
+
+A documentação do SAP NetWeaver contém uma seção estável que lista elementos de linguagem obsoletos, por exemplo [NW 7.50](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/index.htm?file=abenabap_obsolete.htm) , [NW 7.51](https://help.sap.com/doc/abapdocu_751_index_htm/7.51/en-US/index.htm?file=abenabap_obsolete.htm) , [NW 7.52](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/index.htm?file=abenabap_obsolete.htm) , [NW 7.53](https://help.sap.com/doc/abapdocu_753_index_htm/7.53/en-US/index.htm?file=abenabap_obsolete.htm) .
+
+### Use padrões de design com sabedoria
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Linguagem](#Linguagem) > [Seção atual](#Use-padrões-de-design-com-sabedoria)
+
+Onde eles são apropriados e fornecem benefícios perceptíveis. Não aplique padrões de design em todos os lugares apenas por aplicar.
 
 ## Constantes
 
