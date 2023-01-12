@@ -162,7 +162,7 @@ ENDMETHOD.
 
 #### Declarações dentro de IF-ELSE
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Declarações-dentro-de IF-ELSE)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Declarações-dentro-de-IF-ELSE)
 
 Não utilize declarações in-line dentro de IF-ELSE's.
 
