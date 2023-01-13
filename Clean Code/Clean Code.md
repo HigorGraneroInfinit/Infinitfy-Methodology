@@ -35,7 +35,8 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Declarações em Métodos](#Declarações-em-Métodos)
   - [Declarações dentro de IF-ELSE](#Declarações-dentro-de-IF-ELSE)
   - [Não encadeie declarações iniciais](#Não-encadeie-declarações-iniciais)
-
+  - [Atribuição condicional](#Atribuição-condicional)
+  
 - [Tabelas](#Tabelas)
   - [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto)
     - [Hashed Table](#Hashed-Table)
@@ -200,7 +201,7 @@ INTERFACE /clean/customizing_reader
 
 Use verbos ou frases verbais para nomear métodos:
 
-```abap
+```ABAP
 METHODS withdraw
 METHODS add_message
 METHODS read_entries
@@ -214,7 +215,7 @@ IF is_empty( table ).
 
 Recomendamos nomear funções como métodos:
 
-```abap
+```ABAP
 FUNCTION /clean/read_alerts
 ```
 
@@ -242,7 +243,7 @@ response_time_in_seconds  " instead of response_time_variable
 
 [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Escolha-uma-palavra-por-conceito )
 
-```abap
+```ABAP
 METHODS read_this.
 METHODS read_that.
 METHODS read_those.
@@ -565,6 +566,26 @@ O encadeamento também complica desnecessariamente a reformatação e a refatora
 DATA:
   lv_name   TYPE seoclsname,
   lv_reader TYPE REF TO reader.
+```
+
+#### Atribuição condicional
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Atribuição-condicional)
+
+Utilize `COND` ao invés de `IF-ELSE` para atribuições condicionais:
+
+```ABAP
+gv_erro = COND #( WHEN lv_matnr IS NOT INITIAL THEN abap_false ELSE abap_true ).
+```
+
+Torna-se muito mais claro e curto do que:
+
+```ABAP
+IF lv_matnr IS NOT INITIAL.
+  gv_erro = abap_false.
+ELSE.
+  gv_erro = abap_true.
+ENDIF.
 ```
 
 ## Tabelas
