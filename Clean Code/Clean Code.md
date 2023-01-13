@@ -945,7 +945,7 @@ IF condition_is_fulfilled( ) = abap_true / abap_false.
 
 Lembre-se de que a chamada de método predicativo `... meth( ) ...`é apenas uma forma abreviada de `... meth( ) IS NOT INITIAL ...`, consulte [Chamada de método predicativo](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abenpredicative_method_calls.htm) na Documentação de palavras-chave ABAP. É por isso que a forma abreviada só deve ser usada para métodos que retornam tipos em que o valor não inicial tem o significado de "verdadeiro" e o valor inicial tem o significado de "falso".
 
-### Considere a decomposição de condições complexas
+### Considere quebrar condições complexas
 
 As condições podem se tornar mais fáceis ao decompô-las nas partes elementares que as compõem:
 
@@ -990,13 +990,13 @@ ENDMETHOD.
 
 
 
-## Ifs
+## IF's
 
-### Nenhuma ramificação IF vazia
+### Sem IF's vazios
 
 ```ABAP
 IF has_entries = abap_false.
-  " do some magic
+  " faça alguma mágica
 ENDIF.
 ```
 
@@ -1010,7 +1010,7 @@ ELSE.
 ENDIF.
 ```
 
-### Prefira CASE a ELSE IF para várias condições alternativas
+### Prefira CASE a ELSE IF
 
 ```ABAP
 CASE type.
@@ -1023,7 +1023,7 @@ CASE type.
 ENDCASE.
 ```
 
-`CASE`torna fácil ver um conjunto de alternativas que se excluem mutuamente. Ele pode ser mais rápido do que uma série de `IF`s porque pode traduzir para um comando de microprocessador diferente em vez de uma série de condições avaliadas posteriormente. Você pode introduzir novos casos rapidamente, sem ter que repetir a variável perspicaz repetidamente. A instrução ainda evita alguns erros que podem ocorrer ao aninhar acidentalmente os `IF`-s `ELSEIF`.
+O `CASE` facilita a visualização de um conjunto de alternativas que se excluem. Pode ser mais rápido do que uma sério de IFs porque pode traduzir para um comando de microprocessador diferente em vez de uma série de condições avaliadas posteriormente. Podendo introduzir novos casos rapidamente, sem ter que repetir a variável de discernimento repetidamente. A instrução ainda evita alguns erros que podem ocorrer ao aninhar acidentalmente os  `IF`-s `ELSEIF`.
 
 ```ABAP
 " Fora do padrão
@@ -1036,7 +1036,7 @@ ELSE.
 ENDIF.
 ```
 
-### Mantenha a profundidade de nidificação baixa
+### Mantenha Alinhamento Simples
 
 ```ABAP
 " Fora do padrão 
@@ -1052,7 +1052,7 @@ ELSE.
 ENDIF.
 ```
 
-Os aninhados `IF`ficam difíceis de entender muito rapidamente e requerem um número exponencial de casos de teste para uma cobertura completa.
+Os aninhados `IF`ficam difíceis de entender muito rapidamente e exigem um número exponencial de casos de teste para uma cobertura completa.
 
 As árvores de decisão geralmente podem ser desmontadas formando submétodos e introduzindo variáveis auxiliares booleanas.
 
