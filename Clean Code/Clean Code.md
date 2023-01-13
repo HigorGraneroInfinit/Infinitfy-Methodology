@@ -6,10 +6,10 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 
 - [Como](#Como)
   - [Como começar com código limpo](#Como-começar-com-código-limpo)
-  -  [Como refatorar código legado](#Como-refatorar-código-legado)
-  -  [Como verificar automaticamente](#Como-verificar-automaticamente)
-  -  [Como se relacionar com outros guias](#Como-se-relacionar-com-outros-guias)
-  -  
+  - [Como refatorar código legado](#Como-refatorar-código-legado)
+  - [Como verificar automaticamente](#Como-verificar-automaticamente)
+  - [Como se relacionar com outros guias](#Como-se-relacionar-com-outros-guias)
+
 - [Nomes](#Nomes)
   - [Use nomes descritivos](#Use-nomes-descritivos)
   - [Prefira termos de domínio de solução e domínio de problema](#Prefira-termos-de-domínio-de-solução-e-domínio-de-problema)
@@ -26,19 +26,45 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Prefira construções de linguagem funcional a procedimental](#Prefira-construções-de-linguagem-funcional-a-procedimental)
   - [Evite elementos de linguagem obsoletos](#Evite-elementos-de-linguagem-obsoletos)
   - [Use padrões de design com sabedoria](#Use-padrões-de-design-com-sabedoria)
-
 - [Constantes](#Constantes)
   - [Use constantes ao invés de hardcode](#Use-constantes-ao-invés-de-hardcode)
   - [Agrupamento](#[Agrupamento]())
     - [Classes de Enumeração](#Classes-de-Enumeração)
     - [Estruturas Constantes](#Estruturas-Constantes)
+
 - [Variáveis](#Variáveis)
 
   - [Declarações em Métodos](#Declarações-em-Métodos)
   - [Declarações dentro de IF-ELSE](#Declarações-dentro-de-IF-ELSE)
+  - [Não encadeie declarações iniciais](#Não-encadeie-declarações-iniciais)
 
+- [Tabelas](#Tabelas)
 
+  - [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto)
+    - [Hashed Table](#Hashed-Table)
+    - [Sorted Table](#Sorted-Table)
+    - [Standard Table](#Standard-Table)
 
+  - [Chaves](#Chaves)
+  - [Inserção de dados](#Inserção-de-dados)
+  - [Buscando linhas](#Buscando-linhas)
+    - [Índice](#Índice)
+
+  - [Acessando campos de uma linha diretamente](#Acessando-campos-de-uma-linha-diretamente)
+  - [Verificando a existência de uma linha](#Verificando-a-existência-de-uma-linha)
+  - [Evite leituras de tabelas desnecessárias](#Evite-leituras-de-tabelas-desnecessárias)
+
+- [Strings](#Strings)
+
+  - [Definindo textos](#Definindo-textos)
+  - [Concatenação](#Concatenação)
+
+- [Booleanos](#Booleanos)
+
+  - [Use booleanos com sabedoria](#Use-booleanos-com-sabedoria)
+  - [Use ABAP_BOOL para booleanos](#Use-ABAP_BOOL-para-booleanos)
+  - [Use ABAP_TRUE e ABAP_FALSE para comparações](#Use-ABAP_TRUE-e-ABAP_FALSE-para-comparações)
+  - [Use XSDBOOL para definir variáveis booleanas](#Use-XSDBOOL-para-definir-variáveis-booleanas)
 
 
 
@@ -529,11 +555,13 @@ ELSE.
 ENDIF.
 ```
 
-### Não encadeie declarações iniciais
+#### Não encadeie declarações iniciais
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Não-encadeie-declarações-iniciais)
 
 ```ABAP
-DATA name TYPE seoclsname.
-DATA reader TYPE REF TO reader.
+DATA lv_name TYPE seoclsname.
+DATA lv_reader TYPE REF TO reader.
 ```
 
 O encadeamento sugere que as variáveis definidas estão relacionadas em um nível lógico. Para usá-lo de forma consistente, você teria que garantir que todas as variáveis encadeadas pertençam juntas e introduzir grupos de cadeia adicionais para adicionar variáveis. Embora isso seja possível, geralmente não vale o esforço.
@@ -543,127 +571,167 @@ O encadeamento também complica desnecessariamente a reformatação e a refatora
 ```ABAP
 " Fora do padrão
 DATA:
-  name   TYPE seoclsname,
-  reader TYPE REF TO reader.
+  lv_name   TYPE seoclsname,
+  lv_reader TYPE REF TO reader.
 ```
-
-
 
 ## Tabelas
 
-### Use o tipo de tabela correto
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Tabelas)
 
-- Normalmente, você usa `HASHED`tabelas para **tabelas grandes** que são **preenchidas em uma única etapa** , **nunca modificadas** e **lidas frequentemente por sua chave** . Sua memória inerente e sobrecarga de processamento tornam as tabelas de hash valiosas apenas para grandes quantidades de dados e muitos acessos de leitura. Cada mudança no conteúdo da tabela requer recálculo caro do hash, portanto, não use isso para tabelas que são modificadas com muita frequência.
-- Normalmente, você usa `SORTED`tabelas para **tabelas grandes** que precisam ser **classificadas o tempo todo** , que são **preenchidas pouco a pouco** ou **precisam ser modificadas** e **lidas frequentemente por uma ou mais chaves completas ou parciais** ou processadas **em uma determinada ordem**. Adicionar, alterar ou remover conteúdo requer encontrar o ponto de inserção correto, mas não requer ajustar o restante do índice da tabela. As tabelas classificadas demonstram seu valor apenas para grandes números de acessos de leitura.
-- Use `STANDARD`tabelas para tabelas **pequenas** , onde a indexação produz mais sobrecarga do que benefício, e **"arrays"** , onde você não se importa com a ordem das linhas ou deseja processá-las exatamente na ordem em que foram anexadas. Além disso, se for necessário um acesso diferente à tabela, por exemplo, acesso indexado e acesso classificado via `SORT`e `BINARY SEARCH`.
+### Utilize o tipo de tabela correto
 
-### Evite a CHAVE PADRÃO
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Utilize-o-tipo-de-tabela-correto)
+
+#### Hashed Table
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto) > [Seção atual](#Hashed-Table)
+
+**Quando utilizar:**
+
+- Tabelas com grande volume de dados
+- Preenchidas em uma única etapa
+- Nunca modificadas
+- Lidas frequentemente por sua chave
+
+Cada mudança no conteúdo da tabela requer recálculo do hash, portanto, o tipo `HASHED` não é indicado  para tabelas que são modificadas com muita frequência.
+
+#### Sorted Table
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto) > [Seção atual](#Sorted-Table)
+
+**Quando utilizar:**
+
+- Tabelas com grande volume de dados
+- Precisam ser classificadas o tempo todo
+- Preenchidas pouco a pouco
+- Modificadas frequentemente
+- Lidas frequentemente por uma ou mais chaves completas ou parciais
+- Processadas em uma determinada ordem
+
+Adicionar, alterar ou remover conteúdo requer encontrar o ponto de inserção correto, mas não requer ajustar o restante do índice da tabela. O tipo `SORTED` demonstra seu valor apenas tabelas com grandes números de acessos de leitura.
+
+#### Standard Table
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto) > [Seção atual](#Standard-Table)
+
+**Quando utilizar:**
+
+- Tabelas com pequeno volume de dados
+- Ordem dos dados não é importante ou deseja processá-las na ordem em que foram anexadas
+
+Além disso, se for necessário um acesso diferente à tabela, por exemplo, acesso indexado e acesso classificado via `SORT`e `BINARY SEARCH`.
+
+### Chaves
+
+>[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Chaves)
+
+Especifique as chaves da sua tabela interna com `WITH NON-UNIQUE KEY`:
+
+```ABAP
+DATA lt_itab2 TYPE STANDARD TABLE OF row_type WITH NON-UNIQUE KEY comp1 comp2.
+```
+
+Torna-se muito mais visível identificar quais as chaves existentes em uma tabela, do que se fosse utilizado `WITH DEFAULT KEY`:
 
 ```ABAP
 " Fora do padrão
-DATA itab TYPE STANDARD TABLE OF row_type WITH DEFAULT KEY.
+DATA lt_itab TYPE STANDARD TABLE OF row_type WITH DEFAULT KEY.
 ```
 
-As chaves padrão geralmente são adicionadas apenas para fazer com que as instruções funcionais mais recentes funcionem. As próprias chaves, na verdade, geralmente são supérfluas e desperdiçam recursos por nada. Eles podem até levar a erros obscuros porque ignoram tipos de dados numéricos. As instruções `SORT`e `DELETE ADJACENT`sem lista de campos explícitos recorrerão à chave primária da tabela interna, que no caso de uso de `DEFAULT KEY`pode levar a resultados muito inesperados ao ter, por exemplo, campos numéricos como componentes da chave, em particular em combinação com `READ TABLE ... BINARY`etc.
-
-Especifique os principais componentes explicitamente
+Caso a tabela não precise de chaves, utilize `EMPTY KEY`:
 
 ```ABAP
-DATA itab2 TYPE STANDARD TABLE OF row_type WITH NON-UNIQUE KEY comp1 comp2.
+DATA lt_itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
 ```
 
-ou recorra a `EMPTY KEY`ela se não precisar de uma chave.
+### Inserção de dados
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Inserção-de-dados)
+
+Para inserir novas entradas em uma tabela, o comando `INSERT INTO TABLE` é o ideal, pois funciona com todos os tipos de tabela e chave, tornando mais fácil para você refatorar o tipo da tabela e as definições de chave se seus requisitos de desempenho mudarem.
 
 ```ABAP
-DATA itab1 TYPE STANDARD TABLE OF row_type WITH EMPTY KEY.
+INSERT VALUE #( ... ) INTO TABLE lt_itab.
 ```
 
+Use `APPEND TO`apenas se você usar uma  tabela `STANDARD` de maneira semelhante a uma matriz e se desejar enfatizar que a entrada adicionada deve ser a última linha.
 
+### Buscando linhas
 
-### Prefira INSERT INTO TABLE a APPEND TO
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Buscando-linhas)
+
+#### Índice
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Buscando linhas](#Buscando-linhas) > [Seção atual](#Índice)
+
+Utilize ` lt_my_table[ lv_index ]` para acessar uma linha pelo seu índice:
 
 ```ABAP
-INSERT VALUE #( ... ) INTO TABLE itab.
+DATA(wa_material) = lt_material[ 70 ].
 ```
 
-`INSERT INTO TABLE`funciona com todos os tipos de tabela e chave, tornando mais fácil para você refatorar o tipo da tabela e as definições de chave se seus requisitos de desempenho mudarem.
-
-Use `APPEND TO`apenas se você usar uma `STANDARD`tabela de maneira semelhante a uma matriz, se desejar enfatizar que a entrada adicionada deve ser a última linha.
-
-### Prefira LINE_EXISTS a READ TABLE ou LOOP AT
+expressa a intenção de forma mais clara e mais curta do que:
 
 ```ABAP
-IF line_exists( my_table[ key = 'A' ] ).
+READ TABLE lt_material INDEX 70 INTO DATA(wa_material).
 ```
 
-expressa a intenção de forma mais clara e mais curta do que
+### Acessando campos de uma linha diretamente
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Acessando-campos-de-uma-linha-diretamente)
+
+É possível acessar diretamente qualquer campo da linha buscada sem a necessidade de definir uma Workarea para isso:
+
+```ABAP
+DATA(lv_maktx) = lt_material[ 70 ]-maktx.
+```
+
+expressa a intenção de forma mais clara e mais curta do que:
+
+```ABAP
+READ TABLE lt_material INDEX 70 INTO DATA(wa_material).
+DATA(lv_maktx) = wa_material-maktx.
+```
+
+### Verificando a existência de uma linha
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Verificando-a-existência-de-uma-linha)
+
+Utilize LINE_EXISTS ao invés de READ TABLE ou LOOP AT:
+
+```ABAP
+IF line_exists( lt_my_table[ key = 'A' ] ).
+```
+
+expressa a intenção de forma mais clara e mais curta do que:
 
 ```ABAP
 " Fora do padrão
-READ TABLE my_table TRANSPORTING NO FIELDS WITH KEY key = 'A'.
+READ TABLE lt_my_table TRANSPORTING NO FIELDS WITH KEY key = 'A'.
 IF sy-subrc = 0.
 ```
 
-ou mesmo 
+ou mesmo:
 
 ```ABAP
 " Fora do padrão
-LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
+LOOP AT lt_my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
   line_exists = abap_true.
   EXIT.
 ENDLOOP.
 ```
 
-### Prefira READ TABLE a LOOP AT
-
-```ABAP
-READ TABLE my_table REFERENCE INTO DATA(line) WITH KEY key = 'A'.
-```
-
-expressa a intenção de forma mais clara e mais curta do que
-
-```ABAP
-" Fora do padrão
-LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
-  EXIT.
-ENDLOOP.
-```
-
-ou mesmo
-
-```ABAP
-" Fora do padrão
-LOOP AT my_table REFERENCE INTO DATA(line).
-  IF line->key = 'A'.
-    EXIT.
-  ENDIF.
-ENDLOOP.
-```
-
-### Prefira LOOP AT WHERE a IF aninhado
-
-```ABAP
-LOOP AT my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
-```
-
-expressa a intenção de forma mais clara e mais curta do que
-
-```ABAP
-LOOP AT my_table REFERENCE INTO DATA(line).
-  IF line->key = 'A'.
-    EXIT.
-  ENDIF.
-ENDLOOP.
-```
-
 ### Evite leituras de tabelas desnecessárias
 
-Caso você *espere* que uma linha esteja lá, leia uma vez e reaja à exceção,
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Evite-leituras-de-tabelas-desnecessárias)
+
+Caso você espere que uma linha esteja lá, leia uma vez e reaja à exceção,
 
 ```ABAP
 TRY.
-    DATA(row) = my_table[ key = input ].
-  CATCH cx_sy_itab_line_not_found.
+    DATA(row) = lt_my_table[ key = input ].
+  CATCH cx_sy_lt_itab_line_not_found.
     RAISE EXCEPTION NEW /clean/my_data_not_found( ).
 ENDTRY.
 ```
@@ -672,17 +740,21 @@ em vez de desarrumar e desacelerar o fluxo de controle principal com uma leitura
 
 ```ABAP
 " Fora do padrão
-IF NOT line_exists( my_table[ key = input ] ).
+IF NOT line_exists( lt_my_table[ key = input ] ).
   RAISE EXCEPTION NEW /clean/my_data_not_found( ).
 ENDIF.
-DATA(row) = my_table[ key = input ].
+DATA(row) = lt_my_table[ key = input ].
 ```
-
-
 
 ## Strings
 
-### Use ` para definir literais
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Strings)
+
+### Definindo textos
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Definindo-textos)
+
+Utilize ` para definir literais:
 
 ```ABAP
 CONSTANTS gc_some_constant TYPE string VALUE `ABC`.
@@ -704,7 +776,9 @@ gc_some_string = 'ABC'.
 DATA(gc_some_string) = |ABC|.
 ```
 
-### Usar | montar texto
+### Concatenação
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Concatenação)
 
 ```ABAP
 DATA(message) = |Received HTTP code { status_code } with message { text }|.
@@ -717,11 +791,13 @@ Os modelos de string destacam melhor o que é literal e o que é variável, espe
 DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message ` && text.
 ```
 
-
-
 ## Booleanos
 
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Booleanos)
+
 ### Use booleanos com sabedoria
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Booleanos](#Booleanos) > [Seção atual](#Use-booleanos-com-sabedoria)
 
 Frequentemente encontramos casos em que booleanos parecem ser uma escolha natural
 
@@ -745,6 +821,8 @@ assert_true( xsdbool( document->is_archived( ) = abap_true AND
 
 ### Use ABAP_BOOL para booleanos
 
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Booleanos](#Booleanos) > [Seção atual](#Use-ABAP_BOOL-para-booleanos)
+
 ```ABAP
 DATA has_entries TYPE abap_bool.
 ```
@@ -756,6 +834,8 @@ Evite também outros tipos booleanos, pois eles costumam ter efeitos colaterais 
 Em alguns casos, você pode precisar de um elemento de dicionário de dados, por exemplo, para campos DynPro. `abap_bool`não pode ser usado aqui porque é definido no tipo pool `abap`, não no dicionário de dados. Neste caso, recorra a `boole_d`ou `xfeld`. Crie seu próprio elemento de dados se precisar de uma descrição personalizada.
 
 ### Use ABAP_TRUE e ABAP_FALSE para comparações
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Booleanos](#Booleanos) > [Seção atual](#Use-ABAP_TRUE-e-ABAP_FALSE-para-comparações)
 
 ```ABAP
 has_entries = abap_true.
@@ -778,6 +858,8 @@ IF has_entries IS NOT INITIAL.
 ```
 
 ### Use XSDBOOL para definir variáveis booleanas
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Booleanos](#Booleanos) > [Seção atual](#Use-XSDBOOL-para-definir-variáveis-booleanas)
 
 ```ABAP
 DATA(has_entries) = xsdbool( line IS NOT INITIAL ).
@@ -803,8 +885,6 @@ Uma alternativa possível `xsdbool`é a `COND`forma ternária. Sua sintaxe é in
 ```ABAP
 DATA(has_entries) = COND abap_bool( WHEN line IS NOT INITIAL THEN abap_true ).
 ```
-
-
 
 ## Condições
 
@@ -1664,7 +1744,7 @@ METHOD get_large_table.
   result = large_table.
 ENDMETHOD.
 
-DATA(my_table) = get_large_table( ).
+DATA(lt_my_table) = get_large_table( ).
 ```
 
 Somente se houver prova real (= uma medição de desempenho ruim) para o seu caso individual, você deve recorrer ao estilo de procedimento mais complicado
@@ -1679,7 +1759,7 @@ METHOD get_large_table.
   result = large_table.
 ENDMETHOD.
 
-get_large_table( IMPORTING result = DATA(my_table) ).
+get_large_table( IMPORTING result = DATA(lt_my_table) ).
 ```
 
 > Esta seção contradiz as Diretrizes de Programação ABAP e as verificações do Inspetor de Código, que sugerem que tabelas grandes devem ser EXPORTADAS por referência para evitar déficits de desempenho. Falhamos consistentemente em reproduzir quaisquer déficits de desempenho e memória e recebemos um aviso sobre a otimização do kernel que geralmente melhora o desempenho do RETURNING, consulte [*Compartilhamento entre objetos de dados dinâmicos* na Ajuda da linguagem ABAP](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenmemory_consumption_3.htm) .
