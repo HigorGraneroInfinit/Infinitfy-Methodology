@@ -9,7 +9,6 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Como refatorar código legado](#Como-refatorar-código-legado)
   - [Como verificar automaticamente](#Como-verificar-automaticamente)
   - [Como se relacionar com outros guias](#Como-se-relacionar-com-outros-guias)
-
 - [Nomes](#Nomes)
   - [Use nomes descritivos](#Use-nomes-descritivos)
   - [Prefira termos de domínio de solução e domínio de problema](#Prefira-termos-de-domínio-de-solução-e-domínio-de-problema)
@@ -33,34 +32,27 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
     - [Estruturas Constantes](#Estruturas-Constantes)
 
 - [Variáveis](#Variáveis)
-
   - [Declarações em Métodos](#Declarações-em-Métodos)
   - [Declarações dentro de IF-ELSE](#Declarações-dentro-de-IF-ELSE)
   - [Não encadeie declarações iniciais](#Não-encadeie-declarações-iniciais)
 
 - [Tabelas](#Tabelas)
-
   - [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto)
     - [Hashed Table](#Hashed-Table)
     - [Sorted Table](#Sorted-Table)
     - [Standard Table](#Standard-Table)
-
   - [Chaves](#Chaves)
   - [Inserção de dados](#Inserção-de-dados)
   - [Buscando linhas](#Buscando-linhas)
     - [Índice](#Índice)
-
   - [Acessando campos de uma linha diretamente](#Acessando-campos-de-uma-linha-diretamente)
   - [Verificando a existência de uma linha](#Verificando-a-existência-de-uma-linha)
   - [Evite leituras de tabelas desnecessárias](#Evite-leituras-de-tabelas-desnecessárias)
 
 - [Strings](#Strings)
-
   - [Definindo textos](#Definindo-textos)
   - [Concatenação](#Concatenação)
-
 - [Booleanos](#Booleanos)
-
   - [Use booleanos com sabedoria](#Use-booleanos-com-sabedoria)
   - [Use ABAP_BOOL para booleanos](#Use-ABAP_BOOL-para-booleanos)
   - [Use ABAP_TRUE e ABAP_FALSE para comparações](#Use-ABAP_TRUE-e-ABAP_FALSE-para-comparações)
