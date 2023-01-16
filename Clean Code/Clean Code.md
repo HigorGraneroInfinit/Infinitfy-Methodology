@@ -990,7 +990,7 @@ ENDMETHOD.
 
 
 
-## IF's
+## Tópico Estruturas Condicionais
 
 ### Sem IF's vazios
 
@@ -1388,7 +1388,7 @@ Não use o padrão singleton por hábito ou porque alguma regra de desempenho as
 
 ## Métodos
 
-### Calls
+### Chamadas
 
 #### Não chame métodos estáticos por meio de variáveis de instância
 
@@ -1763,3 +1763,284 @@ get_large_table( IMPORTING result = DATA(lt_my_table) ).
 ```
 
 > Esta seção contradiz as Diretrizes de Programação ABAP e as verificações do Inspetor de Código, que sugerem que tabelas grandes devem ser EXPORTADAS por referência para evitar déficits de desempenho. Falhamos consistentemente em reproduzir quaisquer déficits de desempenho e memória e recebemos um aviso sobre a otimização do kernel que geralmente melhora o desempenho do RETURNING, consulte [*Compartilhamento entre objetos de dados dinâmicos* na Ajuda da linguagem ABAP](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenmemory_consumption_3.htm) .
+
+#### Use RETURNING ou EXPORTING ou CHANGING, mas não uma combinação
+
+```ABAP
+METHODS copy_class
+  IMPORTING
+    old_name      TYPE seoclsname
+    new name      TYPE secolsname
+  RETURNING
+    VALUE(result) TYPE copy_result
+  RAISING
+    /clean/class_copy_failure.
+```
+
+em vez de misturar misturas como
+
+```ABAP
+" Fora do padrão
+METHODS copy_class
+  ...
+  RETURNING
+    VALUE(result)      TYPE vseoclass
+  EXPORTING
+    error_occurred     TYPE abap_bool
+  CHANGING
+    correction_request TYPE trkorr
+    package            TYPE devclass.
+```
+
+Diferentes tipos de parâmetros de saída são um indicador de que o método faz mais de uma coisa. Isso confunde o leitor e torna a chamada do método desnecessariamente complicada.
+
+Uma exceção aceitável a esta regra pode ser construtores que consomem sua entrada enquanto constroem sua saída:
+
+```ABAP
+METHODS build_tree
+  CHANGING
+    tokens        TYPE tokens
+  RETURNING
+    VALUE(result) TYPE REF TO tree.
+```
+
+No entanto, mesmo esses podem ficar mais claros objetivando a entrada:
+
+```ABAP
+METHODS build_tree
+  IMPORTING
+    tokens        TYPE REF TO token_stack
+  RETURNING
+    VALUE(result) TYPE REF TO tree.
+```
+
+#### Use CHANGING com moderação, quando adequado
+
+`CHANGING`deve ser reservado para casos em que uma variável local existente que já está preenchida é atualizada apenas em alguns lugares:
+
+```ABAP
+METHODS update_references
+  IMPORTING
+    new_reference TYPE /bobf/conf_key
+  CHANGING
+    bo_nodes      TYPE root_nodes.
+
+METHOD update_references.
+  LOOP AT bo_nodes REFERENCE INTO DATA(bo_node).
+    bo_node->reference = new_reference.
+  ENDLOOP.
+ENDMETHOD.
+```
+
+Não force seus chamadores a introduzir variáveis locais desnecessárias apenas para fornecer seu `CHANGING`parâmetro. Não use `CHANGING`parâmetros para preencher inicialmente uma variável previamente vazia.
+
+#### Método de divisão em vez de parâmetro de entrada booleano
+
+Parâmetros de entrada booleanos geralmente são um indicador de que um método faz *duas* coisas em vez de uma.
+
+```ABAP
+" Fora do padrão
+METHODS update
+  IMPORTING
+    do_save TYPE abap_bool.
+```
+
+Além disso, chamadas de método com um único - e, portanto, sem nome - parâmetro booleano tendem a obscurecer o significado do parâmetro.
+
+```ABAP
+" Fora do padrão
+update( abap_true ).  " what does 'true' mean? synchronous? simulate? commit?
+```
+
+Dividir o método pode simplificar o código dos métodos e descrever melhor as diferentes intenções
+
+```ABAP
+update_without_saving( ).
+update_and_save( ).
+```
+
+A percepção comum sugere que os setters para variáveis booleanas estão bem:
+
+```ABAP
+METHODS set_is_deleted
+  IMPORTING
+    new_value TYPE abap_bool.
+```
+
+### Nomes de Parâmetros
+
+#### Considere chamar o parâmetro RETURNING RESULT
+
+Bons nomes de método geralmente são tão bons que o `RETURNING`parâmetro não precisa de um nome próprio. O nome faria pouco mais do que repetir o nome do método ou repetir algo óbvio.
+
+A repetição de um nome de membro pode até produzir conflitos que precisam ser resolvidos com a adição de um arquivo `me->`.
+
+```ABAP
+" Fora do padrão
+METHODS get_name
+  RETURNING
+    VALUE(name) TYPE string.
+
+METHOD get_name.
+  name = me->name.
+ENDMETHOD.
+```
+
+Nesses casos, basta chamar o parâmetro `RESULT`, ou algo parecido `RV_RESULT`se preferir a notação húngara.
+
+Nomeie o `RETURNING`parâmetro se não for *óbvio* o que ele representa, por exemplo, em métodos que retornam `me`para encadeamento de métodos ou em métodos que criam algo, mas não retornam a entidade criada, mas apenas sua chave ou algo assim.
+
+### Inicialização de Parâmetros
+
+#### Limpar ou sobrescrever os parâmetros de referência EXPORTING
+
+Os parâmetros de referência referem-se a áreas de memória existentes que podem ser preenchidas previamente. Limpe-os ou substitua-os para fornecer dados confiáveis:
+
+```abap
+METHODS square
+  EXPORTING
+    result TYPE i.
+
+" clear
+METHOD square.
+  CLEAR result.
+  " ...
+ENDMETHOD.
+
+" Substituir
+METHOD square.
+  result = cl_abap_math=>square( 2 ).
+ENDMETHOD.
+```
+
+##### Tome cuidado se a entrada e a saída puderem ser as mesmas
+
+Geralmente, é uma boa ideia limpar o parâmetro como primeira coisa no método após as declarações de tipo e dados. Isso torna a instrução fácil de detectar e evita que o valor ainda contido seja acidentalmente usado por instruções posteriores.
+
+No entanto, algumas configurações de parâmetros podem usar a mesma variável como entrada e saída. Nesse caso, um simples `CLEAR`excluiria o valor de entrada antes que ele pudesse ser usado, produzindo resultados incorretos.
+
+```abap
+" Fora do padrão
+DATA value TYPE i.
+
+square_dirty(
+  EXPORTING
+    number = value
+  IMPORTING
+    result = value ).
+
+METHOD square_dirty.
+  CLEAR result.
+  result = number * number.
+ENDMETHOD.
+```
+
+Considere redesenhar esses métodos substituindo os `EXPORTING`por `RETURNING`. Considere também sobrescrever o `EXPORTING`parâmetro em uma única instrução de cálculo de resultado. Se nenhum dos dois se encaixar, recorra a um arquivo `CLEAR`.
+
+#### Não limpe VALUE parâmetros
+
+Parâmetros que funcionam por `VALUE`são entregues como novas áreas de memória separadas que estão vazias por definição. Não limpe-os novamente:
+
+```ABAP
+METHODS square
+  EXPORTING
+    VALUE(result) TYPE i.
+
+METHOD square.
+  " Não há necessidade de limpar o resultado
+ENDMETHOD.
+```
+
+`RETURNING`parâmetros são sempre `VALUE`parâmetros, então você nunca precisa limpá-los:
+
+```ABAP
+METHODS square
+  RETURNING
+    VALUE(result) TYPE i.
+
+METHOD square.
+  " Não há necessidade de limpar o resultado
+ENDMETHOD.
+```
+
+### Corpo do método
+
+#### Faça uma coisa, faça bem, faça apenas
+
+Um método deve fazer uma coisa, e apenas uma coisa. Deve fazê-lo da melhor maneira possível.
+
+Um método provavelmente faz uma coisa se
+
+- tem poucos parâmetros de entrada
+- não inclui parâmetros booleanos
+- tem exatamente um parâmetro de saída
+- é pequeno
+- ele desce um nível de abstração
+- ele lança apenas um tipo de exceção
+- você não pode extrair outros métodos significativos
+- você não pode agrupar significativamente suas declarações em seções
+
+#### Concentre-se no caminho feliz ou no tratamento de erros, mas não em ambos
+
+Como uma especialização da regra **Faça uma coisa, faça bem, faça apenas** , um método deve seguir o caminho feliz para o qual foi criado ou o desvio de tratamento de erros caso não possa, mas provavelmente não ambos.
+
+```ABAP
+" Fora do padrão
+METHOD append_xs.
+  IF input > 0.
+    DATA(remainder) = input.
+    WHILE remainder > 0.
+      result = result && `X`.
+      remainder = remainder - 1.
+    ENDWHILE.
+  ELSEIF input = 0.
+    RAISE EXCEPTION /dirty/sorry_cant_do( ).
+  ELSE.
+    RAISE EXCEPTION cx_sy_illegal_argument( ).
+  ENDIF.
+ENDMETHOD.
+```
+
+Pode ser decomposto em
+
+```abap
+METHOD append_xs.
+  validate( input ).
+  DATA(remainder) = input.
+  WHILE remainder > 0.
+    result = result && `X`.
+    remainder = remainder - 1.
+  ENDWHILE.
+ENDMETHOD.
+
+METHOD validate.
+  IF input = 0.
+    RAISE EXCEPTION /dirty/sorry_cant_do( ).
+  ELSEIF input < 0.
+    RAISE EXCEPTION cx_sy_illegal_argument( ).
+  ENDIF.
+ENDMETHOD.
+```
+
+ou, para enfatizar a parte de validação
+
+```ABAP
+METHOD append_xs.
+  IF input > 0.
+    result = append_xs_without_check( input ).
+  ELSEIF input = 0.
+    RAISE EXCEPTION /dirty/sorry_cant_do( ).
+  ELSE.
+    RAISE EXCEPTION cx_sy_illegal_argument( ).
+  ENDIF.
+ENDMETHOD.
+
+METHOD append_xs_without_check.
+  DATA(remainder) = input.
+  WHILE remainder > 0.
+    result = result && `X`.
+    remainder = remainder - 1.
+  ENDWHILE.
+ENDMETHOD.
+```
+
