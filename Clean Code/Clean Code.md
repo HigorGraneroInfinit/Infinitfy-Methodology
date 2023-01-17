@@ -2044,3 +2044,169 @@ METHOD append_xs_without_check.
 ENDMETHOD.
 ```
 
+#### Desça um nível de abstração
+
+As instruções em um método devem estar um nível de abstração abaixo do próprio método. Da mesma forma, todos devem estar no mesmo nível de abstração
+
+```ABAP
+METHOD create_and_publish.
+  post = create_post( user_input ).
+  post->publish( ).
+ENDMETHOD.
+```
+
+em vez de confundir misturas de conceitos de baixo nível ( `trim`, `to_upper`, ...) e alto nível ( , ...) como`publish`
+
+```ABAP
+" Fora do padrão
+METHOD create_and_publish.
+  post = NEW blog_post( ).
+  DATA(user_name) = trim( to_upper( sy-uname ) ).
+  post->set_author( user_name ).
+  post->publish( ).
+ENDMETHOD.
+```
+
+Uma maneira confiável de descobrir qual é o nível correto de abstração é esta: Deixe o autor do método explicar o que o método faz em poucas palavras curtas, sem olhar para o código. Os marcadores (s) números são os submétodos que o método deve chamar ou as instruções que ele deve executar.
+
+#### Mantenha os métodos pequenos
+
+Os métodos devem ter menos de 20 instruções, ideal em torno de 3 a 5 instruções.
+
+```ABAP
+METHOD read_and_parse_version_filters.
+  DATA(active_model_version) = read_random_version_under( model_guid ).
+  DATA(filter_json) = read_model_version_filters( active_model_version-guid ).
+  result = parse_model_version_filters( filter_json ).
+ENDMETHOD.
+```
+
+A `DATA`declaração a seguir sozinha é suficiente para ver que o método circundante faz muito mais do que uma coisa:
+
+```ABAP
+" Fora do padrão
+DATA:
+  class           TYPE vseoclass,
+  attributes      TYPE seoo_attributes_r,
+  methods         TYPE seoo_methods_r,
+  events          TYPE seoo_events_r,
+  types           TYPE seoo_types_r,
+  aliases         TYPE seoo_aliases_r,
+  implementings   TYPE seor_implementings_r,
+  inheritance     TYPE vseoextend,
+  friendships     TYPE seof_friendships_r,
+  typepusages     TYPE seot_typepusages_r,
+  clsdeferrds     TYPE seot_clsdeferrds_r,
+  intdeferrds     TYPE seot_intdeferrds_r,
+  attribute       TYPE vseoattrib,
+  method          TYPE vseomethod,
+  event           TYPE vseoevent,
+  type            TYPE vseotype,
+  alias           TYPE seoaliases,
+  implementing    TYPE vseoimplem,
+  friendship      TYPE seofriends,
+  typepusage      TYPE vseotypep,
+  clsdeferrd      TYPE vseocdefer,
+  intdeferrd      TYPE vseoidefer,
+  new_clskey_save TYPE seoclskey.
+```
+
+Claro que há ocasiões em que não faz sentido reduzir ainda mais um método maior. Isso é perfeitamente aceitável, desde que o método permaneça focado em uma coisa:
+
+```ABAP
+METHOD decide_what_to_do.
+  CASE temperature.
+    WHEN burning.
+      result = air_conditioning.
+    WHEN hot.
+      result = ice_cream.
+    WHEN moderate.
+      result = chill.
+    WHEN cold.
+      result = skiing.
+    WHEN freezing.
+      result = hot_cocoa.
+  ENDCASE.
+ENDMETHOD.
+```
+
+No entanto, ainda faz sentido validar se o código detalhado oculta um padrão mais adequado:
+
+```ABAP
+METHOD decide_what_to_do.
+  result = VALUE #( spare_time_activities[ temperature = temperature ] OPTIONAL ).
+ENDMETHOD.
+```
+
+### Controle de fluxo
+
+#### Falha rápido
+
+Valide e falhe o mais cedo possível:
+
+```ABAP
+METHOD do_something.
+  IF input IS INITIAL.
+    RAISE EXCEPTION cx_sy_illegal_argument( ).
+  ENDIF.
+  DATA(massive_object) = build_expensive_object_from( input ).
+  result = massive_object->do_some_fancy_calculation( ).
+ENDMETHOD.
+```
+
+As validações posteriores são mais difíceis de detectar e entender e podem já ter desperdiçado recursos para chegar lá.
+
+```ABAP
+" Fora do padrão
+METHOD do_something.
+  DATA(massive_object) = build_expensive_object_from( input ).
+  IF massive_object IS NOT BOUND. " happens if input is initial
+    RAISE EXCEPTION cx_sy_illegal_argument( ).
+  ENDIF.
+  result = massive_object->do_some_fancy_calculation( ).
+ENDMETHOD.
+```
+
+#### CHECK vs. RETURN
+
+Não há consenso sobre se você deve usar `CHECK`ou `RETURN`sair de um método se a entrada não atender às expectativas.
+
+Embora `CHECK`definitivamente forneça a sintaxe mais curta
+
+```ABAP
+METHOD read_customizing.
+  CHECK keys IS NOT INITIAL.
+  " do whatever needs doing
+ENDMETHOD.
+```
+
+o nome da instrução não revela o que acontece se a condição falhar, de modo que as pessoas provavelmente entenderão melhor a forma longa:
+
+```ABAP
+METHOD read_customizing.
+  IF keys IS INITIAL.
+    RETURN.
+  ENDIF.
+  " do whatever needs doing
+ENDMETHOD.
+```
+
+Você poderia evitar completamente a questão invertendo a validação e adotando um fluxo de controle de retorno único. Isso é considerado fora do padrão porque introduz uma profundidade de alinhamento desnecessária.
+
+```ABAP
+METHOD read_customizing.
+  " Fora do padrão
+  IF keys IS NOT INITIAL.
+    " do whatever needs doing
+  ENDIF.
+ENDMETHOD.
+```
+
+De qualquer forma, considere se não retornar nada é realmente o comportamento apropriado. Os métodos devem fornecer um resultado significativo, ou seja, um parâmetro de retorno preenchido ou uma exceção. Retornar nada é, em muitos casos, semelhante a retornar `null`, o que deve ser evitado.
+
+#### Evite o CHECK em outras posições
+
+Não use `CHECK`fora da seção de inicialização de um método. A declaração se comporta de maneira diferente em diferentes posições e pode levar a efeitos imprecisos e inesperados.
+
+Por exemplo, [`CHECK`em a `LOOP`termina a iteração atual e continua com a próxima](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm) ; as pessoas podem acidentalmente esperar que ele termine o método ou saia do loop. Prefira usar uma `IF`instrução em combinação com `CONTINUE`, pois `CONTINUE`só pode ser usada em loops.
+
