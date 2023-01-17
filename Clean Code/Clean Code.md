@@ -1521,7 +1521,7 @@ car->drive( speed = 50 ).
 update( asynchronous = abap_true ).
 ```
 
-#### Omita a auto-referência ME ao chamar um atributo ou método de instância
+#### Omita a auto-referência ME
 
 Como a auto-referência `me->`é definida implicitamente pelo sistema, omita-a ao chamar um atributo ou método de instância
 
@@ -1574,7 +1574,9 @@ Na orientação a objetos limpa, ter um método público sem uma interface não 
 
 ### Número do parâmetro
 
-#### No máximo apenas três parâmetros de IMPORTING
+#### Parâmetros de IMPORTING
+
+É ideal a utilização de no máximo três parâmetro de IMPORTING.
 
 ```ABAP
 FUNCTION seo_class_copy
@@ -1610,7 +1612,9 @@ Muitos parâmetros de entrada deixam a complexidade de um método explodir porqu
 
 Você pode reduzir o número de parâmetros combinando-os em conjuntos significativos com estruturas e objetos.
 
-#### Dividir métodos em vez de adicionar parâmetros OPCIONAIS
+#### Dividir métodos
+
+Divida os métodos em vez de adicionar parâmetros OPCIONAIS.
 
 ```ABAP
 METHODS do_one_thing IMPORTING what_i_need TYPE string.
@@ -1639,7 +1643,7 @@ Vários métodos com parâmetros específicos para o caso de uso evitam essa con
 
 A adição `PREFERRED PARAMETER`torna difícil ver qual parâmetro é realmente fornecido, dificultando a compreensão do código. Minimizar o número de parâmetros, especialmente os opcionais, reduz automaticamente a necessidade de arquivos `PREFERRED PARAMETER`.
 
-#### RETURN, EXPORT ou CHANGE exatamente um parâmetro
+#### RETURN, EXPORT ou CHANGE 
 
 Um bom método faz *uma coisa* , e isso deve ser refletido pelo método também retornando exatamente uma coisa. Se os parâmetros de saída do seu método *não* formarem uma entidade lógica, seu método faz mais de uma coisa e você deve dividi-lo.
 
@@ -1731,7 +1735,7 @@ square(
 
 `RETURNING`não apenas torna a chamada mais curta, mas também permite o encadeamento de métodos e evita erros de mesma entrada e saída.
 
-#### RETURNING em tabelas grandes geralmente é bom
+#### RETURNING em tabelas grandes
 
 Embora a documentação da linguagem ABAP e os guias de desempenho digam o contrário, raramente encontramos casos em que entregar uma tabela grande ou profundamente aninhada em um parâmetro VALUE *realmente* causa problemas de desempenho. Portanto, recomendamos o uso geral
 
@@ -1747,7 +1751,7 @@ ENDMETHOD.
 DATA(lt_my_table) = get_large_table( ).
 ```
 
-Somente se houver prova real (= uma medição de desempenho ruim) para o seu caso individual, você deve recorrer ao estilo de procedimento mais complicado
+Somente se houver prova real ( = uma medição de desempenho ruim) para o seu caso individual, você deve recorrer ao estilo de procedimento mais complicado
 
 ```ABAP
 " Fora do padrão
@@ -1762,9 +1766,9 @@ ENDMETHOD.
 get_large_table( IMPORTING result = DATA(lt_my_table) ).
 ```
 
-> Esta seção contradiz as Diretrizes de Programação ABAP e as verificações do Inspetor de Código, que sugerem que tabelas grandes devem ser EXPORTADAS por referência para evitar déficits de desempenho. Falhamos consistentemente em reproduzir quaisquer déficits de desempenho e memória e recebemos um aviso sobre a otimização do kernel que geralmente melhora o desempenho do RETURNING, consulte [*Compartilhamento entre objetos de dados dinâmicos* na Ajuda da linguagem ABAP](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenmemory_consumption_3.htm) .
+#### Use RETURNING ou EXPORTING ou CHANGING
 
-#### Use RETURNING ou EXPORTING ou CHANGING, mas não uma combinação
+Use RETURNING ou EXPORTING ou CHANGING, mas não uma combinação deles.
 
 ```ABAP
 METHODS copy_class
@@ -1777,7 +1781,7 @@ METHODS copy_class
     /clean/class_copy_failure.
 ```
 
-em vez de misturar misturas como
+em vez de misturar-los como
 
 ```ABAP
 " Fora do padrão
@@ -1834,7 +1838,7 @@ ENDMETHOD.
 
 Não force seus chamadores a introduzir variáveis locais desnecessárias apenas para fornecer seu `CHANGING`parâmetro. Não use `CHANGING`parâmetros para preencher inicialmente uma variável previamente vazia.
 
-#### Método de divisão em vez de parâmetro de entrada booleano
+#### Divisão de métodos ao em vez de parâmetro de entrada booleano
 
 Parâmetros de entrada booleanos geralmente são um indicador de que um método faz *duas* coisas em vez de uma.
 
