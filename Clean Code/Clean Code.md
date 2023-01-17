@@ -1489,7 +1489,7 @@ modify->update( node           = /clean/my_bo_c=>node-item
                 changed_fields = changed_fields ).
 ```
 
-em vez do desnecessariamente mais longo
+em vez do mais longo
 
 ```ABAP
 " Fora do padrão
@@ -1507,7 +1507,7 @@ modify->update(
 DATA(unique_list) = remove_duplicates( list ).
 ```
 
-em vez do desnecessariamente mais longo
+em vez do mais longo
 
 ```ABAP
 " Fora do padrão
@@ -1564,7 +1564,7 @@ CLASS-METHODS create_instance
 
 #### Os métodos de instância pública devem fazer parte de uma interface
 
-Os métodos de instância pública sempre devem fazer parte de uma interface. Isso separa as dependências e simplifica a zombaria delas em testes de unidade.
+Os métodos de instância pública sempre devem fazer parte de uma interface.
 
 ```ABAP
 METHOD /clean/blog_post~publish.
@@ -1574,7 +1574,7 @@ Na orientação a objetos limpa, ter um método público sem uma interface não 
 
 ### Número do parâmetro
 
-#### Apontar para poucos parâmetros de IMPORTING, na melhor das hipóteses, menos de três
+#### No máximo apenas três parâmetros de IMPORTING
 
 ```ABAP
 FUNCTION seo_class_copy
@@ -1731,7 +1731,7 @@ square(
 
 `RETURNING`não apenas torna a chamada mais curta, mas também permite o encadeamento de métodos e evita erros de mesma entrada e saída.
 
-#### RETORNAR tabelas grandes geralmente é bom
+#### RETURNING em tabelas grandes geralmente é bom
 
 Embora a documentação da linguagem ABAP e os guias de desempenho digam o contrário, raramente encontramos casos em que entregar uma tabela grande ou profundamente aninhada em um parâmetro VALUE *realmente* causa problemas de desempenho. Portanto, recomendamos o uso geral
 
