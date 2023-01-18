@@ -1586,7 +1586,7 @@ Não use o padrão singleton por hábito ou porque alguma regra de desempenho as
 
 ### Chamadas
 
-#### Não chame métodos estáticos por meio de variáveis de instância
+#### Chamada de métodos estáticos 
 
 Para chamar um método estático, use
 
@@ -1758,7 +1758,7 @@ CLASS-METHODS create_instance
     VALUE(result) TYPE REF TO /clean/blog_post.
 ```
 
-#### Os métodos de instância pública devem fazer parte de uma interface
+#### Métodos de instância pública
 
 Os métodos de instância pública sempre devem fazer parte de uma interface.
 
@@ -2014,7 +2014,7 @@ METHODS build_tree
     VALUE(result) TYPE REF TO tree.
 ```
 
-#### Use CHANGING com moderação, quando adequado
+#### Use CHANGING quando adequado
 
 `CHANGING`deve ser reservado para casos em que uma variável local existente que já está preenchida é atualizada apenas em alguns lugares:
 
@@ -2049,7 +2049,7 @@ Além disso, chamadas de método com um único - e, portanto, sem nome - parâme
 
 ```ABAP
 " Fora do padrão
-update( abap_true ).  " what does 'true' mean? synchronous? simulate? commit?
+update( abap_true ).  " o que significa 'verdadeiro'? 
 ```
 
 Dividir o método pode simplificar o código dos métodos e descrever melhor as diferentes intenções
@@ -2069,7 +2069,7 @@ METHODS set_is_deleted
 
 ### Nomes de Parâmetros
 
-#### Considere chamar o parâmetro RETURNING RESULT
+#### Parâmetro RETURNING RESULT
 
 Bons nomes de método geralmente são tão bons que o `RETURNING`parâmetro não precisa de um nome próprio. O nome faria pouco mais do que repetir o nome do método ou repetir algo óbvio.
 
@@ -2113,7 +2113,7 @@ METHOD square.
 ENDMETHOD.
 ```
 
-##### Tome cuidado se a entrada e a saída puderem ser as mesmas
+##### Tome cuidado se a entrada e a saída puderem ser as mesmas 
 
 Geralmente, é uma boa ideia limpar o parâmetro como primeira coisa no método após as declarações de tipo e dados. Isso torna a instrução fácil de detectar e evita que o valor ainda contido seja acidentalmente usado por instruções posteriores.
 
@@ -2137,7 +2137,7 @@ ENDMETHOD.
 
 Considere redesenhar esses métodos substituindo os `EXPORTING`por `RETURNING`. Considere também sobrescrever o `EXPORTING`parâmetro em uma única instrução de cálculo de resultado. Se nenhum dos dois se encaixar, recorra a um arquivo `CLEAR`.
 
-#### Não limpe VALUE parâmetros
+#### Não limpe parâmetros VALUE 
 
 Parâmetros que funcionam por `VALUE`são entregues como novas áreas de memória separadas que estão vazias por definição. Não limpe-os novamente:
 
@@ -2151,7 +2151,7 @@ METHOD square.
 ENDMETHOD.
 ```
 
-`RETURNING`parâmetros são sempre `VALUE`parâmetros, então você nunca precisa limpá-los:
+Parâmetros `RETURNING` são sempre parâmetros `VALUE`, então você nunca precisa limpá-los:
 
 ```ABAP
 METHODS square
@@ -2165,7 +2165,9 @@ ENDMETHOD.
 
 ### Corpo do método
 
-#### Faça uma coisa, faça bem, faça apenas
+#### Regras
+
+##### Características 
 
 Um método deve fazer uma coisa, e apenas uma coisa. Deve fazê-lo da melhor maneira possível.
 
@@ -2180,9 +2182,9 @@ Um método provavelmente faz uma coisa se
 - você não pode extrair outros métodos significativos
 - você não pode agrupar significativamente suas declarações em seções
 
-#### Concentre-se no caminho feliz ou no tratamento de erros, mas não em ambos
+##### Método dever seguir apenas um propósito
 
-Como uma especialização da regra **Faça uma coisa, faça bem, faça apenas** , um método deve seguir o caminho feliz para o qual foi criado ou o desvio de tratamento de erros caso não possa, mas provavelmente não ambos.
+Um método deve seguir o seu propósito pelo qual foi criado ou o tratamento de erros caso não possa, mas não ambos.
 
 ```ABAP
 " Fora do padrão
@@ -2244,7 +2246,7 @@ METHOD append_xs_without_check.
 ENDMETHOD.
 ```
 
-#### Desça um nível de abstração
+##### Desça um nível de abstração
 
 As instruções em um método devem estar um nível de abstração abaixo do próprio método. Da mesma forma, todos devem estar no mesmo nível de abstração
 
@@ -2269,7 +2271,7 @@ ENDMETHOD.
 
 Uma maneira confiável de descobrir qual é o nível correto de abstração é esta: Deixe o autor do método explicar o que o método faz em poucas palavras curtas, sem olhar para o código. Os marcadores (s) números são os submétodos que o método deve chamar ou as instruções que ele deve executar.
 
-#### Mantenha os métodos pequenos
+##### Mantenha os métodos pequenos
 
 Os métodos devem ter menos de 20 instruções, ideal em torno de 3 a 5 instruções.
 
@@ -2376,7 +2378,7 @@ Embora `CHECK`definitivamente forneça a sintaxe mais curta
 ```ABAP
 METHOD read_customizing.
   CHECK keys IS NOT INITIAL.
-  " do whatever needs doing
+  " faça o que precisa ser feito
 ENDMETHOD.
 ```
 
@@ -2387,7 +2389,7 @@ METHOD read_customizing.
   IF keys IS INITIAL.
     RETURN.
   ENDIF.
-  " do whatever needs doing
+  " faça o que precisa ser feito
 ENDMETHOD.
 ```
 
@@ -2397,7 +2399,7 @@ Você poderia evitar completamente a questão invertendo a validação e adotand
 METHOD read_customizing.
   " Fora do padrão
   IF keys IS NOT INITIAL.
-    " do whatever needs doing
+  	" faça o que precisa ser feito
   ENDIF.
 ENDMETHOD.
 ```
@@ -2408,5 +2410,5 @@ De qualquer forma, considere se não retornar nada é realmente o comportamento 
 
 Não use `CHECK`fora da seção de inicialização de um método. A declaração se comporta de maneira diferente em diferentes posições e pode levar a efeitos imprecisos e inesperados.
 
-Por exemplo, [`CHECK`em a `LOOP`termina a iteração atual e continua com a próxima](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm) ; as pessoas podem acidentalmente esperar que ele termine o método ou saia do loop. Prefira usar uma `IF`instrução em combinação com `CONTINUE`, pois `CONTINUE`só pode ser usada em loops.
+Por exemplo, [`CHECK`em um `LOOP`termina a iteração atual e continua com a próxima](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm) ; as pessoas podem acidentalmente esperar que ele termine o método ou saia do loop. Prefira usar um instrução`IF` em combinação com `CONTINUE`, pois `CONTINUE`só pode ser usada em loops.
 
