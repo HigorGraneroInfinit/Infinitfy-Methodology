@@ -32,6 +32,11 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Não encadeie declarações iniciais](#Não-encadeie-declarações-iniciais)
   - [Atribuição condicional](#Atribuição-condicional)
   - [Conversão de dados](#Conversão-de-dados)
+- [Selects](#Selects)
+  - [Minimizando a criação de TYPES](#Minimizando-a-criação-de-TYPES)
+  - [Retornando valores dinâmicos](#Retornando-valores-dinâmicos)
+  - [Realizando cálculos](#Realizando-cálculos)
+
 - [Tabelas](#Tabelas)
   - [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto)
     - [Hashed Table](#Hashed-Table)
@@ -543,6 +548,85 @@ Para conversão de um tipo de dado para outro utilize:
 
 ```ABAP
 DATA(lv_number) = CONV i( '1241' ).
+```
+
+## Selects
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Selects)
+
+Caso o cliente utilize o HANA, fazer a parte de seleção e processamento de dados sempre na camada do banco de dados, utilizando sempre que possível CDS Views.
+
+### Minimizando a criação de TYPES
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Selects](#Selects) > [Seção atual](#Minimizando-a-criação-de-TYPES)
+
+Minimizar a criação de `TYPES` e tabelas internas utilizando declaração in-line dentro de `SELECT’s`:
+
+```ABAP
+SELECT matnr, mtype, maktx FROM zcdsv_material INTO TABLE @DATA(gt_material).
+```
+
+Ao invés de:
+
+```ABAP
+TYPES: BEGIN OF ty_material,
+         matnr TYPE zcdsv_material-matnr,
+         mtype TYPE zcdsv_material-mtype,
+         maktx TYPE zcdsv_material-maktx,
+       END OF ty_material.
+
+DATA gt_material type table of ty_material.
+SELECT matnr mtype maktx FROM zcdsv_material INTO TABLE gt_material.
+```
+
+Dessa forma, não é necessário definir um TYPE para receber os dados e evita a necessidade realizar modificações na estrutura caso haja alteração nos campos de seleção.
+
+### Retornando valores dinâmicos
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Selects](#Selects) > [Seção atual](#Retornando-valores-dinâmicos)
+
+Para mudar dinamicamente o valor de um determinado campo retornado por um `SELECT` utilize:
+
+```ABAP
+SELECT cust_nbr, first_name, last_name,
+      CASE
+          WHEN cnpj IS NOT NULL THEN cnpj
+          WHEN cpf IS NOT NULL THEN cpf
+          ELSE '0'
+      END AS registration_num
+      FROM ycustomer
+      WHERE cust_nbr IN @so_kunnr
+      INTO TABLE @DATA(gt_customer).
+```
+
+### Realizando cálculos
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Selects](#Selects) > [Seção atual](#Realizando-cálculos)
+
+Para realizar operações aritméticas dentro do `SELECT` utilize: 
+
+```ABAP
+SELECT matnr AS material_number,
+      maktx AS material_description,
+      CAST( price AS CURR( 15,2 ) ) * @lv_percentual AS price
+      FROM zcdsv_material
+      WHERE matnr IN @so_matnr
+      INTO TABLE @DATA(gt_saida).
+```
+
+Ao invés de:
+
+```ABAP
+SELECT matnr AS material_number,
+      maktx AS material_description,
+      price
+      FROM zcdsv_material
+      WHERE matnr IN @so_matnr
+      INTO TABLE @DATA(gt_saida).
+
+LOOP AT gt_saida ASSIGNING FIELD-SYMBOL(<lfs_saida>).
+  <lfs_saida>-price = <lfs_saida>-price * lv_percentual.
+ENDLOOP.
 ```
 
 ## Tabelas
