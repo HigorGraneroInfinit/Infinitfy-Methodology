@@ -66,6 +66,47 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Use ABAP_BOOL para booleanos](#Use-ABAP_BOOL-para-booleanos)
   - [Use ABAP_TRUE e ABAP_FALSE para comparações](#Use-ABAP_TRUE-e-ABAP_FALSE-para-comparações)
   - [Use XSDBOOL para definir variáveis booleanas](#Use-XSDBOOL-para-definir-variáveis-booleanas)
+- [Condições](#Condições) 
+  - [Tente tornar as condições positivas](#Tente-tornar-as-condições-positivas)
+  - [Prefira IS NOT do que NOT IS](#Prefira-IS NOT-do-que-NOT-IS)
+  - [Chamadas de método predicativo para métodos booleanos](#Chamadas-de-método-predicativo-para métodos-booleanos)
+  - [Decompor condições complexas](#Decompor-condições-complexas)
+  - [Extrair condições complexas](#Extrair-condições-complexas)
+
+- [Tópico Estruturas Condicionais](#Tópico-Estruturas-Condicionais)
+  - [Sem IF vazio](#Sem-IF-vazio)
+  - [Prefira CASE a ELSE IF](#Prefira-CASE-a-ELSE-IF)
+  - [Mantenha-Alinhamento-Simples](#Mantenha-Alinhamento-Simples)
+
+- [Métodos](#Métodos)
+  - [Chamadas](#Chamadas)
+    - [Chamada de métodos estáticos](#Chamada-de-métodos-estáticos)
+    - [Prefira chamadas funcionais a processuais](#Prefira-chamadas-funcionais-a-processuais)
+    - [Omitir RECEIVING](#Omitir-RECEIVING)
+    - [Omita a palavra-chave opcional EXPORTING](#Omita-a-palavra-chave-opcional-EXPORTING)
+    - [Omitir o nome do parâmetro em chamadas de parâmetro único](#Omitir-o-nome-do-parâmetro-em-chamadas-de-parâmetro-único)
+    - [Omita a auto-referência ME](#Omita-a-auto-referência-ME)
+
+  - [Orientação a objetos](#Orientação-a-objetos)
+    - [Prefira instância a métodos estáticos](#Prefira-instância-a-métodos-estáticos)
+    - [Métodos de instância pública](#Métodos-de-instância-pública)
+
+  - [Número do parâmetro](#Número-do-parâmetro)
+    - [Parâmetros de IMPORTING](#Parâmetros-de-IMPORTING)
+    - [Dividir métodos](#Dividir-métodos)
+    - [Use o PREFERRED PARAMETER com moderação](#Use-o-PREFERRED-PARAMETER-com-moderação)
+    - [RETURN, EXPORT ou CHANGE](#RETURN,-EXPORT-ou-CHANGE)
+
+  - [Tipos de Parâmetros](#Tipos-de-Parâmetros)
+    - [Prefira RETURNING a EXPORTING](#Prefira-RETURNING-a-EXPORTING)
+    - [RETURNING em tabelas grandes](#RETURNING-em-tabelas-grandes)
+    - [Use RETURNING ou EXPORTING ou CHANGING](#Use-RETURNING-ou-EXPORTING-ou-CHANGING)
+    - [Use CHANGING quando adequado](#Use-CHANGING-quando-adequado)
+    - [Divisão de métodos ao em vez de parâmetro de entrada booleano](#Divisão-de-métodos-ao-em-vez-de-parâmetro-de-entrada-booleano)
+
+  - [Nomes de Parâmetros](#Nomes-de-Parâmetros)
+    - [Parâmetro RETURNING RESULT](#Parâmetro-RETURNING-RESULT)
+
 
 
 
@@ -1084,7 +1125,11 @@ DATA(has_entries) = COND abap_bool( WHEN line IS NOT INITIAL THEN abap_true ).
 
 ## Condições
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Condições)
+
 ### Tente tornar as condições positivas
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Tente-tornar-as-condições-positivas)
 
 ```ABAP
 IF has_entries = abap_true.
@@ -1109,6 +1154,8 @@ ENDIF.
 
 ### Prefira IS NOT do que NOT IS
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Prefira-IS NOT-do-que-NOT-IS)
+
 ```ABAP
 IF variable IS NOT INITIAL.
 IF variable NP 'TODO*'.
@@ -1124,7 +1171,9 @@ IF NOT variable CP 'TODO*'.
 IF NOT variable = 42.
 ```
 
-### Considere o uso de chamadas de método predicativo para métodos booleanos
+### Chamadas de método predicativo para métodos booleanos
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Chamadas-de-método-predicativo-para métodos-booleanos)
 
 O método predicativo chama métodos booleanos, por exemplo
 
@@ -1141,7 +1190,9 @@ IF condition_is_fulfilled( ) = abap_true / abap_false.
 
 Lembre-se de que a chamada de método predicativo `... meth( ) ...`é apenas uma forma abreviada de `... meth( ) IS NOT INITIAL ...`, consulte [Chamada de método predicativo](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abenpredicative_method_calls.htm) na Documentação de palavras-chave ABAP. É por isso que a forma abreviada só deve ser usada para métodos que retornam tipos em que o valor não inicial tem o significado de "verdadeiro" e o valor inicial tem o significado de "falso".
 
-### Considere quebrar condições complexas
+### Decompor condições complexas
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Decompor-condições-complexas)
 
 As condições podem se tornar mais fáceis ao decompô-las nas partes elementares que as compõem:
 
@@ -1168,7 +1219,9 @@ IF ( example_a IS NOT INITIAL OR
      fits( example_b ) = abap_true ).
 ```
 
-### Considere extrair condições complexas
+### Extrair condições complexas
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Extrair-condições-complexas)
 
 É quase sempre uma boa ideia extrair condições complexas para métodos próprios:
 
@@ -1188,7 +1241,11 @@ ENDMETHOD.
 
 ## Tópico Estruturas Condicionais
 
-### Sem IF's vazios
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Tópico-Estruturas-Condicionais)
+
+### Sem IF vazio
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tópico Estruturas Condicionais](#Tópico-Estruturas-Condicionais) > [Seção atual](#Sem-IF-vazio)
 
 ```ABAP
 IF has_entries = abap_false.
@@ -1208,6 +1265,8 @@ ENDIF.
 
 ### Prefira CASE a ELSE IF
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tópico Estruturas Condicionais](#Tópico-Estruturas-Condicionais) > [Seção atual](#Prefira-CASE-a-ELSE-IF)
+
 ```ABAP
 CASE type.
   WHEN type-some_type.
@@ -1219,7 +1278,7 @@ CASE type.
 ENDCASE.
 ```
 
-O `CASE` facilita a visualização de um conjunto de alternativas que se excluem. Pode ser mais rápido do que uma sério de IFs porque pode traduzir para um comando de microprocessador diferente em vez de uma série de condições avaliadas posteriormente. Podendo introduzir novos casos rapidamente, sem ter que repetir a variável de discernimento repetidamente. A instrução ainda evita alguns erros que podem ocorrer ao aninhar acidentalmente os  `IF`-s `ELSEIF`.
+O `CASE` facilita a visualização de um conjunto de alternativas que se excluem. Pode ser mais rápido do que uma sério de IF's porque pode traduzir para um comando de microprocessador diferente em vez de uma série de condições avaliadas posteriormente. Podendo introduzir novos casos rapidamente, sem ter que repetir a variável de discernimento repetidamente. A instrução ainda evita alguns erros que podem ocorrer ao aninhar acidentalmente os  `IF`-s `ELSEIF`.
 
 ```ABAP
 " Fora do padrão
@@ -1233,6 +1292,8 @@ ENDIF.
 ```
 
 ### Mantenha Alinhamento Simples
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tópico Estruturas Condicionais](#Tópico-Estruturas-Condicionais) > [Seção atual](#Mantenha-Alinhamento-Simples)
 
 ```ABAP
 " Fora do padrão 
@@ -1584,9 +1645,15 @@ Não use o padrão singleton por hábito ou porque alguma regra de desempenho as
 
 ## Métodos
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Métodos)
+
 ### Chamadas
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Chamadas)
+
 #### Chamada de métodos estáticos 
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Chamada-de-métodos-estáticos)
 
 Para chamar um método estático, use
 
@@ -1627,6 +1694,8 @@ CLASS cl_my_class IMPLEMENTATION.
 
 #### Prefira chamadas funcionais a processuais
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Prefira-chamadas-funcionais-a-processuais)
+
 ```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
                 key            = item->key
@@ -1661,6 +1730,8 @@ Muitas das regras detalhadas abaixo são apenas variações mais específicas de
 
 #### Omitir RECEIVING
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omitir-RECEIVING)
+
 ```ABAP
 DATA(sum) = aggregate_values( values ).
 ```
@@ -1677,6 +1748,8 @@ aggregate_values(
 ```
 
 #### Omita a palavra-chave opcional EXPORTING
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-a-palavra-chave-opcional-EXPORTING)
 
 ```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
@@ -1699,6 +1772,8 @@ modify->update(
 
 #### Omitir o nome do parâmetro em chamadas de parâmetro único
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omitir-o-nome-do-parâmetro-em-chamadas-de-parâmetro-único)
+
 ```ABAP
 DATA(unique_list) = remove_duplicates( list ).
 ```
@@ -1718,6 +1793,8 @@ update( asynchronous = abap_true ).
 ```
 
 #### Omita a auto-referência ME
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-a-auto-referência-ME)
 
 Como a auto-referência `me->`é definida implicitamente pelo sistema, omita-a ao chamar um atributo ou método de instância
 
@@ -1740,9 +1817,13 @@ a menos que haja um conflito de escopo entre uma variável local ou parâmetro d
 me->logger = logger.
 ```
 
-### Métodos: Orientação a objetos
+### Orientação a objetos
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Orientação-a-objetos)
 
 #### Prefira instância a métodos estáticos
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Orientação a objetos ](#Orientação-a-objetos) > [Seção atual](#Prefira-instância-a-métodos-estáticos)
 
 Os métodos devem ser membros de instância por padrão. Os métodos de instância refletem melhor o "objeto" da classe. Eles podem ser ridicularizados mais facilmente em testes de unidade.
 
@@ -1760,6 +1841,8 @@ CLASS-METHODS create_instance
 
 #### Métodos de instância pública
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Orientação a objetos ](#Orientação-a-objetos) > [Seção atual](#Métodos-de-instância-pública)
+
 Os métodos de instância pública sempre devem fazer parte de uma interface.
 
 ```ABAP
@@ -1770,7 +1853,11 @@ Na orientação a objetos limpa, ter um método público sem uma interface não 
 
 ### Número do parâmetro
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Número-do-parâmetro)
+
 #### Parâmetros de IMPORTING
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Parâmetros-de-IMPORTING)
 
 É ideal a utilização de no máximo três parâmetro de IMPORTING.
 
@@ -1810,6 +1897,8 @@ Você pode reduzir o número de parâmetros combinando-os em conjuntos significa
 
 #### Dividir métodos
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Dividir-métodos)
+
 Divida os métodos em vez de adicionar parâmetros OPCIONAIS.
 
 ```ABAP
@@ -1837,9 +1926,13 @@ Vários métodos com parâmetros específicos para o caso de uso evitam essa con
 
 #### Use o PREFERRED PARAMETER com moderação
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Use-o-PREFERRED-PARAMETER-com-moderação)
+
 A adição `PREFERRED PARAMETER`torna difícil ver qual parâmetro é realmente fornecido, dificultando a compreensão do código. Minimizar o número de parâmetros, especialmente os opcionais, reduz automaticamente a necessidade de arquivos `PREFERRED PARAMETER`.
 
 #### RETURN, EXPORT ou CHANGE 
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#RETURN,-EXPORT-ou-CHANGE)
 
 Um bom método faz *uma coisa* , e isso deve ser refletido pelo método também retornando exatamente uma coisa. Se os parâmetros de saída do seu método *não* formarem uma entidade lógica, seu método faz mais de uma coisa e você deve dividi-lo.
 
@@ -1900,7 +1993,11 @@ METHODS check_and_report
 
 ### Tipos de Parâmetros
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Tipos-de-Parâmetros)
+
 #### Prefira RETURNING a EXPORTING
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Prefira-RETURNING-a-EXPORTING)
 
 ```ABAP
 METHODS square
@@ -1933,6 +2030,8 @@ square(
 
 #### RETURNING em tabelas grandes
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#RETURNING-em-tabelas-grandes)
+
 Embora a documentação da linguagem ABAP e os guias de desempenho digam o contrário, raramente encontramos casos em que entregar uma tabela grande ou profundamente aninhada em um parâmetro VALUE *realmente* causa problemas de desempenho. Portanto, recomendamos o uso geral
 
 ```ABAP
@@ -1963,6 +2062,8 @@ get_large_table( IMPORTING result = DATA(lt_my_table) ).
 ```
 
 #### Use RETURNING ou EXPORTING ou CHANGING
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Use-RETURNING-ou-EXPORTING-ou-CHANGING)
 
 Use RETURNING ou EXPORTING ou CHANGING, mas não uma combinação deles.
 
@@ -2016,6 +2117,8 @@ METHODS build_tree
 
 #### Use CHANGING quando adequado
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Use-CHANGING-quando-adequado)
+
 `CHANGING`deve ser reservado para casos em que uma variável local existente que já está preenchida é atualizada apenas em alguns lugares:
 
 ```ABAP
@@ -2035,6 +2138,8 @@ ENDMETHOD.
 Não force seus chamadores a introduzir variáveis locais desnecessárias apenas para fornecer seu `CHANGING`parâmetro. Não use `CHANGING`parâmetros para preencher inicialmente uma variável previamente vazia.
 
 #### Divisão de métodos ao em vez de parâmetro de entrada booleano
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Divisão-de-métodos-ao-em-vez-de-parâmetro-de-entrada-booleano)
 
 Parâmetros de entrada booleanos geralmente são um indicador de que um método faz *duas* coisas em vez de uma.
 
@@ -2069,7 +2174,11 @@ METHODS set_is_deleted
 
 ### Nomes de Parâmetros
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Nomes-de-Parâmetros)
+
 #### Parâmetro RETURNING RESULT
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Nomes de Parâmetros](#Nomes-de-Parâmetros)> [Seção atual](#Parâmetro-RETURNING-RESULT)
 
 Bons nomes de método geralmente são tão bons que o `RETURNING`parâmetro não precisa de um nome próprio. O nome faria pouco mais do que repetir o nome do método ou repetir algo óbvio.
 
