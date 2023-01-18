@@ -31,6 +31,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Declarações dentro de IF-ELSE](#Declarações-dentro-de-IF-ELSE)
   - [Não encadeie declarações iniciais](#Não-encadeie-declarações-iniciais)
   - [Atribuição condicional](#Atribuição-condicional)
+  - [Conversão de dados](#Conversão-de-dados)
 - [Tabelas](#Tabelas)
   - [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto)
     - [Hashed Table](#Hashed-Table)
@@ -38,11 +39,18 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
     - [Standard Table](#Standard-Table)
   - [Chaves](#Chaves)
   - [Inserção de dados](#Inserção-de-dados)
+    - [Preenchendo uma tabela durante a sua criação](#Preenchendo-uma-tabela-durante-a-sua-criação)
   - [Buscando linhas](#Buscando-linhas)
-    - [Índice](#Índice)
+    - [Por Índice](#Por-Índice)
+    - [Por valor de um ou mais campos específicos](#Por-valor-de-um-ou-mais-campos-específicos)
   - [Acessando campos de uma linha diretamente](#Acessando-campos-de-uma-linha-diretamente)
+  - [Passando dados de uma tabela para outra](#Passando-dados-de-uma-tabela-para-outra)
+    - [Copiando uma tabela](#Copiando-uma-tabela)
+    - [Adicionando linhas a uma tabela existente](#Adicionando-linhas-a-uma-tabela-existente)
+    - [Tabelas de tipos diferentes](#Tabelas-de-tipos-diferentes)
+    - [Filtrando dados](#Filtrando-dados)
   - [Verificando a existência de uma linha](#Verificando-a-existência-de-uma-linha)
-  - [Evite leituras de tabelas desnecessárias](#Evite-leituras-de-tabelas-desnecessárias)
+  - [Evite leituras desnecessárias de tabelas](#Evite-leituras-desnecessárias-de-tabelas)
 - [Strings](#Strings)
   - [Definindo textos](#Definindo-textos)
   - [Concatenação](#Concatenação)
@@ -340,7 +348,7 @@ IF abap_type = 'D'.
 
 ### Agrupamento
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Seção atual](#Agrupamento)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Seção atual](#Agrupamento)
 
 Para o agrupamento de constantes utilize uma das seguintes alternativas.
 
@@ -386,7 +394,7 @@ ENDINTERFACE.
 
 #### Estruturas Constantes
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Agrupamento](#Agrupamento) >[Seção atual](#Estruturas-Constantes)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Agrupamento](#Agrupamento) >[Seção atual](#Estruturas-Constantes)
 
 Utilize estruturas constantes ao invés de constantes soltas.
 
@@ -433,7 +441,7 @@ ENDDO.
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Variáveis)
 
-#### Declarações em Métodos
+### Declarações em Métodos
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Declarações-em-Métodos)
 
@@ -461,7 +469,7 @@ METHOD do_something.
 ENDMETHOD.
 ```
 
-#### Declarações dentro de IF-ELSE
+### Declarações dentro de IF-ELSE
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Declarações-dentro-de-IF-ELSE)
 
@@ -487,7 +495,7 @@ ELSE.
 ENDIF.
 ```
 
-#### Não encadeie declarações iniciais
+### Não encadeie declarações iniciais
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Não-encadeie-declarações-iniciais)
 
@@ -507,7 +515,7 @@ DATA:
   lv_reader TYPE REF TO reader.
 ```
 
-#### Atribuição condicional
+### Atribuição condicional
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Atribuição-condicional)
 
@@ -525,6 +533,16 @@ IF lv_matnr IS NOT INITIAL.
 ELSE.
   gv_erro = abap_true.
 ENDIF.
+```
+
+### Conversão de dados
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Conversão-de-dados)
+
+Para conversão de um tipo de dado para outro utilize:
+
+```ABAP
+DATA(lv_number) = CONV i( '1241' ).
 ```
 
 ## Tabelas
@@ -565,7 +583,7 @@ Adicionar, alterar ou remover conteúdo requer encontrar o ponto de inserção c
 
 #### Standard Table
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto) > [Seção atual](#Standard-Table)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto) > [Seção atual](#Standard-Table)
 
 **Quando utilizar:**
 
@@ -609,13 +627,28 @@ INSERT VALUE #( ... ) INTO TABLE lt_itab.
 
 Use `APPEND TO`apenas se você usar uma  tabela `STANDARD` de maneira semelhante a uma matriz e se desejar enfatizar que a entrada adicionada deve ser a última linha.
 
+#### Preenchendo uma tabela durante a sua criação
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Inserção de dados](#Inserção-de-dados) > [Seção atual](#Preenchendo-uma-tabela-durante-a-sua-criação)
+
+Caso haja a necessidade de preencher uma tabela durante a sua criação, utilize:
+
+```ABAP
+DATA(lt_material_saida) = VALUE ls_material_saida(
+      "Primeira linha
+      ( matnr = |{ CONV matnr('1') ALPHA = IN }| mtype = 'A' maktx = 'Material test' )
+      "Segunda linha
+      ( matnr = |{ CONV matnr('2') ALPHA = IN }| mtype = 'B' maktx = 'Material test 2' )
+).
+```
+
 ### Buscando linhas
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Buscando-linhas)
 
-#### Índice
+#### Por Índice
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Buscando linhas](#Buscando-linhas) > [Seção atual](#Índice)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Buscando linhas](#Buscando-linhas) > [Seção atual](#Por-Índice)
 
 Utilize ` lt_my_table[ lv_index ]` para acessar uma linha pelo seu índice:
 
@@ -629,9 +662,34 @@ expressa a intenção de forma mais clara e mais curta do que:
 READ TABLE lt_material INDEX 70 INTO DATA(wa_material).
 ```
 
+#### Por valor de um ou mais campos específicos
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Buscando linhas](#Buscando-linhas) > [Seção atual](#Por-valor-de-um-ou-mais-campos-específicos)
+
+Utilize `lt_my_table[ campo1 = lv_valor campo2 = lv_valor2 ]` para buscar uma linha com base no valor de um ou mais campos:
+
+```ABAP
+DATA(wa_material) = lt_material[ matnr = lv_matnr mtype = lv_mtype ].
+```
+
+expressa a intenção de forma mais clara e mais curta do que:
+
+```ABAP
+READ TABLE lt_material INTO DATA(wa_material)  WITH KEY matnr = lv_matnr mtype = lv_mtype.
+```
+
+Porém, em casos em que a tabela a ser lida contenha um enorme volume de dados é recomendado o uso de `READ TABLE` e `BINARY SEARCH`. 
+
+```ABAP
+SORT lt_material BY matnr mtype.
+READ TABLE lt_material INTO DATA(wa_material)  WITH KEY matnr = lv_matnr mtype = lv_mtype BINARY SEARCH.
+```
+
+**OBS:** Lembre-se de que é necessário utilizar o `SORT` na tabela a ser lida antes de aplicar o `READ TABLE`.
+
 ### Acessando campos de uma linha diretamente
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Acessando-campos-de-uma-linha-diretamente)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Acessando-campos-de-uma-linha-diretamente)
 
 É possível acessar diretamente qualquer campo da linha buscada sem a necessidade de definir uma Workarea para isso:
 
@@ -644,6 +702,60 @@ expressa a intenção de forma mais clara e mais curta do que:
 ```ABAP
 READ TABLE lt_material INDEX 70 INTO DATA(wa_material).
 DATA(lv_maktx) = wa_material-maktx.
+```
+
+### Passando dados de uma tabela para outra
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Passando-dados-de-uma-tabela-para-outra)
+
+#### Copiando uma tabela
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Passando dados de uma tabela para outra](#Passando-dados-de-uma-tabela-para-outra) > [Seção atual](#Copiando-uma-tabela)
+
+Para gerar uma cópia de uma tabela utilize:
+
+```ABAP
+DATA(lt_material_aux) = lt_material[].
+```
+
+#### Adicionando linhas a uma tabela existente
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Passando dados de uma tabela para outra](#Passando-dados-de-uma-tabela-para-outra) > [Seção atual](#Adicionando-linhas-a-uma-tabela-existente)
+
+Para adicionar linhas a uma tabela existente e preservar seu conteúdo utilize:
+
+```ABAP
+lt_material_saida = VALUE #( BASE lt_material_saida ( LINES OF lt_material_aux ) ).
+```
+
+#### Tabelas de tipos diferentes
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Passando dados de uma tabela para outra](#Passando-dados-de-uma-tabela-para-outra) > [Seção atual](#Tabelas-de-tipos-diferentes)
+
+Para passar dados de uma tabela para outra de tipo diferente utilize:
+
+```ABAP
+DATA(lt_material_saida) = VALUE ls_material_saida( FOR lw_material IN lt_material (
+      matnr = lw_material-matnr
+      mtype = lw_material-mtype
+      maktx = lw_material-maktx
+      ) ).
+```
+
+#### Filtrando dados
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Passando dados de uma tabela para outra](#Passando-dados-de-uma-tabela-para-outra) > [Seção atual](#Filtrando-dados)
+
+Para filtrar quais linhas serão transferidas utilize:
+
+```ABAP
+DATA(lt_material_saida) = VALUE ls_material_saida( FOR lw_material IN lt_material 
+WHERE ( matnr >= lv_matnr and mtype = 'B' )
+      (
+      matnr = lw_material-matnr
+      mtype = lw_material-mtype
+      maktx = lw_material-maktx
+      ) ).
 ```
 
 ### Verificando a existência de uma linha
@@ -674,9 +786,9 @@ LOOP AT lt_my_table REFERENCE INTO DATA(line) WHERE key = 'A'.
 ENDLOOP.
 ```
 
-### Evite leituras de tabelas desnecessárias
+### Evite leituras desnecessárias de tabelas
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Evite-leituras-de-tabelas-desnecessárias)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Evite-leituras-desnecessárias-de-tabelas)
 
 Caso você espere que uma linha esteja lá, leia uma vez e reaja à exceção,
 
@@ -859,7 +971,7 @@ IF has_entries IS NOT INITIAL.
 
 ### Use XSDBOOL para definir variáveis booleanas
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Booleanos](#Booleanos) > [Seção atual](#Use-XSDBOOL-para-definir-variáveis-booleanas)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Booleanos](#Booleanos) > [Seção atual](#Use-XSDBOOL-para-definir-variáveis-booleanas)
 
 ```ABAP
 DATA(has_entries) = xsdbool( line IS NOT INITIAL ).
