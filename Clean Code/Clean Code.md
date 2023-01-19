@@ -70,21 +70,21 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Tente tornar as condições positivas](#Tente-tornar-as-condições-positivas)
   - [Prefira IS NOT do que NOT IS](#Prefira-IS-NOT-do-que-NOT-IS)
   - [Chamadas de método predicativo para métodos booleanos](#Chamadas-de-método-predicativo-para-métodos-booleanos)
-  - [Decompor condições complexas](#Decompor-condições-complexas)
-  - [Extrair condições complexas](#Extrair-condições-complexas)
+  - [Decomponha condições complexas](#Decomponha-condições-complexas)
+  - [Extraia condições complexas](#Extraia-condições-complexas)
 
-- [Tópico Estruturas Condicionais](#Tópico-Estruturas-Condicionais)
+- [Estruturas Condicionais](#Estruturas-Condicionais)
   - [Sem IF vazio](#Sem-IF-vazio)
   - [Prefira CASE a ELSE IF](#Prefira-CASE-a-ELSE-IF)
-  - [Mantenha-Alinhamento-Simples](#Mantenha-Alinhamento-Simples)
+  - [Mantenha Alinhamento Simples](#Mantenha-Alinhamento-Simples)
 
 - [Métodos](#Métodos)
   - [Chamadas](#Chamadas)
     - [Chamada de métodos estáticos](#Chamada-de-métodos-estáticos)
     - [Prefira chamadas funcionais a processuais](#Prefira-chamadas-funcionais-a-processuais)
-    - [Omitir RECEIVING](#Omitir-RECEIVING)
-    - [Omita a palavra-chave opcional EXPORTING](#Omita-a-palavra-chave-opcional-EXPORTING)
-    - [Omitir o nome do parâmetro em chamadas de parâmetro único](#Omitir-o-nome-do-parâmetro-em-chamadas-de-parâmetro-único)
+    - [Omita RECEIVING](#Omita-RECEIVING)
+    - [Omita EXPORTING](#Omita-EXPORTING)
+    - [Omita o nome do parâmetro em chamadas de parâmetro único](#Omitir-o-nome-do-parâmetro-em-chamadas-de-parâmetro-único)
     - [Omita a auto-referência ME](#Omita-a-auto-referência-ME)
 
   - [Orientação a objetos](#Orientação-a-objetos)
@@ -93,7 +93,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 
   - [Número do parâmetro](#Número-do-parâmetro)
     - [Parâmetros de IMPORTING](#Parâmetros-de-IMPORTING)
-    - [Dividir métodos](#Dividir-métodos)
+    - [Divida métodos](#Divida-métodos)
     - [Use o PREFERRED PARAMETER com moderação](#Use-o-PREFERRED-PARAMETER-com-moderação)
     - [RETURN, EXPORT ou CHANGE](#RETURN,-EXPORT-ou-CHANGE)
 
@@ -106,6 +106,22 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 
   - [Nomes de Parâmetros](#Nomes-de-Parâmetros)
     - [Parâmetro RETURNING RESULT](#Parâmetro-RETURNING-RESULT)
+  - [Inicialização de Parâmetros](#Inicialização-de-Parâmetros)
+    - [Parâmetros de referência EXPORTING](#Parâmetro-de-referência-EXPORTING)
+      - [Tome cuidado!](#Tome-cuidado!)
+    - [Não limpe parâmetros VALUE](#Não-limpe-parâmetros-VALUE)
+  - [Corpo-do-método](#Corpo-do-método)
+    - [Regras](#Regras)
+      - [Características](#Características)
+      - [Método deve seguir apenas um propósito](#Método-deve-seguir-apenas-um-propósito)
+      - [Desça um nível de Abstração](#Desça-um-nível-de-abstração)
+      - [Mantenha-os-métodos-pequenos](#Mantenha-os-métodos-pequenos)
+  - [Controle de fluxo](#Controle-de-fluxo)
+    - [Valide mais cedo](#Valide-mais-cedo)
+    - [CHECK vs. RETURN](#CHECK-vs.-RETURN)
+    - [Evite o CHECK em outras posições](#Evite-o-CHECK-em-outras-posições)
+
+
 
 
 
@@ -1190,9 +1206,9 @@ IF condition_is_fulfilled( ) = abap_true / abap_false.
 
 Lembre-se de que a chamada de método predicativo `... meth( ) ...`é apenas uma forma abreviada de `... meth( ) IS NOT INITIAL ...`, consulte [Chamada de método predicativo](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abenpredicative_method_calls.htm) na Documentação de palavras-chave ABAP. É por isso que a forma abreviada só deve ser usada para métodos que retornam tipos em que o valor não inicial tem o significado de "verdadeiro" e o valor inicial tem o significado de "falso".
 
-### Decompor condições complexas
+### Decomponha condições complexas
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Decompor-condições-complexas)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Decomponha-condições-complexas)
 
 As condições podem se tornar mais fáceis ao decompô-las nas partes elementares que as compõem:
 
@@ -1219,9 +1235,9 @@ IF ( example_a IS NOT INITIAL OR
      fits( example_b ) = abap_true ).
 ```
 
-### Extrair condições complexas
+### Extraia condições complexas
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Extrair-condições-complexas)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Extraia-condições-complexas)
 
 É quase sempre uma boa ideia extrair condições complexas para métodos próprios:
 
@@ -1239,13 +1255,13 @@ ENDMETHOD.
 
 
 
-## Tópico Estruturas Condicionais
+## Estruturas Condicionais
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Tópico-Estruturas-Condicionais)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Estruturas-Condicionais)
 
 ### Sem IF vazio
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tópico Estruturas Condicionais](#Tópico-Estruturas-Condicionais) > [Seção atual](#Sem-IF-vazio)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#Sem-IF-vazio)
 
 ```ABAP
 IF has_entries = abap_false.
@@ -1265,7 +1281,7 @@ ENDIF.
 
 ### Prefira CASE a ELSE IF
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tópico Estruturas Condicionais](#Tópico-Estruturas-Condicionais) > [Seção atual](#Prefira-CASE-a-ELSE-IF)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#Prefira-CASE-a-ELSE-IF)
 
 ```ABAP
 CASE type.
@@ -1278,7 +1294,7 @@ CASE type.
 ENDCASE.
 ```
 
-O `CASE` facilita a visualização de um conjunto de alternativas que se excluem. Pode ser mais rápido do que uma sério de IF's porque pode traduzir para um comando de microprocessador diferente em vez de uma série de condições avaliadas posteriormente. Podendo introduzir novos casos rapidamente, sem ter que repetir a variável de discernimento repetidamente. A instrução ainda evita alguns erros que podem ocorrer ao aninhar acidentalmente os  `IF`-s `ELSEIF`.
+O `CASE` facilita a visualização de um conjunto de alternativas que se excluem. Pode ser mais rápido do que uma série de IF's porque pode traduzir para um comando de microprocessador diferente em vez de uma série de condições avaliadas posteriormente. Podendo introduzir novos casos rapidamente, sem ter que repetir a variável de discernimento repetidamente. A instrução ainda evita alguns erros que podem ocorrer ao aninhar acidentalmente os  `IF`-s `ELSEIF`.
 
 ```ABAP
 " Fora do padrão
@@ -1293,7 +1309,7 @@ ENDIF.
 
 ### Mantenha Alinhamento Simples
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tópico Estruturas Condicionais](#Tópico-Estruturas-Condicionais) > [Seção atual](#Mantenha-Alinhamento-Simples)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#Mantenha-Alinhamento-Simples)
 
 ```ABAP
 " Fora do padrão 
@@ -1309,11 +1325,11 @@ ELSE.
 ENDIF.
 ```
 
-Os aninhados `IF`ficam difíceis de entender muito rapidamente e exigem um número exponencial de casos de teste para uma cobertura completa.
+Os aninhados `IF` ficam difíceis de entender muito rapidamente e exigem um número exponencial de casos de teste para uma cobertura completa.
 
-As árvores de decisão geralmente podem ser desmontadas formando submétodos e introduzindo variáveis auxiliares booleanas.
+As árvores de decisão geralmente podem ser desmontadas formando sub-métodos e introduzindo variáveis auxiliares booleanas.
 
-Outros casos podem ser simplificados pela fusão de IFs, como
+Outros casos podem ser simplificados pela fusão de IF's, como
 
 ```ABAP
 IF <this> AND <that>.
@@ -1661,7 +1677,7 @@ Para chamar um método estático, use
 cl_my_class=>static_method( ).
 ```
 
-Em vez de chamá-lo por meio de uma variável de instância para`cl_my_class`
+Em vez de chamá-lo por meio de uma variável de instância
 
 ```ABAP
 " Fora do padrão
@@ -1728,9 +1744,9 @@ CALL METHOD modify->(method_name)
 
 Muitas das regras detalhadas abaixo são apenas variações mais específicas deste conselho.
 
-#### Omitir RECEIVING
+#### Omita RECEIVING
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omitir-RECEIVING)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-RECEIVING)
 
 ```ABAP
 DATA(sum) = aggregate_values( values ).
@@ -1747,9 +1763,9 @@ aggregate_values(
     result = DATA(sum) ).
 ```
 
-#### Omita a palavra-chave opcional EXPORTING
+#### Omita EXPORTING
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-a-palavra-chave-opcional-EXPORTING)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-EXPORTING)
 
 ```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
@@ -1770,9 +1786,9 @@ modify->update(
     changed_fields = changed_fields ).
 ```
 
-#### Omitir o nome do parâmetro em chamadas de parâmetro único
+#### Omita o nome do parâmetro em chamadas de parâmetro único
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omitir-o-nome-do-parâmetro-em-chamadas-de-parâmetro-único)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-o-nome-do-parâmetro-em-chamadas-de-parâmetro-único)
 
 ```ABAP
 DATA(unique_list) = remove_duplicates( list ).
@@ -1871,7 +1887,7 @@ FUNCTION seo_class_copy
     ...
 ```
 
-seria muito mais claro do que
+é muito mais claro do que
 
 ```ABAP
 " Fora do padrão
@@ -1895,9 +1911,9 @@ Muitos parâmetros de entrada deixam a complexidade de um método explodir porqu
 
 Você pode reduzir o número de parâmetros combinando-os em conjuntos significativos com estruturas e objetos.
 
-#### Dividir métodos
+#### Divida métodos
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Dividir-métodos)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Divida-métodos)
 
 Divida os métodos em vez de adicionar parâmetros OPCIONAIS.
 
@@ -1966,7 +1982,7 @@ METHODS check_business_partners
     messages          TYPE /bobf/t_frw_message.
 ```
 
-Especialmente em comparação com vários parâmetros de EXPORTAÇÃO, isso permite que as pessoas usem o estilo de chamada funcional, poupa você de pensar `IS SUPPLIED`e evita que as pessoas se esqueçam acidentalmente de recuperar uma `ERROR_OCCURRED`informação vital.
+Especialmente em comparação com vários parâmetros de EXPORTING, isso permite que as pessoas usem o estilo de chamada funcional, poupa você de pensar sobre `IS SUPPLIED`e evita que as pessoas se esqueçam acidentalmente de recuperar uma informação vital  de `ERROR_OCCURRED`.
 
 Em vez de vários parâmetros de saída opcionais, considere dividir o método de acordo com padrões de chamada significativos:
 
@@ -2026,7 +2042,7 @@ square(
     result = DATA(result) ).
 ```
 
-`RETURNING`não apenas torna a chamada mais curta, mas também permite o encadeamento de métodos e evita erros de mesma entrada e saída.
+`RETURNING` não apenas torna a chamada mais curta, mas também permite o encadeamento de métodos e evita erros de mesma entrada e saída.
 
 #### RETURNING em tabelas grandes
 
@@ -2135,7 +2151,7 @@ METHOD update_references.
 ENDMETHOD.
 ```
 
-Não force seus chamadores a introduzir variáveis locais desnecessárias apenas para fornecer seu `CHANGING`parâmetro. Não use `CHANGING`parâmetros para preencher inicialmente uma variável previamente vazia.
+Não force seus chamadores a introduzir variáveis locais desnecessárias apenas para fornecer seu parâmetro `CHANGING`. Não use parâmetros `CHANGING` para preencher inicialmente uma variável previamente vazia.
 
 #### Divisão de métodos ao em vez de parâmetro de entrada booleano
 
@@ -2178,11 +2194,11 @@ METHODS set_is_deleted
 
 #### Parâmetro RETURNING RESULT
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Nomes de Parâmetros](#Nomes-de-Parâmetros)> [Seção atual](#Parâmetro-RETURNING-RESULT)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Nomes de Parâmetros ](#Nomes-de-Parâmetros) > [Seção atual](#Parâmetro-RETURNING-RESULT)
 
-Bons nomes de método geralmente são tão bons que o `RETURNING`parâmetro não precisa de um nome próprio. O nome faria pouco mais do que repetir o nome do método ou repetir algo óbvio.
+Bons nomes de método geralmente são tão bons que o parâmetro  `RETURNING` não precisa de um nome próprio. O nome faria pouco mais do que repetir o nome do método ou repetir algo óbvio.
 
-A repetição de um nome de membro pode até produzir conflitos que precisam ser resolvidos com a adição de um arquivo `me->`.
+A repetição de um nome de membro pode até produzir conflitos que precisam ser resolvidos com a adição de um exagerado `me->`.
 
 ```ABAP
 " Fora do padrão
@@ -2195,13 +2211,17 @@ METHOD get_name.
 ENDMETHOD.
 ```
 
-Nesses casos, basta chamar o parâmetro `RESULT`, ou algo parecido `RV_RESULT`se preferir a notação húngara.
+Nesses casos, basta chamar o parâmetro `RESULT`, ou algo parecido `RV_RESULT` se preferir a notação húngara.
 
-Nomeie o `RETURNING`parâmetro se não for *óbvio* o que ele representa, por exemplo, em métodos que retornam `me`para encadeamento de métodos ou em métodos que criam algo, mas não retornam a entidade criada, mas apenas sua chave ou algo assim.
+Nomeie o parâmetro `RETURNING` se não for *óbvio* o que ele representa, por exemplo, em métodos que retornam `me` para encadeamento de métodos ou em métodos que criam algo, mas não retornam a entidade criada, mas apenas sua chave ou algo assim.
 
 ### Inicialização de Parâmetros
 
-#### Limpar ou sobrescrever os parâmetros de referência EXPORTING
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Inicialização-de-Parâmetros)
+
+#### Parâmetros de referência EXPORTING
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Seção atual](#Parâmetro-de-referência-EXPORTING)
 
 Os parâmetros de referência referem-se a áreas de memória existentes que podem ser preenchidas previamente. Limpe-os ou substitua-os para fornecer dados confiáveis:
 
@@ -2222,11 +2242,13 @@ METHOD square.
 ENDMETHOD.
 ```
 
-##### Tome cuidado se a entrada e a saída puderem ser as mesmas 
+##### Tome cuidado! 
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Parâmetros de referência EXPORTING](#Parâmetro-de-referência-EXPORTING) > [Seção atual](#Tome-cuidado!)
 
 Geralmente, é uma boa ideia limpar o parâmetro como primeira coisa no método após as declarações de tipo e dados. Isso torna a instrução fácil de detectar e evita que o valor ainda contido seja acidentalmente usado por instruções posteriores.
 
-No entanto, algumas configurações de parâmetros podem usar a mesma variável como entrada e saída. Nesse caso, um simples `CLEAR`excluiria o valor de entrada antes que ele pudesse ser usado, produzindo resultados incorretos.
+No entanto, algumas configurações de parâmetros podem usar a mesma variável como entrada e saída. Nesse caso, um simples `CLEAR` excluiria o valor de entrada antes que ele pudesse ser usado, produzindo resultados incorretos.
 
 ```abap
 " Fora do padrão
@@ -2244,11 +2266,13 @@ METHOD square_dirty.
 ENDMETHOD.
 ```
 
-Considere redesenhar esses métodos substituindo os `EXPORTING`por `RETURNING`. Considere também sobrescrever o `EXPORTING`parâmetro em uma única instrução de cálculo de resultado. Se nenhum dos dois se encaixar, recorra a um arquivo `CLEAR`.
+Considere redesenhar esses métodos substituindo os `EXPORTING` por `RETURNING`. Considere também sobrescrever o parâmetro `EXPORTING` em uma única instrução de cálculo de resultado. Se nenhum dos dois se encaixar, recorra a um `CLEAR`.
 
-#### Não limpe parâmetros VALUE 
+#### Não limpe parâmetros VALUE
 
-Parâmetros que funcionam por `VALUE`são entregues como novas áreas de memória separadas que estão vazias por definição. Não limpe-os novamente:
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Seção atual](#Não-limpe-parâmetros-VALUE)
+
+Parâmetros declarados no VALUE são vazias por definição desta forma não precisa ser limpo novamente 
 
 ```ABAP
 METHODS square
@@ -2260,7 +2284,7 @@ METHOD square.
 ENDMETHOD.
 ```
 
-Parâmetros `RETURNING` são sempre parâmetros `VALUE`, então você nunca precisa limpá-los:
+O mesmo se aplica ao RETURNING, pois os parâmetros RETURNING são sempre parâmetro VALUE 
 
 ```ABAP
 METHODS square
@@ -2274,24 +2298,32 @@ ENDMETHOD.
 
 ### Corpo do método
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Corpo-do-método)
+
 #### Regras
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Seção atual](#Regras)
 
 ##### Características 
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) >[Seção atual](#Características)
+
 Um método deve fazer uma coisa, e apenas uma coisa. Deve fazê-lo da melhor maneira possível.
 
-Um método provavelmente faz uma coisa se
+Um método provavelmente faz uma coisa se:
 
-- tem poucos parâmetros de entrada
-- não inclui parâmetros booleanos
-- tem exatamente um parâmetro de saída
-- é pequeno
-- ele desce um nível de abstração
-- ele lança apenas um tipo de exceção
-- você não pode extrair outros métodos significativos
-- você não pode agrupar significativamente suas declarações em seções
+- Tem poucos parâmetros de entrada
+- Não inclui parâmetros booleanos
+- Tem exatamente um parâmetro de saída
+- É pequeno
+- Ele desce um nível de abstração
+- Ele apresenta apenas um tipo de exceção
+- Você não pode extrair outros métodos significativos
+- Você não pode agrupar significativamente suas declarações em seções
 
-##### Método dever seguir apenas um propósito
+##### Método deve seguir apenas um propósito
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Método-deve-seguir-apenas-um-propósito)
 
 Um método deve seguir o seu propósito pelo qual foi criado ou o tratamento de erros caso não possa, mas não ambos.
 
@@ -2357,6 +2389,8 @@ ENDMETHOD.
 
 ##### Desça um nível de abstração
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Desça-um-nível-de-abstração)
+
 As instruções em um método devem estar um nível de abstração abaixo do próprio método. Da mesma forma, todos devem estar no mesmo nível de abstração
 
 ```ABAP
@@ -2378,9 +2412,11 @@ METHOD create_and_publish.
 ENDMETHOD.
 ```
 
-Uma maneira confiável de descobrir qual é o nível correto de abstração é esta: Deixe o autor do método explicar o que o método faz em poucas palavras curtas, sem olhar para o código. Os marcadores (s) números são os submétodos que o método deve chamar ou as instruções que ele deve executar.
+Uma maneira confiável de descobrir qual é o nível correto de abstração é esta: Deixe o autor do método explicar o que o método faz em poucas palavras curtas, sem olhar para o código. Os marcadores que ele(a) numera são os sub-métodos que o método deve chamar ou as instruções que ele deve executar.
 
 ##### Mantenha os métodos pequenos
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Mantenha-os-métodos-pequenos)
 
 Os métodos devem ter menos de 20 instruções, ideal em torno de 3 a 5 instruções.
 
@@ -2392,7 +2428,7 @@ METHOD read_and_parse_version_filters.
 ENDMETHOD.
 ```
 
-A `DATA`declaração a seguir sozinha é suficiente para ver que o método circundante faz muito mais do que uma coisa:
+A declaração `DATA` a seguir sozinha é suficiente para ver que o método circundante faz muito mais do que uma coisa:
 
 ```ABAP
 " Fora do padrão
@@ -2451,7 +2487,11 @@ ENDMETHOD.
 
 ### Controle de fluxo
 
-#### Falha rápido
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Controle-de-fluxo)
+
+#### Valide mais cedo
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#Valide-mais-cedo)
 
 Valide e falhe o mais cedo possível:
 
@@ -2480,7 +2520,9 @@ ENDMETHOD.
 
 #### CHECK vs. RETURN
 
-Não há consenso sobre se você deve usar `CHECK`ou `RETURN`sair de um método se a entrada não atender às expectativas.
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#CHECK-vs.-RETURN)
+
+Não há consenso sobre se deve usar `CHECK` ou `RETURN ` ao sair de um método se a entrada não atender às expectativas.
 
 Embora `CHECK`definitivamente forneça a sintaxe mais curta
 
@@ -2517,7 +2559,9 @@ De qualquer forma, considere se não retornar nada é realmente o comportamento 
 
 #### Evite o CHECK em outras posições
 
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#Evite-o-CHECK-em-outras-posições)
+
 Não use `CHECK`fora da seção de inicialização de um método. A declaração se comporta de maneira diferente em diferentes posições e pode levar a efeitos imprecisos e inesperados.
 
-Por exemplo, [`CHECK`em um `LOOP`termina a iteração atual e continua com a próxima](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm) ; as pessoas podem acidentalmente esperar que ele termine o método ou saia do loop. Prefira usar um instrução`IF` em combinação com `CONTINUE`, pois `CONTINUE`só pode ser usada em loops.
+Por exemplo, [`CHECK`em um `LOOP`termina a iteração atual e continua com a próxima](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm) ; as pessoas podem acidentalmente esperar que ele termine o método ou saia do loop. Prefira usar um instrução `IF` em combinação com `CONTINUE`, pois `CONTINUE`só pode ser usada em loops.
 
