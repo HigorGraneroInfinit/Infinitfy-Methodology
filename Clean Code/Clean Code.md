@@ -68,8 +68,8 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Use XSDBOOL para definir variáveis booleanas](#Use-XSDBOOL-para-definir-variáveis-booleanas)
 - [Condições](#Condições) 
   - [Tente tornar as condições positivas](#Tente-tornar-as-condições-positivas)
-  - [Prefira IS NOT do que NOT IS](#Prefira-IS NOT-do-que-NOT-IS)
-  - [Chamadas de método predicativo para métodos booleanos](#Chamadas-de-método-predicativo-para métodos-booleanos)
+  - [Prefira IS NOT do que NOT IS](#Prefira-IS-NOT-do-que-NOT-IS)
+  - [Chamadas de método predicativo para métodos booleanos](#Chamadas-de-método-predicativo-para-métodos-booleanos)
   - [Decompor condições complexas](#Decompor-condições-complexas)
   - [Extrair condições complexas](#Extrair-condições-complexas)
 
@@ -1154,7 +1154,7 @@ ENDIF.
 
 ### Prefira IS NOT do que NOT IS
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Prefira-IS NOT-do-que-NOT-IS)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Prefira-IS-NOT-do-que-NOT-IS)
 
 ```ABAP
 IF variable IS NOT INITIAL.
@@ -1173,7 +1173,7 @@ IF NOT variable = 42.
 
 ### Chamadas de método predicativo para métodos booleanos
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Chamadas-de-método-predicativo-para métodos-booleanos)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Chamadas-de-método-predicativo-para-métodos-booleanos)
 
 O método predicativo chama métodos booleanos, por exemplo
 
