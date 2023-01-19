@@ -74,7 +74,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Sem IF vazio](#Sem-IF-vazio)
   - [Prefira CASE a ELSE IF](#Prefira-CASE-a-ELSE-IF)
   - [Mantenha Alinhamento Simples](#Mantenha-Alinhamento-Simples)
-  - 
+  - [Retorno de funções e métodos em expressões lógicas](#Retorno-de-funções-e-métodos-em-expressões-lógicas)
 - [Métodos](#Métodos)
   - [Chamadas](#Chamadas)
     - [Chamada de métodos estáticos](#Chamada-de-métodos-estáticos)
@@ -1341,6 +1341,41 @@ em vez do aninhado desnecessariamente
 IF <this>.
   IF <that>.
 ```
+
+### Retorno de funções e métodos em expressões lógicas
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#Retorno-de-funções-e-métodos-em-expressões-lógicas)
+
+Não crie variáveis auxiliares para armazenar o retorno de funções e métodos a fim de utilizá-lo em uma expressão lógica, use-os diretamente:
+
+```ABAP
+IF STRLEN( lv_string ) > 10 THEN….
+```
+
+Ao invés de:
+
+```ABAP
+lv_helper = STRLEN( lv_string ).
+IF lv_helper > 10 THEN…..
+```
+
+#### Omitindo ABAP_TRUE
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Retorno de funções e métodos em expressões lógicas](#Retorno-de-funções-e-métodos-em-expressões-lógicas) > [Seção atual](#Omitindo-ABAP_TRUE)
+
+Omita comparações desnecessárias ao utilizar métodos e funções em expressões lógicas:
+
+```ABAP
+IF line_exists( lt_my_table[ key = 'A' ] ).
+```
+
+Ao invés de:
+
+```ABAP
+IF line_exists( lt_my_table[ key = 'A' ] ) = abap_true.
+```
+
+**OBS:** Esta regra aplica-se somente a parâmetros de retorno do tipo `ABAP_BOOL`.
 
 ## Expressões regulares
 
