@@ -110,7 +110,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
     - [Parâmetros de referência EXPORTING](#Parâmetro-de-referência-EXPORTING)
       - [Tome cuidado!](#Tome-cuidado!)
     - [Não limpe parâmetros VALUE](#Não-limpe-parâmetros-VALUE)
-  - [Corpo-do-método](#Corpo-do-método)
+  - [Corpo do método](#Corpo-do-método)
     - [Regras](#Regras)
       - [Características](#Características)
       - [Método deve seguir apenas um propósito](#Método-deve-seguir-apenas-um-propósito)
