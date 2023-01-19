@@ -5,7 +5,6 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 ## Conteúdo
 
 - [Como refatorar código legado](#Como-refatorar-código-legado)
-
 - [Nomeando Objetos](#Nomeando-Objetos)
   - [Use nomes descritivos](#Use-nomes-descritivos)
   - [Use nomes pronunciáveis](#Use-nomes-pronunciáveis)
@@ -36,7 +35,6 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Minimizando a criação de TYPES](#Minimizando-a-criação-de-TYPES)
   - [Retornando valores dinâmicos](#Retornando-valores-dinâmicos)
   - [Realizando cálculos](#Realizando-cálculos)
-
 - [Tabelas](#Tabelas)
   - [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto)
     - [Hashed Table](#Hashed-Table)
@@ -72,12 +70,11 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Chamadas de método predicativo para métodos booleanos](#Chamadas-de-método-predicativo-para-métodos-booleanos)
   - [Decomponha condições complexas](#Decomponha-condições-complexas)
   - [Extraia condições complexas](#Extraia-condições-complexas)
-
 - [Estruturas Condicionais](#Estruturas-Condicionais)
   - [Sem IF vazio](#Sem-IF-vazio)
   - [Prefira CASE a ELSE IF](#Prefira-CASE-a-ELSE-IF)
   - [Mantenha Alinhamento Simples](#Mantenha-Alinhamento-Simples)
-
+  - 
 - [Métodos](#Métodos)
   - [Chamadas](#Chamadas)
     - [Chamada de métodos estáticos](#Chamada-de-métodos-estáticos)
@@ -103,6 +100,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
     - [Use RETURNING ou EXPORTING ou CHANGING](#Use-RETURNING-ou-EXPORTING-ou-CHANGING)
     - [Use CHANGING quando adequado](#Use-CHANGING-quando-adequado)
     - [Divisão de métodos ao em vez de parâmetro de entrada booleano](#Divisão-de-métodos-ao-em-vez-de-parâmetro-de-entrada-booleano)
+    - [Parâmetros do tipo TYPE REF TO DATA](#Parâmetros-do-tipo-TYPE-REF-TO-DATA)
 
   - [Nomes de Parâmetros](#Nomes-de-Parâmetros)
     - [Parâmetro RETURNING RESULT](#Parâmetro-RETURNING-RESULT)
@@ -120,8 +118,9 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
     - [Valide mais cedo](#Valide-mais-cedo)
     - [CHECK vs. RETURN](#CHECK-vs.-RETURN)
     - [Evite o CHECK em outras posições](#Evite-o-CHECK-em-outras-posições)
-
-
+  - [Retorno](#Retorno)
+    - [Passando retorno de um método para outro](#Passando-retorno-de-um-método-para-outro)
+    - [Utilize declarações in-line nos parâmetros de retorno](#Utilize-declarações-in-line-nos-parâmetros-de-retorno)
 
 
 
@@ -642,7 +641,7 @@ Dessa forma, não é necessário definir um TYPE para receber os dados e evita a
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Selects](#Selects) > [Seção atual](#Retornando-valores-dinâmicos)
 
-Para mudar dinamicamente o valor de um determinado campo retornado por um `SELECT` utilize:
+Para mudar dinamicamente o valor de um determinado campo retornado por um `SELECT` utilize:
 
 ```ABAP
 SELECT cust_nbr, first_name, last_name,
@@ -1388,6 +1387,42 @@ DATA(object_name) = |{ class_name }\|{ interface_name }|.
 Algumas expressões regulares complexas tornam-se mais fáceis quando você demonstra ao leitor como elas são construídas a partir de partes mais elementares.
 
 ## Classes
+
+### Instanciando objetos
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Classes](#Classes) > [Seção atual](#Instanciando-objetos)
+
+Para criar novas instâncias de um objeto utilize:
+
+```ABAP
+" Caso o objeto já tenha sido declarado
+DATA: lcl_material_master TYPE REF TO zcl_material_master.
+lcl_material_master = NEW #( lv_matnr ).
+
+" Caso o objeto seja declarado in-line
+DATA(lcl_material_master) = NEW zcl_material_master( lv_matnr ).
+```
+
+Torna-se muito mais claro e mais curto do que:
+
+```ABAP
+DATA lcl_material_master TYPE REF TO zcl_material_master.
+CREATE OBJECT lcl_material_master
+  EXPORTING
+    p_material_number = lv_matnr.
+```
+
+#### Tipo dinâmico
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Classes](#Classes) > [Instanciando objetos](#Instanciando-objetos) > [Seção atual](#Tipo-dinâmico)
+
+Caso seja necessário instanciar um objeto com tipo dinâmico, utilize:
+
+```ABAP
+CREATE OBJECT lcl_order TYPE (dynamic_type)
+  EXPORTING
+    order_number = lv_docnum.
+```
 
 ### Classes: Orientação a objetos
 
@@ -2188,6 +2223,31 @@ METHODS set_is_deleted
     new_value TYPE abap_bool.
 ```
 
+#### Parâmetros do tipo TYPE REF TO DATA
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Parâmetros-do-tipo-TYPE-REF-TO-DATA)
+
+Utilize `REF #` para preencher parâmetros do tipo `TYPE REF TO DATA` ao invés de `GET REFERENCE OF`.
+
+```ABAP
+"VALUE is an IMPORTING parameter TYPE ANY
+IF value IS SUPPLIED.
+lo_monster_log->log_value( REF#( value )).
+ENDIF.
+```
+
+torna-se muito mais claro e mais curto do que:
+
+```ABAP
+DATA: lo_do_value TYPE REF TO DATA.
+"VALUE is an IMPORTING parameter TYPE ANY
+IF value IS SUPPLIED.
+CREATE DATA lo_do_value LIKE value.
+GET REFERENCE OF value INTO lo_do_value.
+lo_monster_log->log_value( ld_do_value ).
+ENDIF.
+```
+
 ### Nomes de Parâmetros
 
 [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Nomes-de-Parâmetros)
@@ -2565,3 +2625,46 @@ Não use `CHECK`fora da seção de inicialização de um método. A declaração
 
 Por exemplo, [`CHECK`em um `LOOP`termina a iteração atual e continua com a próxima](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm) ; as pessoas podem acidentalmente esperar que ele termine o método ou saia do loop. Prefira usar um instrução `IF` em combinação com `CONTINUE`, pois `CONTINUE`só pode ser usada em loops.
 
+### Retorno
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Retorno)
+
+#### Passando retorno de um método para outro
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Retorno](#Retorno) > [Seção atual](#Passando-retorno-de-um-método-para-outro)
+
+Utilize o conceito de **method chaining** para evitar a criação de variáveis auxiliares para armazenar retorno de métodos. 
+
+```ABAP
+cl_demo_output=>display( zcl_material_master->get_materials( ) ).
+```
+
+Torna-se muito mais claro e mais curto do que:
+
+```ABAP
+DATA(lt_material) = zcl_material_master->get_materials( ).
+cl_demo_output=>display( lt_material ).
+```
+
+#### Utilize declarações in-line nos parâmetros de retorno
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Retorno](#Retorno) > [Seção atual](#Utilize-declarações-in-line-nos-parâmetros-de-retorno)
+
+A fim de evitar dumps decorrentes de tipagem de dados incorreta ao chamar funções, utilize declarações in-line em seus parâmetros de retorno.
+
+```ABAP
+lcl_calculo=>get_imc(
+        EXPORTING peso = lv_peso
+				  altura = lv_altura
+        IMPORTING imc = DATA(lv_imc) ).
+```
+
+Ao invés de:
+
+```ABAP
+DATA lv_imc(4) type p DECIMALS 2.
+lcl_calculo=>get_imc(
+        EXPORTING peso = lv_peso
+				  altura = lv_altura
+        IMPORTING imc = lv_imc ).
+```
