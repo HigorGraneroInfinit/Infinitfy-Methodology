@@ -14,7 +14,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Evite palavras de ruído ](#Evite-palavras-de-ruído )
   - [Escolha uma palavra por conceito](#Escolha-uma-palavra-por-conceito )
   - [Uso de nomes de design patterns](#Uso-de-nomes-de-design-patterns)
-  - [Evite utilizar nomes de funções built-in](#Evite-utilizar-nomes-de-funçõe-built-in)
+  - [Evite utilizar nomes de funções built-in](#Evite-utilizar-nomes-de-funções-built-in)
 - [Linguagem](#Linguagem)
   - [Prefira a orientação a objetos à programação processual](#Prefira-a-orientação-a-objetos-à-programação-processual)
   - [Prefira construções de linguagem funcional a procedimental](#Prefira-construções-de-linguagem-funcional-a-procedimental)
@@ -52,6 +52,9 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
     - [Adicionando linhas a uma tabela existente](#Adicionando-linhas-a-uma-tabela-existente)
     - [Tabelas de tipos diferentes](#Tabelas-de-tipos-diferentes)
     - [Filtrando dados](#Filtrando-dados)
+  - [Utilizando LOOP AT](#Utilizando-LOOP-AT)
+    - [Quando utilizar](#Quando-utilizar)
+    - [Utilize FIELD SYMBOL ao invés de MODIFY](#Utilize-FIELD-SYMBOL-ao-invés-de-MODIFY)
   - [Verificando a existência de uma linha](#Verificando-a-existência-de-uma-linha)
   - [Evite leituras desnecessárias de tabelas](#Evite-leituras-desnecessárias-de-tabelas)
 - [Strings](#Strings)
@@ -75,6 +78,11 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Prefira CASE a ELSE IF](#Prefira-CASE-a-ELSE-IF)
   - [Mantenha Alinhamento Simples](#Mantenha-Alinhamento-Simples)
   - [Retorno de funções e métodos em expressões lógicas](#Retorno-de-funções-e-métodos-em-expressões-lógicas)
+    - [Omitindo ABAP_TRUE](#Omitindo-ABAP_TRUE)
+- [Classes](#Classes)
+  - [Instanciando objetos](#Instanciando-objetos)
+    - [Tipo dinâmico](#Tipo-dinâmico)
+
 - [Métodos](#Métodos)
   - [Chamadas](#Chamadas)
     - [Chamada de métodos estáticos](#Chamada-de-métodos-estáticos)
@@ -272,9 +280,9 @@ METHODS query_those.
 
 Não use os nomes dos design patterns de software para classes e interfaces, a menos que você realmente queira dizer isso. Por exemplo, não chame sua classe `file_factory`a menos que ela realmente implemente o padrão de design de fábrica. Os padrões mais comuns incluem: [singleton](https://en.wikipedia.org/wiki/Singleton_pattern), [factory](https://en.wikipedia.org/wiki/Factory_method_pattern), [facade](https://en.wikipedia.org/wiki/Facade_pattern), [composite](https://en.wikipedia.org/wiki/Composite_pattern), [decorator](https://en.wikipedia.org/wiki/Decorator_pattern), [iterator](https://en.wikipedia.org/wiki/Iterator_pattern), [observer](https://en.wikipedia.org/wiki/Observer_pattern), e [strategy](https://en.wikipedia.org/wiki/Strategy_pattern).
 
-### Evite utilizar nomes de funções built-in
+### Evite utilizar nomes de funções built in
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Evite-utilizar-nomes-de-funçõe-built-in)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Evite-utilizar-nomes-de-funções-built-in)
 
 Dentro de uma classe, uma função built-in é sempre obscurecida pelos métodos da classe se eles tiverem o mesmo nome, independentemente do número e tipo de argumentos na função. A função também é obscurecida independentemente do número e tipo de parâmetros do método. As funções incorporadas são, por exemplo, `condense( )`, `lines( )`, `line_exists( )`, `strlen( )`, etc.
 
@@ -898,6 +906,53 @@ WHERE ( matnr >= lv_matnr and mtype = 'B' )
       ) ).
 ```
 
+### Utilizando LOOP AT
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Utilizando-LOOP-AT)
+
+#### Quando utilizar
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Utilizando LOOP AT](#Utilizando-LOOP-AT) > [Seção atual](#Quando-utilizar)
+
+Utilize `LOOP AT` somente em casos que necessitem que seja realizado algum processamento mais complexo para cada iteração de uma tabela interna.
+
+```ABAP
+IF p_path IS NOT INITIAL.
+  OPEN DATASET gv_path FOR OUTPUT IN TEXT MODE ENCODING DEFAULT.
+  LOOP AT lt_relatorio_txt ASSIGNING FIELD-SYMBOL(<lfs_relatorio_txt>).
+    DATA(lv_linha) = COND ty_relatorio_txt-linha(
+                           WHEN <lfs_relatorio_txt>-linha IS NOT INITIAL THEN 											<lfs_relatorio_txt>-linha
+                           ELSE 'Linha vazia' ).
+    TRANSFER lv_linha TO gv_path.
+  ENDLOOP.
+  CLOSE DATASET gv_path.
+ENDIF.
+```
+
+#### Utilize FIELD SYMBOL ao invés de MODIFY
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Utilizando LOOP AT](#Utilizando-LOOP-AT) > [Seção atual](#Utilize-FIELD-SYMBOL-ao-invés-de-MODIFY)
+
+Em situações em que é necessário fazer alteração de uma tabela utilizando `LOOP AT` , utilize:
+
+ ```abap
+LOOP AT gt_material ASSIGNING FIELD-SYMBOL(<lfs_material>).
+  <lfs_material>-indesc = 'BENS DE CONSUMO'.
+  <lfs_material>-mtgpdesc = 'SMARTPHONES'.
+ENDLOOP. 
+ ```
+
+Ao invés de:
+
+```ABAP
+LOOP AT gt_material INTO DATA(lw_material).
+  lw_material-indesc = 'BENS DE CONSUMO'.
+  lw_material-mtgpdesc = 'SMARTPHONES'.
+
+  MODIFY gt_material FROM lw_material.
+ENDLOOP.
+```
+
 ### Verificando a existência de uma linha
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Verificando-a-existência-de-uma-linha)
@@ -1422,6 +1477,8 @@ DATA(object_name) = |{ class_name }\|{ interface_name }|.
 Algumas expressões regulares complexas tornam-se mais fáceis quando você demonstra ao leitor como elas são construídas a partir de partes mais elementares.
 
 ## Classes
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Classes)
 
 ### Instanciando objetos
 
@@ -2265,9 +2322,9 @@ METHODS set_is_deleted
 Utilize `REF #` para preencher parâmetros do tipo `TYPE REF TO DATA` ao invés de `GET REFERENCE OF`.
 
 ```ABAP
-"VALUE is an IMPORTING parameter TYPE ANY
+"VALUE é um parâmetroo IMPORTING de tipo ANY
 IF value IS SUPPLIED.
-lo_monster_log->log_value( REF#( value )).
+lo_material_log->log_value( REF#( value )).
 ENDIF.
 ```
 
@@ -2275,11 +2332,11 @@ torna-se muito mais claro e mais curto do que:
 
 ```ABAP
 DATA: lo_do_value TYPE REF TO DATA.
-"VALUE is an IMPORTING parameter TYPE ANY
+"VALUE é um parâmetroo IMPORTING de tipo ANY
 IF value IS SUPPLIED.
 CREATE DATA lo_do_value LIKE value.
 GET REFERENCE OF value INTO lo_do_value.
-lo_monster_log->log_value( ld_do_value ).
+lo_material_log->log_value( ld_do_value ).
 ENDIF.
 ```
 
