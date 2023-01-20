@@ -921,7 +921,7 @@ IF p_path IS NOT INITIAL.
   OPEN DATASET gv_path FOR OUTPUT IN TEXT MODE ENCODING DEFAULT.
   LOOP AT lt_relatorio_txt ASSIGNING FIELD-SYMBOL(<lfs_relatorio_txt>).
     DATA(lv_linha) = COND ty_relatorio_txt-linha(
-                           WHEN <lfs_relatorio_txt>-linha IS NOT INITIAL THEN 			                            <lfs_relatorio_txt>-linha
+                           WHEN <lfs_relatorio_txt>-linha IS NOT INITIAL THEN 			 <lfs_relatorio_txt>-linha
                            ELSE 'Linha vazia' ).
     TRANSFER lv_linha TO gv_path.
   ENDLOOP.
