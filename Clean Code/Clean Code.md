@@ -13,8 +13,8 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Use substantivos para classes e verbos para métodos](#Use-substantivos-para-classes-e-verbos-para-métodos)
   - [Evite palavras de ruído ](#Evite-palavras-de-ruído )
   - [Escolha uma palavra por conceito](#Escolha-uma-palavra-por-conceito )
-  - [Uso de nome padrão é opcional](#Uso-de-nome-padrão-é-opcional)
-  - [Evite obscurecer as funções integradas](#Evite-obscurecer-as-funções-integradas)
+  - [Uso de nomes de design patterns](#Uso-de-nomes-de-design-patterns)
+  - [Evite utilizar nomes de funções built-in](#Evite-utilizar-nomes-de-funçõe-built-in)
 - [Linguagem](#Linguagem)
   - [Prefira a orientação a objetos à programação processual](#Prefira-a-orientação-a-objetos-à-programação-processual)
   - [Prefira construções de linguagem funcional a procedimental](#Prefira-construções-de-linguagem-funcional-a-procedimental)
@@ -268,13 +268,13 @@ METHODS query_those.
 
 ### Uso de nomes de design patterns
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Uso-de-nome-padrão-é-opcional)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Uso-de-nomes-de-design-patterns)
 
 Não use os nomes dos design patterns de software para classes e interfaces, a menos que você realmente queira dizer isso. Por exemplo, não chame sua classe `file_factory`a menos que ela realmente implemente o padrão de design de fábrica. Os padrões mais comuns incluem: [singleton](https://en.wikipedia.org/wiki/Singleton_pattern), [factory](https://en.wikipedia.org/wiki/Factory_method_pattern), [facade](https://en.wikipedia.org/wiki/Facade_pattern), [composite](https://en.wikipedia.org/wiki/Composite_pattern), [decorator](https://en.wikipedia.org/wiki/Decorator_pattern), [iterator](https://en.wikipedia.org/wiki/Iterator_pattern), [observer](https://en.wikipedia.org/wiki/Observer_pattern), e [strategy](https://en.wikipedia.org/wiki/Strategy_pattern).
 
 ### Evite utilizar nomes de funções built-in
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Evite-obscurecer-as-funções-integradas)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Nomes](#Nomes) > [Seção atual](#Evite-utilizar-nomes-de-funçõe-built-in)
 
 Dentro de uma classe, uma função built-in é sempre obscurecida pelos métodos da classe se eles tiverem o mesmo nome, independentemente do número e tipo de argumentos na função. A função também é obscurecida independentemente do número e tipo de parâmetros do método. As funções incorporadas são, por exemplo, `condense( )`, `lines( )`, `line_exists( )`, `strlen( )`, etc.
 
