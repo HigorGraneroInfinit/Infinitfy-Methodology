@@ -29,7 +29,6 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Declarações em Métodos](#Declarações-em-Métodos)
   - [Declarações dentro de IF-ELSE](#Declarações-dentro-de-IF-ELSE)
   - [Não encadeie declarações iniciais](#Não-encadeie-declarações-iniciais)
-  - [Atribuição condicional](#Atribuição-condicional)
   - [Conversão de dados](#Conversão-de-dados)
 - [Selects](#Selects)
   - [Minimizando a criação de TYPES](#Minimizando-a-criação-de-TYPES)
