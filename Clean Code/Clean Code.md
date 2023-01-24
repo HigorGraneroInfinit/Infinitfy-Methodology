@@ -555,6 +555,40 @@ lt_material_saida = VALUE #( BASE lt_material_saida ( LINES OF lt_material_aux )
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Passando dados de uma tabela para outra](#Passando-dados-de-uma-tabela-para-outra) > [Seção atual](#Tabelas-de-tipos-diferentes)
 
+##### CORRESPONDING 
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Passando dados de uma tabela para outra](#Passando-dados-de-uma-tabela-para-outra) > [Tabelas de tipos diferentes](#Tabelas-de-tipos-diferentes) > [Seção atual](#CORRESPONDING)
+
+Utilize `CORRESPONDING` para copiar uma coluna de uma tabela em outra tabela que possui o mesmo nome da coluna.
+
+````ABAP
+lt_itab1 = VALUE #( ( col1 = 'A' col2 = 'B' )
+                 ( col1 = 'P' col2 = 'Q' )
+                 ( col1 = 'N' col2 = 'P' )
+               ).
+lt_itab2 = CORRESPONDING #( lt_itab1 ).
+````
+
+Caso ambas tabelas possuem colunas iguais e é necessário passar somente uma use `EXCEPT` para essa exceção.
+
+````ABAP
+lt_itab1 = VALUE #( ( col1 = 'A' col2 = 'B' )
+                 ( col1 = 'P' col2 = 'Q' )
+                 ( col1 = 'N' col2 = 'P' )
+               ).
+lt_itab2 = CORRESPONDING #( itab1 EXCEPT COL2 ).
+````
+
+Caso seja necessário passar o conteúdo de uma coluna para outra cujo nome seja diferente pode usar-se `MAPPING` para fazer o redirecionamento dela.
+
+````ABAP
+lt_itab1 = VALUE #( ( col1 = 'A' col2 = 'B' )
+                 ( col1 = 'P' col2 = 'Q' )
+                 ( col1 = 'N' col2 = 'P' )
+               ).
+lt_itab2 = CORRESPONDING #( lt_itab1 MAPPING COL3 = COL2 EXCEPT COL2 ).
+````
+
 Para passar dados de uma tabela para outra de tipo diferente utilize:
 
 ```ABAP
@@ -679,38 +713,6 @@ ELSE.
   DATA(row) = gt_material[ matnr = lv_material_number ].
 ENDIF.
 ```
-
-### CORRESPONDING 
-
-Utilize `CORRESPONDING` para copiar uma coluna de uma tabela em outra tabela que possui o mesmo nome da coluna.
-
-````ABAP
-lt_itab1 = VALUE #( ( col1 = 'A' col2 = 'B' )
-                 ( col1 = 'P' col2 = 'Q' )
-                 ( col1 = 'N' col2 = 'P' )
-               ).
-lt_itab2 = CORRESPONDING #( lt_itab1 ).
-````
-
-Caso ambas tabelas possuem colunas iguais e é necessário passar somente uma use `EXCEPT` para essa exceção.
-
-````ABAP
-lt_itab1 = VALUE #( ( col1 = 'A' col2 = 'B' )
-                 ( col1 = 'P' col2 = 'Q' )
-                 ( col1 = 'N' col2 = 'P' )
-               ).
-lt_itab2 = CORRESPONDING #( itab1 EXCEPT COL2 ).
-````
-
-Caso seja necessário passar o conteúdo de uma coluna para outra cujo nome seja diferente pode usar-se `MAPPING` para fazer o redirecionamento dela.
-
-````ABAP
-lt_itab1 = VALUE #( ( col1 = 'A' col2 = 'B' )
-                 ( col1 = 'P' col2 = 'Q' )
-                 ( col1 = 'N' col2 = 'P' )
-               ).
-lt_itab2 = CORRESPONDING #( lt_itab1 MAPPING COL3 = COL2 EXCEPT COL2 ).
-````
 
 ## Strings
 
