@@ -349,8 +349,6 @@ SELECT COUNT( matnr ) FROM vbap INTO DATA(lv_qntmaterial) WHERE vbeln EQ p_vbeln
 SELECT COUNT( * ) FROM vbap INTO DATA(lv_qnttotal) WHERE vbeln EQ p_vbeln.
 ```
 
-
-
 ## Tabelas
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Tabelas)
@@ -681,6 +679,38 @@ ELSE.
   DATA(row) = gt_material[ matnr = lv_material_number ].
 ENDIF.
 ```
+
+### CORRESPONDING 
+
+Utilize `CORRESPONDING` para copiar uma coluna de uma tabela em outra tabela que possui o mesmo nome da coluna.
+
+````ABAP
+lt_itab1 = VALUE #( ( col1 = 'A' col2 = 'B' )
+                 ( col1 = 'P' col2 = 'Q' )
+                 ( col1 = 'N' col2 = 'P' )
+               ).
+lt_itab2 = CORRESPONDING #( lt_itab1 ).
+````
+
+Caso ambas tabelas possuem colunas iguais e é necessário passar somente uma use `EXCEPT` para essa exceção.
+
+````ABAP
+lt_itab1 = VALUE #( ( col1 = 'A' col2 = 'B' )
+                 ( col1 = 'P' col2 = 'Q' )
+                 ( col1 = 'N' col2 = 'P' )
+               ).
+lt_itab2 = CORRESPONDING #( itab1 EXCEPT COL2 ).
+````
+
+Caso seja necessário passar o conteúdo de uma coluna para outra cujo nome seja diferente pode usar-se `MAPPING` para fazer o redirecionamento dela.
+
+````ABAP
+lt_itab1 = VALUE #( ( col1 = 'A' col2 = 'B' )
+                 ( col1 = 'P' col2 = 'Q' )
+                 ( col1 = 'N' col2 = 'P' )
+               ).
+lt_itab2 = CORRESPONDING #( lt_itab1 MAPPING COL3 = COL2 EXCEPT COL2 ).
+````
 
 ## Strings
 
