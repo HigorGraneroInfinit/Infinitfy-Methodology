@@ -45,6 +45,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Buscando linhas](#Buscando-linhas)
     - [Por Índice](#Por-Índice)
     - [Por valor de um ou mais campos específicos](#Por-valor-de-um-ou-mais-campos-específicos)
+  - [Retornando o índice de uma linha](#Retornando-o-índice-de-uma-linha)
   - [Acessando campos de uma linha diretamente](#Acessando-campos-de-uma-linha-diretamente)
   - [Passando dados de uma tabela para outra](#Passando-dados-de-uma-tabela-para-outra)
     - [Copiando uma tabela](#Copiando-uma-tabela)
@@ -73,8 +74,10 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Decomponha condições complexas](#Decomponha-condições-complexas)
   - [Extraia condições complexas](#Extraia-condições-complexas)
 - [Estruturas Condicionais](#Estruturas-Condicionais)
-  - [Sem IF vazio](#Sem-IF-vazio)
-  - [Prefira CASE a ELSE IF](#Prefira-CASE-a-ELSE-IF)
+  - [IF ELSE](#IF ELSE)
+  - [CASE](#CASE)
+  - [SWITCH](#SWITCH)
+  - [COND](#COND)
   - [Mantenha Alinhamento Simples](#Mantenha-Alinhamento-Simples)
   - [Retorno de funções e métodos em expressões lógicas](#Retorno-de-funções-e-métodos-em-expressões-lógicas)
     - [Omitindo ABAP_TRUE](#Omitindo-ABAP_TRUE)
@@ -583,26 +586,6 @@ DATA:
   lv_reader TYPE REF TO reader.
 ```
 
-### Atribuição condicional
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Atribuição-condicional)
-
-Utilize `COND` ao invés de `IF-ELSE` para atribuições condicionais:
-
-```ABAP
-gv_erro = COND #( WHEN lv_matnr IS NOT INITIAL THEN abap_false ELSE abap_true ).
-```
-
-Torna-se muito mais claro e curto do que:
-
-```ABAP
-IF lv_matnr IS NOT INITIAL.
-  gv_erro = abap_false.
-ELSE.
-  gv_erro = abap_true.
-ENDIF.
-```
-
 ### Conversão de dados
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Conversão-de-dados)
@@ -834,6 +817,25 @@ READ TABLE lt_material INTO DATA(wa_material)  WITH KEY matnr = lv_matnr mtype =
 
 **OBS:** Lembre-se de que é necessário utilizar o `SORT` na tabela a ser lida antes de aplicar o `READ TABLE`.
 
+### Retornando o índice de uma linha
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Retornando-o-índice-de-uma-linha)
+
+Utilize line_index para retornar o índice de uma linha:
+
+```ABAP
+DATA(lv_tabix) = line_index( gt_material[ matnr = lv_material_number ] ).
+```
+
+torna-se muito mais claro e mais curto do que:
+
+```ABAP
+READ TABLE gt_material WITH KEY matnr = lv_material_number TRANSPORTING NO FIELDS.
+IF sy-subrc = 0.
+  DATA(lv_tabix) = sy-tabix.
+ENDIF.
+```
+
 ### Acessando campos de uma linha diretamente
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Acessando-campos-de-uma-linha-diretamente)
@@ -920,7 +922,7 @@ IF p_path IS NOT INITIAL.
   OPEN DATASET gv_path FOR OUTPUT IN TEXT MODE ENCODING DEFAULT.
   LOOP AT lt_relatorio_txt ASSIGNING FIELD-SYMBOL(<lfs_relatorio_txt>).
     DATA(lv_linha) = COND ty_relatorio_txt-linha(
-                           WHEN <lfs_relatorio_txt>-linha IS NOT INITIAL THEN 			 <lfs_relatorio_txt>-linha
+                           WHEN <lfs_relatorio_txt>-linha IS NOT INITIAL THEN lfs_relatorio_txt>-linha
                            ELSE 'Linha vazia' ).
     TRANSFER lv_linha TO gv_path.
   ENDLOOP.
@@ -984,24 +986,24 @@ ENDLOOP.
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Evite-leituras-desnecessárias-de-tabelas)
 
-Caso você espere que uma linha esteja lá, leia uma vez e reaja à exceção,
+Utilize `TRY CATCH` para lidar com uma possível linha inexistente e reaja à exceção:
 
 ```ABAP
 TRY.
-    DATA(row) = lt_my_table[ key = input ].
-  CATCH cx_sy_lt_itab_line_not_found.
-    RAISE EXCEPTION NEW /clean/my_data_not_found( ).
+    DATA(row) = gt_material[ matnr = lv_material_number ].
+  CATCH cx_sy_itab_line_not_found.
+    WRITE 'Linha não encontrada'.
 ENDTRY.
 ```
 
-em vez de desarrumar e desacelerar o fluxo de controle principal com uma leitura dupla
+em vez de realizar uma leitura dupla desnecessária:
 
 ```ABAP
-" Fora do padrão
-IF NOT line_exists( lt_my_table[ key = input ] ).
-  RAISE EXCEPTION NEW /clean/my_data_not_found( ).
+IF NOT line_exists( gt_material[ matnr = lv_material_number ] ).
+  WRITE 'Linha não encontrada'.
+ELSE.
+  DATA(row) = gt_material[ matnr = lv_material_number ].
 ENDIF.
-DATA(row) = lt_my_table[ key = input ].
 ```
 
 ## Strings
@@ -1290,7 +1292,7 @@ IF ( example_a IS NOT INITIAL OR
 
 ### Extraia condições complexas
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Extraia-condições-complexas)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Extraia-condições-complexas)
 
 É quase sempre uma boa ideia extrair condições complexas para métodos próprios:
 
@@ -1310,53 +1312,105 @@ ENDMETHOD.
 
 ## Estruturas Condicionais
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Estruturas-Condicionais)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Estruturas-Condicionais)
 
-### Sem IF vazio
+### IF ELSE
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#Sem-IF-vazio)
+> Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Estruturas-Condicionais) > [IF ELSE](#IF-ELSE)
+
+Utilize `IF-ELSE` para comparações complexas, como comparar dois ou mais campos com múltiplos valores e operadores lógicos:
 
 ```ABAP
-IF has_entries = abap_false.
-  " faça alguma mágica
-ENDIF.
+TRY.
+    DATA(lw_material) = gt_material[ matnr = lv_material_number ].
+    IF lw_material-mtype = 'I' AND lw_material-status <> 'I'.
+      WRITE |Material: { lv_material_number } está ativo em PRD.|.
+    ELSE.
+      WRITE |Material: { lv_material_number } não está ativo em PRD.|.
+      perform f_ativar_material using lv_material_number.
+    ENDIF.
+  CATCH cx_sy_itab_line_not_found.
+    WRITE 'Linha não encontrada'.
+ENDTRY.
 ```
 
-é mais curto e mais claro do que
+### CASE
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#CASE)
+
+Utilize `CASE` para comparações simples, de um campo com múltiplos valores:
 
 ```ABAP
-" Fora do padrão
-IF has_entries = abap_true.
-ELSE.
-  " faça alguma mágica
-ENDIF.
-```
-
-### Prefira CASE a ELSE IF
-
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#Prefira-CASE-a-ELSE-IF)
-
-```ABAP
-CASE type.
-  WHEN type-some_type.
+CASE mtype.
+  WHEN 'A'.
     " ...
-  WHEN type-some_other_type.
+  WHEN 'B'.
     " ...
   WHEN OTHERS.
-    RAISE EXCEPTION NEW /clean/unknown_type_failure( ).
+    " ...
 ENDCASE.
 ```
 
-O `CASE` facilita a visualização de um conjunto de alternativas que se excluem. Pode ser mais rápido do que uma série de IF's porque pode traduzir para um comando de microprocessador diferente em vez de uma série de condições avaliadas posteriormente. Podendo introduzir novos casos rapidamente, sem ter que repetir a variável de discernimento repetidamente. A instrução ainda evita alguns erros que podem ocorrer ao aninhar acidentalmente os  `IF`-s `ELSEIF`.
+Ao invés de:
 
 ```ABAP
 " Fora do padrão
-IF type = type-some_type.
+IF mtype = 'A'.
   " ...
-ELSEIF type = type-some_other_type.
+ELSEIF mtype = 'B'.
   " ...
 ELSE.
-  RAISE EXCEPTION NEW /dirty/unknown_type_failure( ).
+  " ...
+ENDIF.
+```
+
+### SWITCH
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#SWITCH)
+
+Utilize `SWITH` em atribuições condicionais comparando um único campo com múltiplos valores:
+
+```ABAP
+lv_ambiente = SWITCH #( syst-sysid
+  WHEN 'D01' THEN 'DEV'
+  WHEN 'Q01' THEN 'QAS'
+  WHEN 'P01' THEN 'PRD'
+  ELSE 'Desconhecido'
+).
+```
+
+Torna-se muito mais claro e mais curto do que:
+
+```ABAP
+CASE syst-sysid.
+  WHEN 'D01'.
+    lv_ambiente = 'DEV'.
+  WHEN 'Q01'.
+    lv_ambiente = 'QAS'.
+  WHEN 'P01'.
+    lv_ambiente = 'PRD'.
+  WHEN OTHERS.
+    lv_ambiente = 'Desconhecido'.
+ENDCASE.
+```
+
+### COND
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#COND)
+
+Utilize `COND` em atribuições condicionais comparando dois ou mais campos com múltiplos valores:
+
+```ABAP
+gv_erro = COND #( WHEN lw_material-mtype <> 'A' AND lw_material-price IS NOT INITIAL THEN abap_false ELSE abap_true ).
+```
+
+Torna-se muito mais claro e curto do que:
+
+```ABAP
+IF lw_material-mtype <> 'A' AND lw_material-price IS NOT INITIAL.
+  gv_erro = abap_false.
+ELSE.
+  gv_erro = abap_true.
 ENDIF.
 ```
 
