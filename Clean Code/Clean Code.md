@@ -1398,7 +1398,7 @@ ENDCASE.
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#COND)
 
-Utilize `COND` em atribuições condicionais comparando dois ou mais campos com múltiplos valores:
+Utilize `COND` em atribuições condicionais comparando dois ou mais campos com múltiplos valores e operadores lógicos:
 
 ```ABAP
 gv_erro = COND #( WHEN lw_material-mtype <> 'A' AND lw_material-price IS NOT INITIAL THEN abap_false ELSE abap_true ).
