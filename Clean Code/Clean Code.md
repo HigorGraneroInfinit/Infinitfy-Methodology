@@ -52,6 +52,8 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
     - [Adicionando linhas a uma tabela existente](#Adicionando-linhas-a-uma-tabela-existente)
     - [Tabelas de tipos diferentes](#Tabelas-de-tipos-diferentes)
     - [Filtrando dados](#Filtrando-dados)
+  - [Executando Queries](#Executando-Queries)
+    - [Processando uma tabela e retornando um único valor](#Processando-uma-tabela-e-retornando-um-único-valor)
   - [Utilizando LOOP AT](#Utilizando-LOOP-AT)
     - [Quando utilizar](#Quando-utilizar)
     - [Utilize FIELD SYMBOL ao invés de MODIFY](#Utilize-FIELD-SYMBOL-ao-invés-de-MODIFY)
@@ -617,6 +619,22 @@ WHERE ( matnr >= lv_matnr and mtype = 'B' )
       mtype = lw_material-mtype
       maktx = lw_material-maktx
       ) ).
+```
+
+### Executando Queries
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Executando-Queries)
+
+#### Processando uma tabela e retornando um único valor
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Processando-uma-tabela-e-retornando-um-único-valor)
+
+Para processar uma tabela interna e retornar um único valor, utilize:
+
+```ABAP
+lv_stock_price = REDUCE #( INIT result = 0
+                            FOR <lw_material> IN gt_material
+                            NEXT result = result + <lw_material>-price ).
 ```
 
 ### Utilizando LOOP AT
