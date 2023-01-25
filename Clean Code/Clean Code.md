@@ -589,14 +589,18 @@ lt_itab1 = VALUE #( ( col1 = 'A' col2 = 'B' )
 lt_itab2 = CORRESPONDING #( lt_itab1 MAPPING COL3 = COL2 EXCEPT COL2 ).
 ````
 
-Para passar dados de uma tabela para outra de tipo diferente utilize:
+Para passar dados de várias tabelas para outra, utilize:
 
 ```ABAP
-DATA(lt_material_saida) = VALUE ls_material_saida( FOR lw_material IN lt_material (
-      matnr = lw_material-matnr
-      mtype = lw_material-mtype
-      maktx = lw_material-maktx
-      ) ).
+DATA(lt_material_saida) = VALUE ls_material_saida( 
+							FOR <lw_material> IN gt_material
+							FOR <lw_mat_type> IN gt_mat_type
+                            WHERE ( mtart = <lw_material>-mtart )
+                            LET wa_saida = VALUE ty_saida(
+                               mtype = <lw_mat_type>-mtype
+                            )
+                            IN ( CORRESPONDING #( BASE ( wa_saida ) <lw_material> ) )
+                            ).
 ```
 
 #### Filtrando dados
@@ -694,7 +698,7 @@ ENDLOOP.
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Evite-leituras-desnecessárias-de-tabelas)
 
-Utilize `TRY CATCH` para lidar com uma possível linha inexistente e reaja à exceção:
+Utilize `TRY CATCH` para lidar com uma possível linha inexistente e reaja à exceção:
 
 ```ABAP
 TRY.
@@ -898,7 +902,7 @@ ENDTRY.
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Estruturas Condicionais](#Estruturas-Condicionais) > [Seção atual](#CASE)
 
-Utilize `CASE` para comparações simples, de um campo com múltiplos valores:
+Utilize `CASE` para comparações simples, de um campo com múltiplos valores:
 
 ```ABAP
 CASE mtype.
