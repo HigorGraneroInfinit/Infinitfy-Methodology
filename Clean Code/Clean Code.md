@@ -629,13 +629,40 @@ WHERE ( matnr >= lv_matnr and mtype = 'B' )
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Processando-uma-tabela-e-retornando-um-único-valor)
 
-Para processar uma tabela interna e retornar um único valor, utilize:
+Utilize `REDUCE` para consultar uma tabela e ao mesmo tempo executar uma lógica para retornar um único valor como:
 
 ```ABAP
 lv_stock_price = REDUCE #( INIT result = 0
                             FOR <lw_material> IN gt_material
                             NEXT result = result + <lw_material>-price ).
 ```
+
+````ABAP
+DATA GT_ITAB TYPE STANDARD TABLE OF I WITH EMPTY KEY.
+GT_ITAB = VALUE #( FOR J = 1 WHILE J <= 10 ( J ) ).
+
+DATA(LV_SUM) = REDUCE I( INIT X = 0 FOR WA IN  GT_ITAB NEXT X = X + WA ).
+
+WRITE: / lv_sum.
+````
+
+Ele é menos e mais rápido do que: 
+
+````ABAP
+DATA GT_ITAB TYPE STANDARD TABLE OF I WITH EMPTY KEY.
+GT_ITAB = VALUE #( FOR J = 1 WHILE J <= 10 ( J ) ).
+
+DATA: LV_LINE TYPE I,
+      LV_SUM  TYPE I.
+
+LOOP AT GT_ITAB INTO LV_LINE.
+  LV_SUM = LV_SUM + LV_LINE.
+ENDLOOP.
+
+WRITE: / lv_sum.
+````
+
+
 
 ### Utilizando LOOP AT
 
