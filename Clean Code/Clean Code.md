@@ -4,20 +4,25 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 
 ## Conteúdo
 
+-  [Diretrizes](#Diretrizes)
 - [Constantes](#Constantes)
-  - [Use constantes ao invés de hardcode](#Use-constantes-ao-invés-de-hardcode)
-  - [Agrupamento](#[Agrupamento]())
-    - [Classes de Enumeração](#Classes-de-Enumeração)
-    - [Estruturas Constantes](#Estruturas-Constantes)
+  - [Estruturas Constantes](#Estruturas-Constantes)
 - [Variáveis](#Variáveis)
-  - [Declarações em Métodos](#Declarações-em-Métodos)
-  - [Declarações dentro de IF-ELSE](#Declarações-dentro-de-IF-ELSE)
-  - [Não encadeie declarações iniciais](#Não-encadeie-declarações-iniciais)
+  - [Declarações](Declarações)
+    - [Variáveis](#Variáveis)
+    - [LOOP AT](#LOOP-AT)
+    - [Read Table](#Read Table)
+    - [Métodos](#Métodos)
+    - [Field-Symbol](#Field-Symbol)
+    - [Inserir Dados](#Inserir-Dados)
+    - [Ler Índice](#Ler Índice)
+    - [Concatenar](#Concatenar)
   - [Conversão de dados](#Conversão-de-dados)
 - [Selects](#Selects)
   - [Minimizando a criação de TYPES](#Minimizando-a-criação-de-TYPES)
   - [Retornando valores dinâmicos](#Retornando-valores-dinâmicos)
   - [Realizando cálculos](#Realizando-cálculos)
+  - [Agregações](#Agregações)
 - [Tabelas](#Tabelas)
   - [Utilize o tipo de tabela correto](#Utilize-o-tipo-de-tabela-correto)
     - [Hashed Table](#Hashed-Table)
@@ -38,9 +43,13 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
     - [Filtrando dados](#Filtrando-dados)
   - [Executando Queries](#Executando-Queries)
     - [Processando uma tabela e retornando um único valor](#Processando-uma-tabela-e-retornando-um-único-valor)
+    - [FILTER](#FILTER)
+      - [FILTER de valor único](#FILTER-de-valor-único)
+      - [FILTER com um filtro de tabela](#FILTER-com-um-filtro-de-tabela)
   - [Utilizando LOOP AT](#Utilizando-LOOP-AT)
     - [Quando utilizar](#Quando-utilizar)
     - [Utilize FIELD SYMBOL ao invés de MODIFY](#Utilize-FIELD-SYMBOL-ao-invés-de-MODIFY)
+    - [GROUP-BY](#GROUP-BY)
   - [Verificando a existência de uma linha](#Verificando-a-existência-de-uma-linha)
   - [Evite leituras desnecessárias de tabelas](#Evite-leituras-desnecessárias-de-tabelas)
 - [Strings](#Strings)
@@ -48,72 +57,21 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Concatenação](#Concatenação)
   - [Adicionando zeros à esquerda](#Adicionando-zeros-à-esquerda)
   - [Removendo zeros à esquerda](#Removendo-zeros-à-esquerda)
-- [Booleanos](#Booleanos)
-  - [Use booleanos com sabedoria](#Use-booleanos-com-sabedoria)
-  - [Use ABAP_BOOL para booleanos](#Use-ABAP_BOOL-para-booleanos)
-  - [Use ABAP_TRUE e ABAP_FALSE para comparações](#Use-ABAP_TRUE-e-ABAP_FALSE-para-comparações)
-  - [Use XSDBOOL para definir variáveis booleanas](#Use-XSDBOOL-para-definir-variáveis-booleanas)
-- [Condições](#Condições) 
-  - [Tente tornar as condições positivas](#Tente-tornar-as-condições-positivas)
-  - [Prefira IS NOT do que NOT IS](#Prefira-IS-NOT-do-que-NOT-IS)
-  - [Chamadas de método predicativo para métodos booleanos](#Chamadas-de-método-predicativo-para-métodos-booleanos)
-  - [Decomponha condições complexas](#Decomponha-condições-complexas)
-  - [Extraia condições complexas](#Extraia-condições-complexas)
+  - [Largura, Alinhamento e Preenchimento](#Largura,-Alinhamento-e-Preenchimento)
+  - [CASE](#CASE)
 - [Estruturas Condicionais](#Estruturas-Condicionais)
   - [IF ELSE](#IF ELSE)
   - [CASE](#CASE)
   - [SWITCH](#SWITCH)
   - [COND](#COND)
-  - [Mantenha Alinhamento Simples](#Mantenha-Alinhamento-Simples)
   - [Retorno de funções e métodos em expressões lógicas](#Retorno-de-funções-e-métodos-em-expressões-lógicas)
     - [Omitindo ABAP_TRUE](#Omitindo-ABAP_TRUE)
 - [Classes](#Classes)
   - [Instanciando objetos](#Instanciando-objetos)
     - [Tipo dinâmico](#Tipo-dinâmico)
-
 - [Métodos](#Métodos)
-  - [Chamadas](#Chamadas)
-    - [Chamada de métodos estáticos](#Chamada-de-métodos-estáticos)
-    - [Prefira chamadas funcionais a processuais](#Prefira-chamadas-funcionais-a-processuais)
-    - [Omita RECEIVING](#Omita-RECEIVING)
-    - [Omita EXPORTING](#Omita-EXPORTING)
-    - [Omita o nome do parâmetro em chamadas de parâmetro único](#Omitir-o-nome-do-parâmetro-em-chamadas-de-parâmetro-único)
-    - [Omita a auto-referência ME](#Omita-a-auto-referência-ME)
-
-  - [Orientação a objetos](#Orientação-a-objetos)
-    - [Prefira instância a métodos estáticos](#Prefira-instância-a-métodos-estáticos)
-    - [Métodos de instância pública](#Métodos-de-instância-pública)
-
-  - [Número do parâmetro](#Número-do-parâmetro)
-    - [Parâmetros de IMPORTING](#Parâmetros-de-IMPORTING)
-    - [Divida métodos](#Divida-métodos)
-    - [Use o PREFERRED PARAMETER com moderação](#Use-o-PREFERRED-PARAMETER-com-moderação)
-    - [RETURN, EXPORT ou CHANGE](#RETURN,-EXPORT-ou-CHANGE)
-
   - [Tipos de Parâmetros](#Tipos-de-Parâmetros)
-    - [Prefira RETURNING a EXPORTING](#Prefira-RETURNING-a-EXPORTING)
-    - [RETURNING em tabelas grandes](#RETURNING-em-tabelas-grandes)
-    - [Use RETURNING ou EXPORTING ou CHANGING](#Use-RETURNING-ou-EXPORTING-ou-CHANGING)
-    - [Use CHANGING quando adequado](#Use-CHANGING-quando-adequado)
-    - [Divisão de métodos ao em vez de parâmetro de entrada booleano](#Divisão-de-métodos-ao-em-vez-de-parâmetro-de-entrada-booleano)
     - [Parâmetros do tipo TYPE REF TO DATA](#Parâmetros-do-tipo-TYPE-REF-TO-DATA)
-
-  - [Nomes de Parâmetros](#Nomes-de-Parâmetros)
-    - [Parâmetro RETURNING RESULT](#Parâmetro-RETURNING-RESULT)
-  - [Inicialização de Parâmetros](#Inicialização-de-Parâmetros)
-    - [Parâmetros de referência EXPORTING](#Parâmetro-de-referência-EXPORTING)
-      - [Tome cuidado!](#Tome-cuidado!)
-    - [Não limpe parâmetros VALUE](#Não-limpe-parâmetros-VALUE)
-  - [Corpo do método](#Corpo-do-método)
-    - [Regras](#Regras)
-      - [Características](#Características)
-      - [Método deve seguir apenas um propósito](#Método-deve-seguir-apenas-um-propósito)
-      - [Desça um nível de Abstração](#Desça-um-nível-de-abstração)
-      - [Mantenha-os-métodos-pequenos](#Mantenha-os-métodos-pequenos)
-  - [Controle de fluxo](#Controle-de-fluxo)
-    - [Valide mais cedo](#Valide-mais-cedo)
-    - [CHECK vs. RETURN](#CHECK-vs.-RETURN)
-    - [Evite o CHECK em outras posições](#Evite-o-CHECK-em-outras-posições)
   - [Retorno](#Retorno)
     - [Passando retorno de um método para outro](#Passando-retorno-de-um-método-para-outro)
     - [Utilize declarações in-line nos parâmetros de retorno](#Utilize-declarações-in-line-nos-parâmetros-de-retorno)
@@ -121,6 +79,8 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 
 
 ## Diretrizes
+
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Diretrizes)
 
 Para um código limpo teve seguir as seguintes especificações sendo as: 
 
@@ -158,15 +118,21 @@ CONSTANTS:
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Variáveis)
 
-## Declarações IN-LINE
+### Declarações
 
-### Variáveis 
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) > [Seção atual](#Declarações)
+
+#### Variáveis 
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#Variáveis)
 
 ```ABAP
 DATA(lv_text) = 'Marcos'
 ```
 
-### Loop At
+#### LOOP AT
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#LOOP-AT)
 
 ```ABAP
 DATA: lt_flight TYPE TABLE OF sflight.
@@ -175,13 +141,17 @@ LOOP AT lt_flight INTO DATA(ls_flight).
 ENDLOOP.
 ```
 
-### Read Table
+#### Read Table
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#Read-Table)
 
 ```ABAP
 READ TABLE lt_flight INTO DATA(ls_flight) index 1.
 ```
 
-### Métodos
+#### Métodos
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#Métodos)
 
 ```ABAP
 DATA(lv_node) = wd_context->get_child_node( name = wd_this->wdctx_node_detail ).
@@ -190,7 +160,9 @@ lv_element->get_attritute( EXPORTING name = 'DETAIL_TEXT'
 						   IMPORTING value = DATA(lv_detail_text) ).
 ```
 
-### Field-Symbol
+#### Field-Symbol
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#Field-Symbol)
 
 ```ABAP
 READ TABLE lt_flight ASSINGNING FIELD-SYMBOL(<fs_string>) INDEX 1.
@@ -201,7 +173,9 @@ LOOP AT lt_flight ASSINGNING FIELD-SYMBOL(<fs_flight>).
 ENDLOOP.
 ```
 
-### Inserir Dados
+#### Inserir Dados
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#Inserir Dados)
 
 ```ABAP
 TYPES ty_range TYPE RANGE OF string.
@@ -210,13 +184,17 @@ DATA(lt_dados) = VALUE ty_range ( ( sing = 'I' opition = 'EQ' low = 'Gabriel' )
 								  ( sing = 'I' opition = 'EQ' low = 'Vitor' ) )
 ```
 
-### Ler Índice 
+#### Ler Índice 
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#Ler-Índice)
 
 ```ABAP
 DATA(lv_connid) = lt_sflight[ 1 ]-connid.
 ```
 
-### Concatenar
+#### Concatenar
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#Concatenar)
 
 ````ABAP
 DATA(lv_string) = 'Marcio' && ` é ` && 'Muito Legal'
@@ -313,6 +291,8 @@ ENDLOOP.
 
 ### Agregações
 
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Selects](#Selects) > [Seção atual](#Agregações)
+
 Para o uso das agregações `SUM` `MAX` `MIN` `COUNT` `AVG` sendo:
 
 - SUM = Realiza a soma do conteúdo da coluna, podendo ser usado apenas para campos númerico.
@@ -334,6 +314,8 @@ SELECT COUNT( matnr ) FROM vbap INTO DATA(lv_qntmaterial) WHERE vbeln EQ p_vbeln
 
 SELECT COUNT( * ) FROM vbap INTO DATA(lv_qnttotal) WHERE vbeln EQ p_vbeln.
 ```
+
+
 
 ## Tabelas
 
@@ -646,6 +628,64 @@ ENDLOOP.
 WRITE: / lv_sum.
 ````
 
+#### FILTER
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#FILTER)
+
+Utilize para filtrar dados de uma tabela seguindo as seguintes condições .
+
+- A tabela interna na qual o operador `FILTER` é usado deve ter pelo menos uma chave `SORTED` ou uma chave 
+
+##### FILTER de valor único
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [FILTER](#FILTER) > [Seção atual](#FILTER-de-valor-único)
+
+````ABAP
+DATA: lt_flights_all TYPE STANDARD TABLE OF spfli 
+                     WITH NON-UNIQUE SORTED KEY carrid
+                     COMPONENTS carrid,
+ 
+      lt_flight_lh   TYPE STANDARD TABLE OF spfli.
+
+SELECT *  FROM spfli
+          INTO TABLE @lt_flights_all.
+IF sy-subrc = 0.
+
+lt_flight_lh = FILTER #( lt_flights_all USING KEY carrid 
+                                        WHERE carrid = 'LH ' ).
+
+ENDIF.
+````
+
+
+
+##### FILTER com um filtro de tabela
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [FILTER](#FILTER) > [FILTER com um filtro de tabela](#FILTER-de-valor-único) > [Seção atual](#FILTER-com-um-filtro-de-tabela)
+
+````ABAP
+DATA: lt_flights_all TYPE STANDARD TABLE OF spfli
+                     WITH NON-UNIQUE SORTED KEY carrid
+                     COMPONENTS carrid,
+      lt_flight_final TYPE STANDARD TABLE OF spfli.
+
+SELECT *  FROM spfli
+          INTO TABLE @lt_flights_all.
+          
+DATA filter_tab  TYPE SORTED TABLE OF scarr-carrid
+                 WITH UNIQUE KEY table_line.
+filter_tab = VALUE #( ( 'AA ' ) ( 'LH ' ) ).
+
+lt_flight_final = FILTER #( lt_flights_all IN filter_tab
+                                           WHERE carrid = table_line ).
+
+cl_demo_output=>write_data( lt_flights_all ).
+cl_demo_output=>write_data( lt_flight_final ).
+cl_demo_output=>display( ).
+````
+
+
+
 ### Utilizando LOOP AT
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Utilizando-LOOP-AT)
@@ -692,6 +732,32 @@ LOOP AT gt_material INTO DATA(lw_material).
   MODIFY gt_material FROM lw_material.
 ENDLOOP.
 ```
+
+#### GROUP BY
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Utilizando LOOP AT](#Utilizando-LOOP-AT) > [Seção atual](#GROUP-BY)
+
+Utilize `GROUP BY`  junto com o `LOOP AT`para o agrupamento linhas dado uma condição especifica. 
+
+````ABAP
+DATA li_flights TYPE TABLE OF spfli WITH EMPTY KEY.
+
+SELECT * FROM  spfli
+         INTO TABLE @li_flights.
+
+DATA ls_members LIKE li_flights.
+LOOP AT li_flights INTO DATA(wa_flight)
+     GROUP BY ( carrier = wa_flight-carrid cityfr = wa_flight-cityfrom )
+              ASCENDING
+              ASSIGNING FIELD-SYMBOL(<fs_group>).
+  CLEAR ls_members.
+  LOOP AT GROUP <fs_group> ASSIGNING FIELD-SYMBOL(<fs_flight>).
+    ls_members = VALUE #( BASE ls_members ( <fs_flight> ) ).
+  ENDLOOP.
+  cl_demo_output=>write( ls_members ).
+ENDLOOP.
+cl_demo_output=>display( ).
+````
 
 ### Verificando a existência de uma linha
 
@@ -825,6 +891,8 @@ CALL FUNCTION 'CONVERSION_EXIT_ALPHA_OUTPUT'
 
 ### Largura, Alinhamento e Preenchimento
 
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Largura,-Alinhamento-e-Preenchimento)
+
 - Width = Determina a largura do texto.
 - Align = Alinha o texto, para esquerda `LEFT` , centro `CENTER` e direita `RIGHT`.
 - PAD = Preenche todo o espaço que sobrou do `Width`.
@@ -836,6 +904,8 @@ WRITE / |{ 'Right'    WIDTH = 20 ALIGN = RIGHT  PAD = '0' }|.
 ```
 
 ### CASE
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#CASE)
 
 Para formatar o campo texto utilizar `CASE` para usar a classe `cl_abap_format` :
 
@@ -853,11 +923,11 @@ WRITE / |{ 'Text' CASE = (cl_abap_format=>c_lower) }|.
 
 ## Condições
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Condições)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Condições)
 
 ### Tente tornar as condições positivas
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Tente-tornar-as-condições-positivas)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Tente-tornar-as-condições-positivas)
 
 ```ABAP
 IF has_entries = abap_true.
@@ -882,7 +952,7 @@ ENDIF.
 
 ### Prefira IS NOT do que NOT IS
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Prefira-IS-NOT-do-que-NOT-IS)
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Prefira-IS-NOT-do-que-NOT-IS)
 
 ```ABAP
 IF variable IS NOT INITIAL.
@@ -1082,534 +1152,15 @@ CREATE OBJECT lcl_order TYPE (dynamic_type)
     order_number = lv_docnum.
 ```
 
+
+
 ## Métodos
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Métodos)
-
-### Chamadas
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Chamadas)
-
-#### Chamada de métodos estáticos 
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Chamada-de-métodos-estáticos)
-
-Para chamar um método estático, use
-
-```ABAP
-cl_my_class=>static_method( ).
-```
-
-Em vez de chamá-lo por meio de uma variável de instância
-
-```ABAP
-" Fora do padrão
-lo_my_instance->static_method( ).
-```
-
-Um método estático é anexado à própria classe e chamá-lo por meio de uma variável de instância é uma possível fonte de confusão.
-
-Não há problema em chamar um método estático da mesma classe sem qualificá-lo em outro método estático.
-
-```ABAP
-METHOD static_method.
-  another_static_method( ).
-  yet_another( ).
-ENDMETHOD.
-```
-
-No entanto, dentro de um método de instância, mesmo ao chamar um método estático da mesma classe, você ainda deve qualificar a chamada com o nome da classe:
-
-```ABAP
-CLASS cl_my_class IMPLEMENTATION.
-
-  METHOD instance_method.
-    cl_my_class=>a_static_method( ).
-    another_instance_method( ).
-  ENDMETHOD.
-
-  ...
-```
-
-#### Prefira chamadas funcionais a processuais
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Prefira-chamadas-funcionais-a-processuais)
-
-```ABAP
-modify->update( node           = /clean/my_bo_c=>node-item
-                key            = item->key
-                data           = item
-                changed_fields = changed_fields ).
-```
-
-em vez do desnecessariamente mais longo
-
-```ABAP
-" Fora do padrão
-CALL METHOD modify->update
-  EXPORTING
-    node           = /dirty/my_bo_c=>node-item
-    key            = item->key
-    data           = item
-    changed_fields = changed_fields.
-```
-
-Se a digitação dinâmica proibir chamadas funcionais, recorra ao estilo procedural
-
-```ABAP
-CALL METHOD modify->(method_name)
-  EXPORTING
-    node           = /clean/my_bo_c=>node-item
-    key            = item->key
-    data           = item
-    changed_fields = changed_fields.
-```
-
-Muitas das regras detalhadas abaixo são apenas variações mais específicas deste conselho.
-
-#### Omita RECEIVING
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-RECEIVING)
-
-```ABAP
-DATA(sum) = aggregate_values( values ).
-```
-
-em vez do desnecessariamente mais longo
-
-```ABAP
-" Fora do padrão
-aggregate_values(
-  EXPORTING
-    values = values
-  RECEIVING
-    result = DATA(sum) ).
-```
-
-#### Omita EXPORTING
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-EXPORTING)
-
-```ABAP
-modify->update( node           = /clean/my_bo_c=>node-item
-                key            = item->key
-                data           = item
-                changed_fields = changed_fields ).
-```
-
-em vez do mais longo
-
-```ABAP
-" Fora do padrão
-modify->update(
-  EXPORTING
-    node           = /dirty/my_bo_c=>node-item
-    key            = item->key
-    data           = item
-    changed_fields = changed_fields ).
-```
-
-#### Omita o nome do parâmetro em chamadas de parâmetro único
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-o-nome-do-parâmetro-em-chamadas-de-parâmetro-único)
-
-```ABAP
-DATA(unique_list) = remove_duplicates( list ).
-```
-
-em vez do mais longo
-
-```ABAP
-" Fora do padrão
-DATA(unique_list) = remove_duplicates( list = list ).
-```
-
-Há casos, no entanto, em que o nome do método sozinho não é claro o suficiente e repetir o nome do parâmetro pode facilitar a compreensão:
-
-```ABAP
-car->drive( speed = 50 ).
-update( asynchronous = abap_true ).
-```
-
-#### Omita a auto-referência ME
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-a-auto-referência-ME)
-
-Como a auto-referência `me->`é definida implicitamente pelo sistema, omita-a ao chamar um atributo ou método de instância
-
-```ABAP
-DATA(sum) = aggregate_values( values ).
-```
-
-em vez do desnecessariamente mais longo
-
-```
-" Fora do padrão
-DATA(sum) = aggregate_values( me->values ).
-" Fora do padrão
-DATA(sum) = me->aggregate_values( values ).
-```
-
-a menos que haja um conflito de escopo entre uma variável local ou parâmetro de importação e um atributo de instância
-
-```ABAP
-me->logger = logger.
-```
-
-### Orientação a objetos
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Orientação-a-objetos)
-
-#### Prefira instância a métodos estáticos
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Orientação a objetos ](#Orientação-a-objetos) > [Seção atual](#Prefira-instância-a-métodos-estáticos)
-
-Os métodos devem ser membros de instância por padrão. Os métodos de instância refletem melhor o "objeto" da classe. Eles podem ser ridicularizados mais facilmente em testes de unidade.
-
-```ABAP
-METHODS publish.
-```
-
-Os métodos devem ser estáticos apenas em casos excepcionais, como métodos de criação estáticos.
-
-```ABAP
-CLASS-METHODS create_instance
-  RETURNING
-    VALUE(result) TYPE REF TO /clean/blog_post.
-```
-
-#### Métodos de instância pública
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Orientação a objetos ](#Orientação-a-objetos) > [Seção atual](#Métodos-de-instância-pública)
-
-Os métodos de instância pública sempre devem fazer parte de uma interface.
-
-```ABAP
-METHOD /clean/blog_post~publish.
-```
-
-Na orientação a objetos limpa, ter um método público sem uma interface não faz muito sentido - com poucas exceções, como classes de enumeração que nunca terão uma implementação alternativa e nunca serão ridicularizadas em casos de teste.
-
-### Número do parâmetro
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Número-do-parâmetro)
-
-#### Parâmetros de IMPORTING
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Parâmetros-de-IMPORTING)
-
-É ideal a utilização de no máximo três parâmetro de IMPORTING.
-
-```ABAP
-FUNCTION seo_class_copy
-  IMPORTING
-    clskey      TYPE seoclskey
-    new_clskey  TYPE seoclskey
-    config      TYPE class_copy_config
-  EXPORTING
-    ...
-```
-
-é muito mais claro do que
-
-```ABAP
-" Fora do padrão
-FUNCTION seo_class_copy
-  IMPORTING
-    clskey                 TYPE seoclskey
-    new_clskey             TYPE seoclskey
-    access_permission      TYPE seox_boolean DEFAULT seox_true
-    VALUE(save)            TYPE seox_boolean DEFAULT seox_true
-    VALUE(suppress_corr)   TYPE seox_boolean DEFAULT seox_false
-    VALUE(suppress_dialog) TYPE seox_boolean DEFAULT seox_false
-    VALUE(authority_check) TYPE seox_boolean DEFAULT seox_true
-    lifecycle_manager      TYPE REF TO if_adt_lifecycle_manager OPTIONAL
-    lock_handle            TYPE REF TO if_adt_lock_handle OPTIONAL
-    VALUE(suppress_commit) TYPE seox_boolean DEFAULT seox_false
-  EXPORTING
-    ...
-```
-
-Muitos parâmetros de entrada deixam a complexidade de um método explodir porque ele precisa lidar com um número exponencial de combinações. Muitos parâmetros são um indicador de que o método pode fazer mais de uma coisa.
-
-Você pode reduzir o número de parâmetros combinando-os em conjuntos significativos com estruturas e objetos.
-
-#### Divida métodos
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Divida-métodos)
-
-Divida os métodos em vez de adicionar parâmetros OPCIONAIS.
-
-```ABAP
-METHODS do_one_thing IMPORTING what_i_need TYPE string.
-METHODS do_another_thing IMPORTING something_else TYPE i.
-```
-
-para obter a semântica desejada, pois o ABAP não suporta [sobrecarga](https://en.wikipedia.org/wiki/Function_overloading) .
-
-```ABAP
-" Fora do padrão
-METHODS do_one_or_the_other
-  IMPORTING
-    what_i_need    TYPE string OPTIONAL
-    something_else TYPE i OPTIONAL.
-```
-
-Parâmetros opcionais confundem os chamadores:
-
-- Quais são realmente necessários?
-- Quais combinações são válidas?
-- Quais se excluem mutuamente?
-
-Vários métodos com parâmetros específicos para o caso de uso evitam essa confusão, fornecendo orientações claras sobre quais combinações de parâmetros são válidas e esperadas.
-
-#### Use o PREFERRED PARAMETER com moderação
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Use-o-PREFERRED-PARAMETER-com-moderação)
-
-A adição `PREFERRED PARAMETER`torna difícil ver qual parâmetro é realmente fornecido, dificultando a compreensão do código. Minimizar o número de parâmetros, especialmente os opcionais, reduz automaticamente a necessidade de arquivos `PREFERRED PARAMETER`.
-
-#### RETURN, EXPORT ou CHANGE 
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#RETURN,-EXPORT-ou-CHANGE)
-
-Um bom método faz *uma coisa* , e isso deve ser refletido pelo método também retornando exatamente uma coisa. Se os parâmetros de saída do seu método *não* formarem uma entidade lógica, seu método faz mais de uma coisa e você deve dividi-lo.
-
-Há casos em que a saída é uma entidade lógica que consiste em várias coisas. Estes são mais facilmente representados retornando uma estrutura ou objeto:
-
-```ABAP
-TYPES:
-  BEGIN OF check_result,
-    result      TYPE result_type,
-    failed_keys TYPE /bobf/t_frw_key,
-    messages    TYPE /bobf/t_frw_message,
-  END OF check_result.
-
-METHODS check_business_partners
-  IMPORTING
-    business_partners TYPE business_partners
-  RETURNING
-    VALUE(result)     TYPE check_result.
-```
-
-em vez de
-
-```ABAP
-" Fora do padrão
-METHODS check_business_partners
-  IMPORTING
-    business_partners TYPE business_partners
-  EXPORTING
-    result            TYPE result_type
-    failed_keys       TYPE /bobf/t_frw_key
-    messages          TYPE /bobf/t_frw_message.
-```
-
-Especialmente em comparação com vários parâmetros de EXPORTING, isso permite que as pessoas usem o estilo de chamada funcional, poupa você de pensar sobre `IS SUPPLIED`e evita que as pessoas se esqueçam acidentalmente de recuperar uma informação vital  de `ERROR_OCCURRED`.
-
-Em vez de vários parâmetros de saída opcionais, considere dividir o método de acordo com padrões de chamada significativos:
-
-```ABAP
-TYPES:
-  BEGIN OF check_result,
-    result      TYPE result_type,
-    failed_keys TYPE /bobf/t_frw_key,
-    messages    TYPE /bobf/t_frw_message,
-  END OF check_result.
-
-METHODS check
-  IMPORTING
-    business_partners TYPE business_partners
-  RETURNING
-    VALUE(result)     TYPE result_type.
-
-METHODS check_and_report
-  IMPORTING
-    business_partners TYPE business_partners
-  RETURNING
-    VALUE(result)     TYPE check_result.
-```
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Métodos)
 
 ### Tipos de Parâmetros
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Tipos-de-Parâmetros)
-
-#### Prefira RETURNING a EXPORTING
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Prefira-RETURNING-a-EXPORTING)
-
-```ABAP
-METHODS square
-  IMPORTING
-    number        TYPE i
-  RETURNING
-    VALUE(result) TYPE i.
-
-DATA(result) = square( 42 ).
-```
-
-Em vez do desnecessariamente mais longo
-
-```ABAP
-" Fora do padrão
-METHODS square
-  IMPORTING
-    number TYPE i
-  EXPORTING
-    result TYPE i.
-
-square(
-  EXPORTING
-    number = 42
-  IMPORTING
-    result = DATA(result) ).
-```
-
-`RETURNING` não apenas torna a chamada mais curta, mas também permite o encadeamento de métodos e evita erros de mesma entrada e saída.
-
-#### RETURNING em tabelas grandes
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#RETURNING-em-tabelas-grandes)
-
-Embora a documentação da linguagem ABAP e os guias de desempenho digam o contrário, raramente encontramos casos em que entregar uma tabela grande ou profundamente aninhada em um parâmetro VALUE *realmente* causa problemas de desempenho. Portanto, recomendamos o uso geral
-
-```ABAP
-METHODS get_large_table
-  RETURNING
-    VALUE(result) TYPE /clean/some_table_type.
-
-METHOD get_large_table.
-  result = large_table.
-ENDMETHOD.
-
-DATA(lt_my_table) = get_large_table( ).
-```
-
-Somente se houver prova real ( = uma medição de desempenho ruim) para o seu caso individual, você deve recorrer ao estilo de procedimento mais complicado
-
-```ABAP
-" Fora do padrão
-METHODS get_large_table
-  EXPORTING
-    result TYPE /dirty/some_table_type.
-
-METHOD get_large_table.
-  result = large_table.
-ENDMETHOD.
-
-get_large_table( IMPORTING result = DATA(lt_my_table) ).
-```
-
-#### Use RETURNING ou EXPORTING ou CHANGING
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Use-RETURNING-ou-EXPORTING-ou-CHANGING)
-
-Use RETURNING ou EXPORTING ou CHANGING, mas não uma combinação deles.
-
-```ABAP
-METHODS copy_class
-  IMPORTING
-    old_name      TYPE seoclsname
-    new name      TYPE secolsname
-  RETURNING
-    VALUE(result) TYPE copy_result
-  RAISING
-    /clean/class_copy_failure.
-```
-
-em vez de misturar-los como
-
-```ABAP
-" Fora do padrão
-METHODS copy_class
-  ...
-  RETURNING
-    VALUE(result)      TYPE vseoclass
-  EXPORTING
-    error_occurred     TYPE abap_bool
-  CHANGING
-    correction_request TYPE trkorr
-    package            TYPE devclass.
-```
-
-Diferentes tipos de parâmetros de saída são um indicador de que o método faz mais de uma coisa. Isso confunde o leitor e torna a chamada do método desnecessariamente complicada.
-
-Uma exceção aceitável a esta regra pode ser construtores que consomem sua entrada enquanto constroem sua saída:
-
-```ABAP
-METHODS build_tree
-  CHANGING
-    tokens        TYPE tokens
-  RETURNING
-    VALUE(result) TYPE REF TO tree.
-```
-
-No entanto, mesmo esses podem ficar mais claros objetivando a entrada:
-
-```ABAP
-METHODS build_tree
-  IMPORTING
-    tokens        TYPE REF TO token_stack
-  RETURNING
-    VALUE(result) TYPE REF TO tree.
-```
-
-#### Use CHANGING quando adequado
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Use-CHANGING-quando-adequado)
-
-`CHANGING`deve ser reservado para casos em que uma variável local existente que já está preenchida é atualizada apenas em alguns lugares:
-
-```ABAP
-METHODS update_references
-  IMPORTING
-    new_reference TYPE /bobf/conf_key
-  CHANGING
-    bo_nodes      TYPE root_nodes.
-
-METHOD update_references.
-  LOOP AT bo_nodes REFERENCE INTO DATA(bo_node).
-    bo_node->reference = new_reference.
-  ENDLOOP.
-ENDMETHOD.
-```
-
-Não force seus chamadores a introduzir variáveis locais desnecessárias apenas para fornecer seu parâmetro `CHANGING`. Não use parâmetros `CHANGING` para preencher inicialmente uma variável previamente vazia.
-
-#### Divisão de métodos ao em vez de parâmetro de entrada booleano
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Divisão-de-métodos-ao-em-vez-de-parâmetro-de-entrada-booleano)
-
-Parâmetros de entrada booleanos geralmente são um indicador de que um método faz *duas* coisas em vez de uma.
-
-```ABAP
-" Fora do padrão
-METHODS update
-  IMPORTING
-    do_save TYPE abap_bool.
-```
-
-Além disso, chamadas de método com um único - e, portanto, sem nome - parâmetro booleano tendem a obscurecer o significado do parâmetro.
-
-```ABAP
-" Fora do padrão
-update( abap_true ).  " o que significa 'verdadeiro'? 
-```
-
-Dividir o método pode simplificar o código dos métodos e descrever melhor as diferentes intenções
-
-```ABAP
-update_without_saving( ).
-update_and_save( ).
-```
-
-A percepção comum sugere que os setters para variáveis booleanas estão bem:
-
-```ABAP
-METHODS set_is_deleted
-  IMPORTING
-    new_value TYPE abap_bool.
-```
+[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Tipos-de-Parâmetros)
 
 #### Parâmetros do tipo TYPE REF TO DATA
 
@@ -1635,383 +1186,6 @@ GET REFERENCE OF value INTO lo_do_value.
 lo_material_log->log_value( ld_do_value ).
 ENDIF.
 ```
-
-### Nomes de Parâmetros
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Nomes-de-Parâmetros)
-
-#### Parâmetro RETURNING RESULT
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Nomes de Parâmetros ](#Nomes-de-Parâmetros) > [Seção atual](#Parâmetro-RETURNING-RESULT)
-
-Bons nomes de método geralmente são tão bons que o parâmetro  `RETURNING` não precisa de um nome próprio. O nome faria pouco mais do que repetir o nome do método ou repetir algo óbvio.
-
-A repetição de um nome de membro pode até produzir conflitos que precisam ser resolvidos com a adição de um exagerado `me->`.
-
-```ABAP
-" Fora do padrão
-METHODS get_name
-  RETURNING
-    VALUE(name) TYPE string.
-
-METHOD get_name.
-  name = me->name.
-ENDMETHOD.
-```
-
-Nesses casos, basta chamar o parâmetro `RESULT`, ou algo parecido `RV_RESULT` se preferir a notação húngara.
-
-Nomeie o parâmetro `RETURNING` se não for *óbvio* o que ele representa, por exemplo, em métodos que retornam `me` para encadeamento de métodos ou em métodos que criam algo, mas não retornam a entidade criada, mas apenas sua chave ou algo assim.
-
-### Inicialização de Parâmetros
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Inicialização-de-Parâmetros)
-
-#### Parâmetros de referência EXPORTING
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Seção atual](#Parâmetro-de-referência-EXPORTING)
-
-Os parâmetros de referência referem-se a áreas de memória existentes que podem ser preenchidas previamente. Limpe-os ou substitua-os para fornecer dados confiáveis:
-
-```abap
-METHODS square
-  EXPORTING
-    result TYPE i.
-
-" clear
-METHOD square.
-  CLEAR result.
-  " ...
-ENDMETHOD.
-
-" Substituir
-METHOD square.
-  result = cl_abap_math=>square( 2 ).
-ENDMETHOD.
-```
-
-##### Tome cuidado! 
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Parâmetros de referência EXPORTING](#Parâmetro-de-referência-EXPORTING) > [Seção atual](#Tome-cuidado!)
-
-Geralmente, é uma boa ideia limpar o parâmetro como primeira coisa no método após as declarações de tipo e dados. Isso torna a instrução fácil de detectar e evita que o valor ainda contido seja acidentalmente usado por instruções posteriores.
-
-No entanto, algumas configurações de parâmetros podem usar a mesma variável como entrada e saída. Nesse caso, um simples `CLEAR` excluiria o valor de entrada antes que ele pudesse ser usado, produzindo resultados incorretos.
-
-```abap
-" Fora do padrão
-DATA value TYPE i.
-
-square_dirty(
-  EXPORTING
-    number = value
-  IMPORTING
-    result = value ).
-
-METHOD square_dirty.
-  CLEAR result.
-  result = number * number.
-ENDMETHOD.
-```
-
-Considere redesenhar esses métodos substituindo os `EXPORTING` por `RETURNING`. Considere também sobrescrever o parâmetro `EXPORTING` em uma única instrução de cálculo de resultado. Se nenhum dos dois se encaixar, recorra a um `CLEAR`.
-
-#### Não limpe parâmetros VALUE
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Seção atual](#Não-limpe-parâmetros-VALUE)
-
-Parâmetros declarados no VALUE são vazias por definição desta forma não precisa ser limpo novamente 
-
-```ABAP
-METHODS square
-  EXPORTING
-    VALUE(result) TYPE i.
-
-METHOD square.
-  " Não há necessidade de limpar o resultado
-ENDMETHOD.
-```
-
-O mesmo se aplica ao RETURNING, pois os parâmetros RETURNING são sempre parâmetro VALUE 
-
-```ABAP
-METHODS square
-  RETURNING
-    VALUE(result) TYPE i.
-
-METHOD square.
-  " Não há necessidade de limpar o resultado
-ENDMETHOD.
-```
-
-### Corpo do método
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Corpo-do-método)
-
-#### Regras
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Seção atual](#Regras)
-
-##### Características 
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) >[Seção atual](#Características)
-
-Um método deve fazer uma coisa, e apenas uma coisa. Deve fazê-lo da melhor maneira possível.
-
-Um método provavelmente faz uma coisa se:
-
-- Tem poucos parâmetros de entrada
-- Não inclui parâmetros booleanos
-- Tem exatamente um parâmetro de saída
-- É pequeno
-- Ele desce um nível de abstração
-- Ele apresenta apenas um tipo de exceção
-- Você não pode extrair outros métodos significativos
-- Você não pode agrupar significativamente suas declarações em seções
-
-##### Método deve seguir apenas um propósito
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Método-deve-seguir-apenas-um-propósito)
-
-Um método deve seguir o seu propósito pelo qual foi criado ou o tratamento de erros caso não possa, mas não ambos.
-
-```ABAP
-" Fora do padrão
-METHOD append_xs.
-  IF input > 0.
-    DATA(remainder) = input.
-    WHILE remainder > 0.
-      result = result && `X`.
-      remainder = remainder - 1.
-    ENDWHILE.
-  ELSEIF input = 0.
-    RAISE EXCEPTION /dirty/sorry_cant_do( ).
-  ELSE.
-    RAISE EXCEPTION cx_sy_illegal_argument( ).
-  ENDIF.
-ENDMETHOD.
-```
-
-Pode ser decomposto em
-
-```abap
-METHOD append_xs.
-  validate( input ).
-  DATA(remainder) = input.
-  WHILE remainder > 0.
-    result = result && `X`.
-    remainder = remainder - 1.
-  ENDWHILE.
-ENDMETHOD.
-
-METHOD validate.
-  IF input = 0.
-    RAISE EXCEPTION /dirty/sorry_cant_do( ).
-  ELSEIF input < 0.
-    RAISE EXCEPTION cx_sy_illegal_argument( ).
-  ENDIF.
-ENDMETHOD.
-```
-
-ou, para enfatizar a parte de validação
-
-```ABAP
-METHOD append_xs.
-  IF input > 0.
-    result = append_xs_without_check( input ).
-  ELSEIF input = 0.
-    RAISE EXCEPTION /dirty/sorry_cant_do( ).
-  ELSE.
-    RAISE EXCEPTION cx_sy_illegal_argument( ).
-  ENDIF.
-ENDMETHOD.
-
-METHOD append_xs_without_check.
-  DATA(remainder) = input.
-  WHILE remainder > 0.
-    result = result && `X`.
-    remainder = remainder - 1.
-  ENDWHILE.
-ENDMETHOD.
-```
-
-##### Desça um nível de abstração
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Desça-um-nível-de-abstração)
-
-As instruções em um método devem estar um nível de abstração abaixo do próprio método. Da mesma forma, todos devem estar no mesmo nível de abstração
-
-```ABAP
-METHOD create_and_publish.
-  post = create_post( user_input ).
-  post->publish( ).
-ENDMETHOD.
-```
-
-em vez de confundir misturas de conceitos de baixo nível ( `trim`, `to_upper`, ...) e alto nível ( , ...) como`publish`
-
-```ABAP
-" Fora do padrão
-METHOD create_and_publish.
-  post = NEW blog_post( ).
-  DATA(user_name) = trim( to_upper( sy-uname ) ).
-  post->set_author( user_name ).
-  post->publish( ).
-ENDMETHOD.
-```
-
-Uma maneira confiável de descobrir qual é o nível correto de abstração é esta: Deixe o autor do método explicar o que o método faz em poucas palavras curtas, sem olhar para o código. Os marcadores que ele(a) numera são os sub-métodos que o método deve chamar ou as instruções que ele deve executar.
-
-##### Mantenha os métodos pequenos
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Mantenha-os-métodos-pequenos)
-
-Os métodos devem ter menos de 20 instruções, ideal em torno de 3 a 5 instruções.
-
-```ABAP
-METHOD read_and_parse_version_filters.
-  DATA(active_model_version) = read_random_version_under( model_guid ).
-  DATA(filter_json) = read_model_version_filters( active_model_version-guid ).
-  result = parse_model_version_filters( filter_json ).
-ENDMETHOD.
-```
-
-A declaração `DATA` a seguir sozinha é suficiente para ver que o método circundante faz muito mais do que uma coisa:
-
-```ABAP
-" Fora do padrão
-DATA:
-  class           TYPE vseoclass,
-  attributes      TYPE seoo_attributes_r,
-  methods         TYPE seoo_methods_r,
-  events          TYPE seoo_events_r,
-  types           TYPE seoo_types_r,
-  aliases         TYPE seoo_aliases_r,
-  implementings   TYPE seor_implementings_r,
-  inheritance     TYPE vseoextend,
-  friendships     TYPE seof_friendships_r,
-  typepusages     TYPE seot_typepusages_r,
-  clsdeferrds     TYPE seot_clsdeferrds_r,
-  intdeferrds     TYPE seot_intdeferrds_r,
-  attribute       TYPE vseoattrib,
-  method          TYPE vseomethod,
-  event           TYPE vseoevent,
-  type            TYPE vseotype,
-  alias           TYPE seoaliases,
-  implementing    TYPE vseoimplem,
-  friendship      TYPE seofriends,
-  typepusage      TYPE vseotypep,
-  clsdeferrd      TYPE vseocdefer,
-  intdeferrd      TYPE vseoidefer,
-  new_clskey_save TYPE seoclskey.
-```
-
-Claro que há ocasiões em que não faz sentido reduzir ainda mais um método maior. Isso é perfeitamente aceitável, desde que o método permaneça focado em uma coisa:
-
-```ABAP
-METHOD decide_what_to_do.
-  CASE temperature.
-    WHEN burning.
-      result = air_conditioning.
-    WHEN hot.
-      result = ice_cream.
-    WHEN moderate.
-      result = chill.
-    WHEN cold.
-      result = skiing.
-    WHEN freezing.
-      result = hot_cocoa.
-  ENDCASE.
-ENDMETHOD.
-```
-
-No entanto, ainda faz sentido validar se o código detalhado oculta um padrão mais adequado:
-
-```ABAP
-METHOD decide_what_to_do.
-  result = VALUE #( spare_time_activities[ temperature = temperature ] OPTIONAL ).
-ENDMETHOD.
-```
-
-### Controle de fluxo
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Controle-de-fluxo)
-
-#### Valide mais cedo
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#Valide-mais-cedo)
-
-Valide e falhe o mais cedo possível:
-
-```ABAP
-METHOD do_something.
-  IF input IS INITIAL.
-    RAISE EXCEPTION cx_sy_illegal_argument( ).
-  ENDIF.
-  DATA(massive_object) = build_expensive_object_from( input ).
-  result = massive_object->do_some_fancy_calculation( ).
-ENDMETHOD.
-```
-
-As validações posteriores são mais difíceis de detectar e entender e podem já ter desperdiçado recursos para chegar lá.
-
-```ABAP
-" Fora do padrão
-METHOD do_something.
-  DATA(massive_object) = build_expensive_object_from( input ).
-  IF massive_object IS NOT BOUND. " happens if input is initial
-    RAISE EXCEPTION cx_sy_illegal_argument( ).
-  ENDIF.
-  result = massive_object->do_some_fancy_calculation( ).
-ENDMETHOD.
-```
-
-#### CHECK vs. RETURN
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#CHECK-vs.-RETURN)
-
-Não há consenso sobre se deve usar `CHECK` ou `RETURN ` ao sair de um método se a entrada não atender às expectativas.
-
-Embora `CHECK`definitivamente forneça a sintaxe mais curta
-
-```ABAP
-METHOD read_customizing.
-  CHECK keys IS NOT INITIAL.
-  " faça o que precisa ser feito
-ENDMETHOD.
-```
-
-o nome da instrução não revela o que acontece se a condição falhar, de modo que as pessoas provavelmente entenderão melhor a forma longa:
-
-```ABAP
-METHOD read_customizing.
-  IF keys IS INITIAL.
-    RETURN.
-  ENDIF.
-  " faça o que precisa ser feito
-ENDMETHOD.
-```
-
-Você poderia evitar completamente a questão invertendo a validação e adotando um fluxo de controle de retorno único. Isso é considerado fora do padrão porque introduz uma profundidade de alinhamento desnecessária.
-
-```ABAP
-METHOD read_customizing.
-  " Fora do padrão
-  IF keys IS NOT INITIAL.
-  	" faça o que precisa ser feito
-  ENDIF.
-ENDMETHOD.
-```
-
-De qualquer forma, considere se não retornar nada é realmente o comportamento apropriado. Os métodos devem fornecer um resultado significativo, ou seja, um parâmetro de retorno preenchido ou uma exceção. Retornar nada é, em muitos casos, semelhante a retornar `null`, o que deve ser evitado.
-
-#### Evite o CHECK em outras posições
-
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#Evite-o-CHECK-em-outras-posições)
-
-Não use `CHECK`fora da seção de inicialização de um método. A declaração se comporta de maneira diferente em diferentes posições e pode levar a efeitos imprecisos e inesperados.
-
-Por exemplo, [`CHECK`em um `LOOP`termina a iteração atual e continua com a próxima](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abapcheck_loop.htm) ; as pessoas podem acidentalmente esperar que ele termine o método ou saia do loop. Prefira usar um instrução `IF` em combinação com `CONTINUE`, pois `CONTINUE`só pode ser usada em loops.
 
 ### Retorno
 
