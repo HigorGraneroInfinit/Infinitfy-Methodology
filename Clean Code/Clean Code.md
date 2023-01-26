@@ -60,7 +60,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Largura, Alinhamento e Preenchimento](#Largura,-Alinhamento-e-Preenchimento)
   - [CASE](#CASE)
 - [Estruturas Condicionais](#Estruturas-Condicionais)
-  - [IF ELSE](#IF ELSE)
+  - [IF ELSE](#IF-ELSE)
   - [CASE](#CASE)
   - [SWITCH](#SWITCH)
   - [COND](#COND)
