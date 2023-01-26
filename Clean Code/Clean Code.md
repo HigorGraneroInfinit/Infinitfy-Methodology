@@ -646,8 +646,6 @@ ENDLOOP.
 WRITE: / lv_sum.
 ````
 
-
-
 ### Utilizando LOOP AT
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Utilizando-LOOP-AT)
@@ -855,11 +853,11 @@ WRITE / |{ 'Text' CASE = (cl_abap_format=>c_lower) }|.
 
 ## Condições
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Condições)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Condições)
 
 ### Tente tornar as condições positivas
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Tente-tornar-as-condições-positivas)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Tente-tornar-as-condições-positivas)
 
 ```ABAP
 IF has_entries = abap_true.
@@ -884,7 +882,7 @@ ENDIF.
 
 ### Prefira IS NOT do que NOT IS
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Prefira-IS-NOT-do-que-NOT-IS)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Prefira-IS-NOT-do-que-NOT-IS)
 
 ```ABAP
 IF variable IS NOT INITIAL.
@@ -1086,15 +1084,15 @@ CREATE OBJECT lcl_order TYPE (dynamic_type)
 
 ## Métodos
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Métodos)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Métodos)
 
 ### Chamadas
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Chamadas)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Chamadas)
 
 #### Chamada de métodos estáticos 
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Chamada-de-métodos-estáticos)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Chamada-de-métodos-estáticos)
 
 Para chamar um método estático, use
 
@@ -1135,7 +1133,7 @@ CLASS cl_my_class IMPLEMENTATION.
 
 #### Prefira chamadas funcionais a processuais
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Prefira-chamadas-funcionais-a-processuais)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Prefira-chamadas-funcionais-a-processuais)
 
 ```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
@@ -1171,7 +1169,7 @@ Muitas das regras detalhadas abaixo são apenas variações mais específicas de
 
 #### Omita RECEIVING
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-RECEIVING)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-RECEIVING)
 
 ```ABAP
 DATA(sum) = aggregate_values( values ).
@@ -1190,7 +1188,7 @@ aggregate_values(
 
 #### Omita EXPORTING
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-EXPORTING)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-EXPORTING)
 
 ```ABAP
 modify->update( node           = /clean/my_bo_c=>node-item
@@ -1213,7 +1211,7 @@ modify->update(
 
 #### Omita o nome do parâmetro em chamadas de parâmetro único
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-o-nome-do-parâmetro-em-chamadas-de-parâmetro-único)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-o-nome-do-parâmetro-em-chamadas-de-parâmetro-único)
 
 ```ABAP
 DATA(unique_list) = remove_duplicates( list ).
@@ -1235,7 +1233,7 @@ update( asynchronous = abap_true ).
 
 #### Omita a auto-referência ME
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-a-auto-referência-ME)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Chamadas](#Chamadas) > [Seção atual](#Omita-a-auto-referência-ME)
 
 Como a auto-referência `me->`é definida implicitamente pelo sistema, omita-a ao chamar um atributo ou método de instância
 
@@ -1260,11 +1258,11 @@ me->logger = logger.
 
 ### Orientação a objetos
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Orientação-a-objetos)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Orientação-a-objetos)
 
 #### Prefira instância a métodos estáticos
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Orientação a objetos ](#Orientação-a-objetos) > [Seção atual](#Prefira-instância-a-métodos-estáticos)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Orientação a objetos ](#Orientação-a-objetos) > [Seção atual](#Prefira-instância-a-métodos-estáticos)
 
 Os métodos devem ser membros de instância por padrão. Os métodos de instância refletem melhor o "objeto" da classe. Eles podem ser ridicularizados mais facilmente em testes de unidade.
 
@@ -1282,7 +1280,7 @@ CLASS-METHODS create_instance
 
 #### Métodos de instância pública
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Orientação a objetos ](#Orientação-a-objetos) > [Seção atual](#Métodos-de-instância-pública)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Orientação a objetos ](#Orientação-a-objetos) > [Seção atual](#Métodos-de-instância-pública)
 
 Os métodos de instância pública sempre devem fazer parte de uma interface.
 
@@ -1294,11 +1292,11 @@ Na orientação a objetos limpa, ter um método público sem uma interface não 
 
 ### Número do parâmetro
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Número-do-parâmetro)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Número-do-parâmetro)
 
 #### Parâmetros de IMPORTING
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Parâmetros-de-IMPORTING)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Parâmetros-de-IMPORTING)
 
 É ideal a utilização de no máximo três parâmetro de IMPORTING.
 
@@ -1338,7 +1336,7 @@ Você pode reduzir o número de parâmetros combinando-os em conjuntos significa
 
 #### Divida métodos
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Divida-métodos)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Divida-métodos)
 
 Divida os métodos em vez de adicionar parâmetros OPCIONAIS.
 
@@ -1367,13 +1365,13 @@ Vários métodos com parâmetros específicos para o caso de uso evitam essa con
 
 #### Use o PREFERRED PARAMETER com moderação
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Use-o-PREFERRED-PARAMETER-com-moderação)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#Use-o-PREFERRED-PARAMETER-com-moderação)
 
 A adição `PREFERRED PARAMETER`torna difícil ver qual parâmetro é realmente fornecido, dificultando a compreensão do código. Minimizar o número de parâmetros, especialmente os opcionais, reduz automaticamente a necessidade de arquivos `PREFERRED PARAMETER`.
 
 #### RETURN, EXPORT ou CHANGE 
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#RETURN,-EXPORT-ou-CHANGE)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Número do parâmetro](#Número-do-parâmetro) > [Seção atual](#RETURN,-EXPORT-ou-CHANGE)
 
 Um bom método faz *uma coisa* , e isso deve ser refletido pelo método também retornando exatamente uma coisa. Se os parâmetros de saída do seu método *não* formarem uma entidade lógica, seu método faz mais de uma coisa e você deve dividi-lo.
 
@@ -1434,11 +1432,11 @@ METHODS check_and_report
 
 ### Tipos de Parâmetros
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Tipos-de-Parâmetros)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) >  [Seção atual](#Tipos-de-Parâmetros)
 
 #### Prefira RETURNING a EXPORTING
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Prefira-RETURNING-a-EXPORTING)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Prefira-RETURNING-a-EXPORTING)
 
 ```ABAP
 METHODS square
@@ -1471,7 +1469,7 @@ square(
 
 #### RETURNING em tabelas grandes
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#RETURNING-em-tabelas-grandes)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#RETURNING-em-tabelas-grandes)
 
 Embora a documentação da linguagem ABAP e os guias de desempenho digam o contrário, raramente encontramos casos em que entregar uma tabela grande ou profundamente aninhada em um parâmetro VALUE *realmente* causa problemas de desempenho. Portanto, recomendamos o uso geral
 
@@ -1504,7 +1502,7 @@ get_large_table( IMPORTING result = DATA(lt_my_table) ).
 
 #### Use RETURNING ou EXPORTING ou CHANGING
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Use-RETURNING-ou-EXPORTING-ou-CHANGING)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Use-RETURNING-ou-EXPORTING-ou-CHANGING)
 
 Use RETURNING ou EXPORTING ou CHANGING, mas não uma combinação deles.
 
@@ -1558,7 +1556,7 @@ METHODS build_tree
 
 #### Use CHANGING quando adequado
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Use-CHANGING-quando-adequado)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Use-CHANGING-quando-adequado)
 
 `CHANGING`deve ser reservado para casos em que uma variável local existente que já está preenchida é atualizada apenas em alguns lugares:
 
@@ -1580,7 +1578,7 @@ Não force seus chamadores a introduzir variáveis locais desnecessárias apenas
 
 #### Divisão de métodos ao em vez de parâmetro de entrada booleano
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Divisão-de-métodos-ao-em-vez-de-parâmetro-de-entrada-booleano)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Tipos de Parâmetros](#Tipos-de-Parâmetros) > [Seção atual](#Divisão-de-métodos-ao-em-vez-de-parâmetro-de-entrada-booleano)
 
 Parâmetros de entrada booleanos geralmente são um indicador de que um método faz *duas* coisas em vez de uma.
 
@@ -1640,11 +1638,11 @@ ENDIF.
 
 ### Nomes de Parâmetros
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Nomes-de-Parâmetros)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Nomes-de-Parâmetros)
 
 #### Parâmetro RETURNING RESULT
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Nomes de Parâmetros ](#Nomes-de-Parâmetros) > [Seção atual](#Parâmetro-RETURNING-RESULT)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Nomes de Parâmetros ](#Nomes-de-Parâmetros) > [Seção atual](#Parâmetro-RETURNING-RESULT)
 
 Bons nomes de método geralmente são tão bons que o parâmetro  `RETURNING` não precisa de um nome próprio. O nome faria pouco mais do que repetir o nome do método ou repetir algo óbvio.
 
@@ -1667,11 +1665,11 @@ Nomeie o parâmetro `RETURNING` se não for *óbvio* o que ele representa, por e
 
 ### Inicialização de Parâmetros
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Inicialização-de-Parâmetros)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Inicialização-de-Parâmetros)
 
 #### Parâmetros de referência EXPORTING
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Seção atual](#Parâmetro-de-referência-EXPORTING)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Seção atual](#Parâmetro-de-referência-EXPORTING)
 
 Os parâmetros de referência referem-se a áreas de memória existentes que podem ser preenchidas previamente. Limpe-os ou substitua-os para fornecer dados confiáveis:
 
@@ -1694,7 +1692,7 @@ ENDMETHOD.
 
 ##### Tome cuidado! 
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Parâmetros de referência EXPORTING](#Parâmetro-de-referência-EXPORTING) > [Seção atual](#Tome-cuidado!)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Parâmetros de referência EXPORTING](#Parâmetro-de-referência-EXPORTING) > [Seção atual](#Tome-cuidado!)
 
 Geralmente, é uma boa ideia limpar o parâmetro como primeira coisa no método após as declarações de tipo e dados. Isso torna a instrução fácil de detectar e evita que o valor ainda contido seja acidentalmente usado por instruções posteriores.
 
@@ -1720,7 +1718,7 @@ Considere redesenhar esses métodos substituindo os `EXPORTING` por `RETURNING`.
 
 #### Não limpe parâmetros VALUE
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Seção atual](#Não-limpe-parâmetros-VALUE)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Inicialização de Parâmetros](#Inicialização-de-Parâmetros) > [Seção atual](#Não-limpe-parâmetros-VALUE)
 
 Parâmetros declarados no VALUE são vazias por definição desta forma não precisa ser limpo novamente 
 
@@ -1748,15 +1746,15 @@ ENDMETHOD.
 
 ### Corpo do método
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Corpo-do-método)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Corpo-do-método)
 
 #### Regras
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Seção atual](#Regras)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Seção atual](#Regras)
 
 ##### Características 
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) >[Seção atual](#Características)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) >[Seção atual](#Características)
 
 Um método deve fazer uma coisa, e apenas uma coisa. Deve fazê-lo da melhor maneira possível.
 
@@ -1773,7 +1771,7 @@ Um método provavelmente faz uma coisa se:
 
 ##### Método deve seguir apenas um propósito
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Método-deve-seguir-apenas-um-propósito)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Método-deve-seguir-apenas-um-propósito)
 
 Um método deve seguir o seu propósito pelo qual foi criado ou o tratamento de erros caso não possa, mas não ambos.
 
@@ -1839,7 +1837,7 @@ ENDMETHOD.
 
 ##### Desça um nível de abstração
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Desça-um-nível-de-abstração)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Desça-um-nível-de-abstração)
 
 As instruções em um método devem estar um nível de abstração abaixo do próprio método. Da mesma forma, todos devem estar no mesmo nível de abstração
 
@@ -1866,7 +1864,7 @@ Uma maneira confiável de descobrir qual é o nível correto de abstração é e
 
 ##### Mantenha os métodos pequenos
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Mantenha-os-métodos-pequenos)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Corpo-do-método](#Corpo-do-método) > [Regras](#Regras) > [Seção atual](#Mantenha-os-métodos-pequenos)
 
 Os métodos devem ter menos de 20 instruções, ideal em torno de 3 a 5 instruções.
 
@@ -1937,11 +1935,11 @@ ENDMETHOD.
 
 ### Controle de fluxo
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Controle-de-fluxo)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Seção atual](#Controle-de-fluxo)
 
 #### Valide mais cedo
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#Valide-mais-cedo)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#Valide-mais-cedo)
 
 Valide e falhe o mais cedo possível:
 
@@ -1970,7 +1968,7 @@ ENDMETHOD.
 
 #### CHECK vs. RETURN
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#CHECK-vs.-RETURN)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#CHECK-vs.-RETURN)
 
 Não há consenso sobre se deve usar `CHECK` ou `RETURN ` ao sair de um método se a entrada não atender às expectativas.
 
@@ -2009,7 +2007,7 @@ De qualquer forma, considere se não retornar nada é realmente o comportamento 
 
 #### Evite o CHECK em outras posições
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#Evite-o-CHECK-em-outras-posições)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Métodos](#Métodos) > [Controle de fluxo ](#Controle-de-fluxo) > [Seção atual](#Evite-o-CHECK-em-outras-posições)
 
 Não use `CHECK`fora da seção de inicialização de um método. A declaração se comporta de maneira diferente em diferentes posições e pode levar a efeitos imprecisos e inesperados.
 
