@@ -4,22 +4,6 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 
 ## Conteúdo
 
-- [Como refatorar código legado](#Como-refatorar-código-legado)
-- [Nomeando Objetos](#Nomeando-Objetos)
-  - [Use nomes descritivos](#Use-nomes-descritivos)
-  - [Use nomes pronunciáveis](#Use-nomes-pronunciáveis)
-  - [Evite abreviaturas](#Evite-abreviaturas)
-  - [Use as mesmas abreviações em todos os lugares](#Use-as-mesmas-abreviações-em-todos-os-lugares)
-  - [Use substantivos para classes e verbos para métodos](#Use-substantivos-para-classes-e-verbos-para-métodos)
-  - [Evite palavras de ruído ](#Evite-palavras-de-ruído )
-  - [Escolha uma palavra por conceito](#Escolha-uma-palavra-por-conceito )
-  - [Uso de nomes de design patterns](#Uso-de-nomes-de-design-patterns)
-  - [Evite utilizar nomes de funções built-in](#Evite-utilizar-nomes-de-funções-built-in)
-- [Linguagem](#Linguagem)
-  - [Prefira a orientação a objetos à programação processual](#Prefira-a-orientação-a-objetos-à-programação-processual)
-  - [Prefira construções de linguagem funcional a procedimental](#Prefira-construções-de-linguagem-funcional-a-procedimental)
-  - [Evite elementos de linguagem obsoletos](#Evite-elementos-de-linguagem-obsoletos)
-  - [Use padrões de design com sabedoria](#Use-padrões-de-design-com-sabedoria)
 - [Constantes](#Constantes)
   - [Use constantes ao invés de hardcode](#Use-constantes-ao-invés-de-hardcode)
   - [Agrupamento](#[Agrupamento]())
@@ -1099,8 +1083,6 @@ CREATE OBJECT lcl_order TYPE (dynamic_type)
   EXPORTING
     order_number = lv_docnum.
 ```
-
-
 
 ## Métodos
 
