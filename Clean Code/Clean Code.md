@@ -8,7 +8,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 - [Constantes](#Constantes)
   - [Estruturas Constantes](#Estruturas-Constantes)
 - [Variáveis](#Variáveis)
-  - [Declarações](Declarações)
+  - [Declarações](#Declarações)
     - [Variáveis](#Variáveis)
     - [LOOP AT](#LOOP-AT)
     - [Read Table](#Read-Table)
@@ -124,7 +124,7 @@ CONSTANTS:
 
 #### Variáveis 
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#Variáveis)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](#Declarações) > [Seção atual](#Variáveis)
 
 ```ABAP
 DATA(lv_text) = 'Marcos'
@@ -302,17 +302,15 @@ Para o uso das agregações `SUM` `MAX` `MIN` `COUNT` `AVG` sendo:
 - AVG = Determina o valor médio da coluna especificada, podendo ser aplicado apenas em campos numérico.
 
 ```ABAP
-SELECT AVG( netwr ) FROM vbap INTO DATA(lv_avg_valoritem) WHERE vbeln EQ p_vbeln.
+SELECT AVG( netwr ) FROM vbap INTO @DATA(lv_avg_valoritem).
 
-SELECT MAX( kwmeng ) FROM vbap INTO DATA(lv_maxvendida) WHERE vbeln EQ p_vbeln.
+SELECT MAX( kwmeng ) FROM vbap INTO @DATA(lv_maxvendida).
 
-SELECT MIN( kwmeng ) FROM vbap INTO DATA(lv_minvendida) WHERE vbeln EQ p_vbeln.
+SELECT MIN( kwmeng ) FROM vbap INTO @DATA(lv_minvendida).
 
-SELECT SUM( kwmeng ) FROM vbap INTO DATA(lv_totalvendida) WHERE vbeln EQ p_vbeln.
+SELECT SUM( kwmeng ) FROM vbap INTO @DATA(lv_totalvendida).
 
-SELECT COUNT( matnr ) FROM vbap INTO DATA(lv_qntmaterial) WHERE vbeln EQ p_vbeln.
-
-SELECT COUNT( * ) FROM vbap INTO DATA(lv_qnttotal) WHERE vbeln EQ p_vbeln.
+SELECT COUNT( * ) FROM vbap INTO @DATA(lv_qnttotal).
 ```
 
 
