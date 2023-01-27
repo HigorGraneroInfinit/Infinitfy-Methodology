@@ -60,6 +60,8 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Definindo textos](#Definindo-textos)
   - [Concatenação](#Concatenação)
   - [Substituindo caracteres](#Substituindo-caracteres)
+  - [Contando o número de ocorrências e substituições](#Contando-o-número-de-ocorrências-e-substituições)
+  - [Substituindo textos de uma tabela](#Substituindo-textos-de-uma-tabela)
   - [Adicionando zeros à esquerda](#Adicionando-zeros-à-esquerda)
   - [Removendo zeros à esquerda](#Removendo-zeros-à-esquerda)
   - [Largura Alinhamento e Preenchimento](#Largura-Alinhamento-e-Preenchimento)
@@ -960,11 +962,42 @@ DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message 
 Para substituir caracteres em um texto, utilize:
 
 ```ABAP
-DATA(lv_mensagem) = 'Clean Code - Infinitfy'.
+DATA(lv_mensagem) = `Clean Code - Infinitfy`.
 DATA(lv_mensagem_sub) = REPLACE( val = lv_mensagem sub = 'FY' with = '' CASE = ABAP_FALSE ).
 ```
 
 Para ignorar o case-sensitive utilize o parâmetro `CASE = ABAP_FALSE`.
+
+### Substituindo-textos-de-uma-tabelaContando o número de ocorrências e substituições
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Contando-o-número-de-ocorrências-e-substituições)
+
+Para contar quantas ocorrências e substituições foram feitas utilize:
+
+```ABAP
+DATA(lv_mensagem) = `Clean Code - Infinitfy`.
+REPLACE ALL OCCURRENCES OF `FY` IN lv_mensagem WITH '000'
+            REPLACEMENT COUNT DATA(LV_COUNT)     "1 (number of replacements)
+            REPLACEMENT OFFSET DATA(LV_OFFSET)   "6 (Last occurance of replacement)
+            REPLACEMENT LENGTH DATA(LV_LEN)      "5 (length of the last substring inserted)
+            IGNORING CASE.
+```
+
+### Substituindo textos de uma tabela
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Substituindo-textos-de-uma-tabela)
+
+Para substituir caracteres em textos de uma tabela, utilize:
+
+```ABAP
+DATA(str_tab) = VALUE string_table( ( `X0X` ) ( `Y0Y` ) ( `Z0Z` ) ).
+
+REPLACE ALL OCCURENCES OF '0'
+                          IN TABLE str_tab WITH ``
+                           RESPECTING CASE.  "XX YY ZZ
+```
+
+ **OBS:** é necessário que a tabela seja do tipo String.
 
 ### Adicionando zeros à esquerda
 
