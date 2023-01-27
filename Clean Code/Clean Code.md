@@ -6,7 +6,10 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 
 -  [Diretrizes](#Diretrizes)
 - [Constantes](#Constantes)
-  - [Estruturas Constantes](#Estruturas-Constantes)
+  - [Use constantes ao invés de hardcode](#Use-constantes-ao-invés-de-hardcode)
+  - [Agrupamento](#[Agrupamento]())
+    - [Classes de Enumeração](#Classes-de-Enumeração)
+    - [Estruturas Constantes](#Estruturas-Constantes)
 - [Variáveis](#Variáveis)
   - [Declarações](#Declarações)
     - [Variáveis](#Variáveis)
@@ -100,6 +103,67 @@ Para um código limpo teve seguir as seguintes especificações sendo as:
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Constantes)
 
+### Use constantes ao invés de hardcode
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Seção atual](#Use-constantes-ao-invés-de-hardcode)
+
+```ABAP
+IF abap_type = cl_abap_typedescr=>typekind_date.
+```
+
+pois é mais claro que 
+
+```ABAP
+" Fora do padrão
+IF abap_type = 'D'.
+```
+
+### Agrupamento
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Seção atual](#Agrupamento)
+
+Para o agrupamento de constantes utilize uma das seguintes alternativas.
+
+#### Classes de Enumeração
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Agrupamento](#Agrupamento) >[Seção atual](#Classes-de-Enumeração)
+
+Utilize classes ao invés de interfaces para agrupar constantes.
+
+```ABAP
+CLASS /clean/message_severity DEFINITION PUBLIC ABSTRACT FINAL.
+  PUBLIC SECTION.
+    CONSTANTS:
+      gc_warning TYPE symsgty VALUE 'W',
+      gc_error   TYPE symsgty VALUE 'E'.
+ENDCLASS.
+```
+
+ou:
+
+```ABAP
+CLASS /clean/message_severity DEFINITION PUBLIC CREATE PRIVATE FINAL.
+  PUBLIC SECTION.v
+    CLASS-DATA:
+      gc_warning TYPE REF TO /clean/message_severity READ-ONLY,
+      gc_error   TYPE REF TO /clean/message_severity READ-ONLY.
+  " ...
+ENDCLASS.
+```
+
+Ao invés de:
+
+```ABAP
+" Fora do padrão
+INTERFACE /dirty/common_constants.
+  CONSTANTS:
+    lc_warning      TYPE symsgty VALUE 'W',
+    lc_transitional TYPE i       VALUE 1,
+    lc_error        TYPE symsgty VALUE 'E',
+    lc_persisted    TYPE i       VALUE 2.
+ENDINTERFACE.
+```
+
 #### Estruturas Constantes
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Constantes](#Constantes) > [Agrupamento](#Agrupamento) >[Seção atual](#Estruturas-Constantes)
@@ -111,7 +175,38 @@ CONSTANTS:
   BEGIN OF message_severity,
     lc_warning TYPE symsgty VALUE 'W',
     lc_error   TYPE symsgty VALUE 'E',
-  END OF message_severity.
+  END OF message_severity,
+  BEGIN OF message_lifespan,
+    lc_transitional TYPE i VALUE 1,
+    lc_persisted    TYPE i VALUE 2,
+  END OF message_lifespan.
+```
+
+Torna a relação mais clara do que:
+
+```ABAP
+" Fora do padrão
+CONSTANTS:
+  warning      TYPE symsgty VALUE 'W',
+  transitional TYPE i       VALUE 1,
+  error        TYPE symsgty VALUE 'E',
+  persisted    TYPE i       VALUE 2,
+```
+
+Dessa forma é possível realizar a seguinte validação:
+
+```ABAP
+DO.
+  ASSIGN COMPONENT sy-index OF STRUCTURE message_severity TO FIELD-SYMBOL(lfs_<constant>).
+  IF sy-subrc IS INITIAL.
+    IF input = lfs_<constant>.
+      DATA(is_valid) = abap_true.
+      RETURN.
+    ENDIF.
+  ELSE.
+    RETURN.
+  ENDIF.
+ENDDO.
 ```
 
 ## Variáveis
