@@ -85,7 +85,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 
 ## Diretrizes
 
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Diretrizes)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Diretrizes)
 
 Para um código limpo teve seguir as seguintes especificações sendo as: 
 
