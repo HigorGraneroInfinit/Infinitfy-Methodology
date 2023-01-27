@@ -998,9 +998,27 @@ WRITE / |{ 'Centre'   WIDTH = 20 ALIGN = CENTER PAD = '0' }|.
 WRITE / |{ 'Right'    WIDTH = 20 ALIGN = RIGHT  PAD = '0' }|.
 ```
 
-### CASE
+### Upper e lower case
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#CASE)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Upper-e-lower-case)
+
+#### to_upper() e to_lower()
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Upper e lower case](#Upper-e-lower-case) > [Seção atual](#to_upper()-e-to_lower())
+
+Utilize as funções `to_upper()` e `to_lower()` para deixar um texto em upper ou lower case:
+
+```ABAP
+DATA(lower_case) = `CLEAN CODE - INFINIT`. 
+DATA(upper_case) = `clean code - infinit`.
+
+lower_case = to_lower( lower_case ).
+upper_case = to_upper( upper_case ).
+```
+
+#### CASE
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Upper e lower case](#Upper-e-lower-case) > [Seção atual](#CASE)
 
 Para formatar o campo texto utilizar `CASE` para usar a classe `cl_abap_format` :
 
@@ -1013,8 +1031,6 @@ WRITE / |{ 'Text' CASE = (cl_abap_format=>c_raw) }|.
 WRITE / |{ 'Text' CASE = (cl_abap_format=>c_upper) }|.
 WRITE / |{ 'Text' CASE = (cl_abap_format=>c_lower) }|.
 ```
-
-
 
 ## Estruturas Condicionais
 
