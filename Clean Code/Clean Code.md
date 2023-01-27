@@ -968,7 +968,7 @@ DATA(lv_mensagem_sub) = REPLACE( val = lv_mensagem sub = 'FY' with = '' CASE = A
 
 Para ignorar o case-sensitive utilize o parâmetro `CASE = ABAP_FALSE`.
 
-### Substituindo-textos-de-uma-tabelaContando o número de ocorrências e substituições
+### Contando o número de ocorrências e substituições
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Contando-o-número-de-ocorrências-e-substituições)
 
