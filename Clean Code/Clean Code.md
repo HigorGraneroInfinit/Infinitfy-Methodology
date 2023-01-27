@@ -5,11 +5,11 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 ## Conteúdo
 
 -  [Diretrizes](#Diretrizes)
-- - [Constantes](#Constantes)
-    - [Use constantes ao invés de hardcode](#Use-constantes-ao-invés-de-hardcode)
-    - [Agrupamento](#[Agrupamento]())
-      - [Classes de Enumeração](#Classes-de-Enumeração)
-      - [Estruturas Constantes](#Estruturas-Constantes)
+- [Constantes](#Constantes)
+  - [Use constantes ao invés de hardcode](#Use-constantes-ao-invés-de-hardcode)
+  - [Agrupamento](#[Agrupamento]())
+    - [Classes de Enumeração](#Classes-de-Enumeração)
+    - [Estruturas Constantes](#Estruturas-Constantes)
 - [Variáveis](#Variáveis)
   - [Declarações](#Declarações)
     - [Variáveis](#Variáveis)
