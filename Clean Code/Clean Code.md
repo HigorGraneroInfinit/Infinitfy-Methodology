@@ -37,6 +37,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Buscando linhas](#Buscando-linhas)
     - [Por Índice](#Por-Índice)
     - [Por valor de um ou mais campos específicos](#Por-valor-de-um-ou-mais-campos-específicos)
+  - [Retornando o número de linhas](#Retornando-o-número-de-linhas)
   - [Retornando o índice de uma linha](#Retornando-o-índice-de-uma-linha)
   - [Acessando campos de uma linha diretamente](#Acessando-campos-de-uma-linha-diretamente)
   - [Passando dados de uma tabela para outra](#Passando-dados-de-uma-tabela-para-outra)
@@ -58,6 +59,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
 - [Strings](#Strings)
   - [Definindo textos](#Definindo-textos)
   - [Concatenação](#Concatenação)
+  - [Substituindo caracteres](#Substituindo-caracteres)
   - [Adicionando zeros à esquerda](#Adicionando-zeros-à-esquerda)
   - [Removendo zeros à esquerda](#Removendo-zeros-à-esquerda)
   - [Largura Alinhamento e Preenchimento](#Largura-Alinhamento-e-Preenchimento)
@@ -556,6 +558,23 @@ READ TABLE lt_material INTO DATA(wa_material)  WITH KEY matnr = lv_matnr mtype =
 
 **OBS:** Lembre-se de que é necessário utilizar o `SORT` na tabela a ser lida antes de aplicar o `READ TABLE`.
 
+### Retornando o número de linhas
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Retornando-o-número-de-linhas)
+
+Para contar o número de linhas em uma tabela, utilize:
+
+```ABAP
+  DATA(lv_numero_linhas) = lines( gt_material ).
+```
+
+Torna-se muito mais claro e mais curto do que:
+
+```ABAP
+DATA : lv_numero_linhas TYPE i.
+DESCRIBE TABLE gt_material LINES lv_numero_linhas.
+```
+
 ### Retornando o índice de uma linha
 
 [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [Seção atual](#Retornando-o-índice-de-uma-linha)
@@ -933,6 +952,19 @@ Os modelos de string destacam melhor o que é literal e o que é variável, espe
 " Fora do padrão
 DATA(message) = `Received an unexpected HTTP ` && status_code && ` with message ` && text.
 ```
+
+### Substituindo caracteres
+
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Substituindo-caracteres)
+
+Para substituir caracteres em um texto, utilize:
+
+```ABAP
+DATA(lv_mensagem) = 'Clean Code - Infinitfy'.
+DATA(lv_mensagem_sub) = REPLACE( val = lv_mensagem sub = 'FY' with = '' CASE = ABAP_FALSE ).
+```
+
+Para ignorar o case-sensitive utilize o parâmetro `CASE = ABAP_FALSE`.
 
 ### Adicionando zeros à esquerda
 
