@@ -101,7 +101,7 @@ Para um código limpo teve seguir as seguintes especificações sendo as:
 6.  Todo WHERE do SELECT deve possui @ na variável para diferenciar do campo do Banco de Dados.
 7.  As declarações devem ser declaradas IN-LINE, salvo quando necessário.
 8.  Deve se evitar ao máximo usar HARD CODE.
-9.  Deve ser utilizado condições 
+9.  Deve ser utilizado condições positivas, salvo quando necessário.
 
 
 
