@@ -209,6 +209,8 @@ DO.
 ENDDO.
 ```
 
+
+
 ## Variáveis
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Variáveis)
