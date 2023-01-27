@@ -754,8 +754,6 @@ lt_flight_lh = FILTER #( lt_flights_all USING KEY carrid
 ENDIF.
 ````
 
-
-
 ##### FILTER com um filtro de tabela
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Tabelas](#Tabelas) > [FILTER](#FILTER) > [FILTER com um filtro de tabela](#FILTER-de-valor-único) > [Seção atual](#FILTER-com-um-filtro-de-tabela)
@@ -780,8 +778,6 @@ cl_demo_output=>write_data( lt_flights_all ).
 cl_demo_output=>write_data( lt_flight_final ).
 cl_demo_output=>display( ).
 ````
-
-
 
 ### Utilizando LOOP AT
 
