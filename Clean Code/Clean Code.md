@@ -12,7 +12,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
     - [Variáveis](#Variáveis)
     - [LOOP AT](#LOOP-AT)
     - [Read Table](#Read-Table)
-    - [Métodos](#Métodos)
+    - [Método](#Método)
     - [Field-Symbol](#Field-Symbol)
     - [Inserir Dados](#Inserir-Dados)
     - [Ler Índice](#Ler-Índice)
@@ -49,7 +49,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Utilizando LOOP AT](#Utilizando-LOOP-AT)
     - [Quando utilizar](#Quando-utilizar)
     - [Utilize FIELD SYMBOL ao invés de MODIFY](#Utilize-FIELD-SYMBOL-ao-invés-de-MODIFY)
-    - [GROUP-BY](#GROUP-BY)
+    - [GROUP BY](#GROUP-BY)
   - [Verificando a existência de uma linha](#Verificando-a-existência-de-uma-linha)
   - [Evite leituras desnecessárias de tabelas](#Evite-leituras-desnecessárias-de-tabelas)
 - [Strings](#Strings)
@@ -57,7 +57,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Concatenação](#Concatenação)
   - [Adicionando zeros à esquerda](#Adicionando-zeros-à-esquerda)
   - [Removendo zeros à esquerda](#Removendo-zeros-à-esquerda)
-  - [Largura, Alinhamento e Preenchimento](#Largura,-Alinhamento-e-Preenchimento)
+  - [Largura Alinhamento e Preenchimento](#Largura-Alinhamento-e-Preenchimento)
   - [CASE](#CASE)
 - [Estruturas Condicionais](#Estruturas-Condicionais)
   - [IF ELSE](#IF-ELSE)
@@ -149,9 +149,9 @@ ENDLOOP.
 READ TABLE lt_flight INTO DATA(ls_flight) index 1.
 ```
 
-#### Métodos
+#### Método
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#Métodos)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Variáveis](#Variáveis) >[Declarações](Declarações) > [Seção atual](#Método)
 
 ```ABAP
 DATA(lv_node) = wd_context->get_child_node( name = wd_this->wdctx_node_detail ).
@@ -887,9 +887,9 @@ CALL FUNCTION 'CONVERSION_EXIT_ALPHA_OUTPUT'
     output = var_ext.  
 ```
 
-### Largura, Alinhamento e Preenchimento
+### Largura Alinhamento e Preenchimento
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Largura,-Alinhamento-e-Preenchimento)
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Largura-Alinhamento-e-Preenchimento)
 
 - Width = Determina a largura do texto.
 - Align = Alinha o texto, para esquerda `LEFT` , centro `CENTER` e direita `RIGHT`.
@@ -915,56 +915,6 @@ Para formatar o campo texto utilizar `CASE` para usar a classe `cl_abap_format` 
 WRITE / |{ 'Text' CASE = (cl_abap_format=>c_raw) }|.
 WRITE / |{ 'Text' CASE = (cl_abap_format=>c_upper) }|.
 WRITE / |{ 'Text' CASE = (cl_abap_format=>c_lower) }|.
-```
-
-
-
-## Condições
-
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Seção atual](#Condições)
-
-### Tente tornar as condições positivas
-
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Tente-tornar-as-condições-positivas)
-
-```ABAP
-IF has_entries = abap_true.
-```
-
-Para comparação, veja como fica difícil entender a mesma declaração ao invertê-la:
-
-```ABAP
-" Fora do padrão
-IF has_no_entries = abap_false.
-```
-
-A "tentativa" no título da seção significa que você não deve forçar isso a ponto de acabar com algo como ramificações IF vazias :
-
-```ABAP
-" Fora do padrão
-IF has_entries = abap_true.
-ELSE.
-  " apenas faça algo no bloco ELSE, IF permanece vazio
-ENDIF.
-```
-
-### Prefira IS NOT do que NOT IS
-
-[Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Condições](#Condições) > [Seção atual](#Prefira-IS-NOT-do-que-NOT-IS)
-
-```ABAP
-IF variable IS NOT INITIAL.
-IF variable NP 'TODO*'.
-IF variable <> 42.
-```
-
-A negação é logicamente equivalente, mas requer uma "reviravolta mental" que a torna mais difícil de entender.
-
-```ABAP
-" Fora do padrão
-IF NOT variable IS INITIAL.
-IF NOT variable CP 'TODO*'.
-IF NOT variable = 42.
 ```
 
 
