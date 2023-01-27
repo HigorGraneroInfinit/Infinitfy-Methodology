@@ -62,7 +62,7 @@ Para que os desenvolvimentos feitos pela Infinitfy possuam um código limpo (Cle
   - [Removendo zeros à esquerda](#Removendo-zeros-à-esquerda)
   - [Largura Alinhamento e Preenchimento](#Largura-Alinhamento-e-Preenchimento)
   - [Upper e lower case](#Upper-e-lower-case)
-    - [to_upper() e to_lower()](#to_upper()-e-to_lower())
+    - [to_upper e to_lower](#to_upper-e-to_lower)
     - [CASE](#CASE)
 - [Estruturas Condicionais](#Estruturas-Condicionais)
   - [IF ELSE](#IF-ELSE)
@@ -1004,9 +1004,9 @@ WRITE / |{ 'Right'    WIDTH = 20 ALIGN = RIGHT  PAD = '0' }|.
 
 > [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Seção atual](#Upper-e-lower-case)
 
-#### to_upper() e to_lower()
+#### to_upper e to_lower
 
-> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Upper e lower case](#Upper-e-lower-case) > [Seção atual](#to_upper()-e-to_lower())
+> [Clean Code](#Clean-Code) > [Conteúdo](#Conteúdo) > [Strings](#Strings) > [Upper e lower case](#Upper-e-lower-case) > [Seção atual](#to_upper-e-to_lower)
 
 Utilize as funções `to_upper()` e `to_lower()` para deixar um texto em upper ou lower case:
 
