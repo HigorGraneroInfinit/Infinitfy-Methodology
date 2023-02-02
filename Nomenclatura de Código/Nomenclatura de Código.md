@@ -382,7 +382,7 @@ Padrão geral: <span style="color:red">**ZCL**</span><span style="color:blue">**
 | Select-Options | s_              |
 | Checkbox       | cb_             |
 | Radio-button   | rb_             |
-| Objetos OO     | oo_             |
+| Objetos OO     | go_             |
 
 ### **Objetos Locais**
 
@@ -399,6 +399,7 @@ Padrão geral: <span style="color:red">**ZCL**</span><span style="color:blue">**
 | Types          | ly_             |
 | Estruturas     | ls_             |
 | Classe         | lcl_            |
+| Objetos OO     | lo_             |
 
 ### **Elemento de Texto**
 
