@@ -178,14 +178,14 @@ Utilize estruturas constantes ao invés de constantes soltas.
 
 ```ABAP
 CONSTANTS:
-  BEGIN OF message_severity,
-    lc_warning TYPE symsgty VALUE 'W',
-    lc_error   TYPE symsgty VALUE 'E',
-  END OF message_severity,
-  BEGIN OF message_lifespan,
-    lc_transitional TYPE i VALUE 1,
-    lc_persisted    TYPE i VALUE 2,
-  END OF message_lifespan.
+  BEGIN OF lc_message_severity,
+    warning TYPE symsgty VALUE 'W',
+    error   TYPE symsgty VALUE 'E',
+  END OF lc_message_severity,
+  BEGIN OF lc_message_lifespan,
+    transitional TYPE i VALUE 1,
+    persisted    TYPE i VALUE 2,
+  END OF lc_message_lifespan.
 ```
 
 Torna a relação mais clara do que:
