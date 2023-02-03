@@ -6,4 +6,4 @@ Infinitfy Methodology Development Project
 - Nomenclatura de Código
 - Clean Code
 - Performance
-- DevOps
+- BackLog
