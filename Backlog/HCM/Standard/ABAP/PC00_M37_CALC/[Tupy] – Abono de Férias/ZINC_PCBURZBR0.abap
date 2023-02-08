@@ -1,5 +1,12 @@
 *&---------------------------------------------------------------------*
-*&  Include  ZINC_PCBURZBR0
+*& Nome: ZINC_PCBURZBR0
+*& Tipo: Include
+*& Objetivo: função de folha de pagamento
+*& Data/Hora: Segunda, Janeiro 30, 2023 (GMT-3) - 8:00
+*& Desenvolvedor: Sérgio Melges (Infinitfy)
+*&---------------------------------------------------------------------*
+*& Versão 1: Sérgio Melges (Infinitfy) - Inicio Desenvolvimento -
+*& PKDK900074
 *&---------------------------------------------------------------------*
 
 FORM fuz_abn.
