@@ -8,38 +8,36 @@ Como também a modificação da tela 9000 para acrescentar o botão ‘Gerar PDF
 
 Execução da transação ZMM0011:
 
-![img](file:///C:/Users/Felyp/AppData/Local/Temp/msohtmlclip1/01/clip_image002.jpg)
-
- 
+![](C:\Users\Felyp\OneDrive\Área de Trabalho\Imagens para teste\Screenshot_1.png)
 
 Executando com o RadionButton ‘Devolução Mercadoria‘: 
 
-![img](file:///C:/Users/Felyp/AppData/Local/Temp/msohtmlclip1/01/clip_image004.jpg)
+![](C:\Users\Felyp\OneDrive\Área de Trabalho\Imagens para teste\segunda.png)
 
 Executando o Botão ‘Gerar PDF Espelho Devolução’:
 
-![img](file:///C:/Users/Felyp/AppData/Local/Temp/msohtmlclip1/01/clip_image006.jpg)
+![](C:\Users\Felyp\OneDrive\Área de Trabalho\Imagens para teste\terceira.png)
 
 Salvando o arquivo PDF:
 
-![img](file:///C:/Users/Felyp/AppData/Local/Temp/msohtmlclip1/01/clip_image008.jpg)
+![](C:\Users\Felyp\OneDrive\Área de Trabalho\Imagens para teste\quarta.png)
 
 Formulário com o novo Sub-Título:
 
-![img](file:///C:/Users/Felyp/AppData/Local/Temp/msohtmlclip1/01/clip_image010.jpg)
+![](C:\Users\Felyp\OneDrive\Área de Trabalho\Imagens para teste\cinco.png)
 
 Executando com o RadionButton ‘Devolução Mercadoria /Ressarcimento‘: 
 
-![img](file:///C:/Users/Felyp/AppData/Local/Temp/msohtmlclip1/01/clip_image012.jpg)
+![](C:\Users\Felyp\OneDrive\Área de Trabalho\Imagens para teste\seis.png)
 
 Executando o Botão ‘Gerar PDF Espelho Ressarcimento’:
 
-![img](file:///C:/Users/Felyp/AppData/Local/Temp/msohtmlclip1/01/clip_image014.jpg)
+![](C:\Users\Felyp\OneDrive\Área de Trabalho\Imagens para teste\sete.png)
 
 Salvando o arquivo PDF:
 
-![img](file:///C:/Users/Felyp/AppData/Local/Temp/msohtmlclip1/01/clip_image016.jpg)
+![](C:\Users\Felyp\OneDrive\Área de Trabalho\Imagens para teste\oito.png)
 
 Formulário com o novo Sub-Título, campo CFOP, como também as informações dos campos de ‘Totais da NFE,  Informações Complementares, Produtos e Serviços‘ :
 
-![img](file:///C:/Users/Felyp/AppData/Local/Temp/msohtmlclip1/01/clip_image018.jpg)
+![](C:\Users\Felyp\OneDrive\Área de Trabalho\Imagens para teste\nove.png)
