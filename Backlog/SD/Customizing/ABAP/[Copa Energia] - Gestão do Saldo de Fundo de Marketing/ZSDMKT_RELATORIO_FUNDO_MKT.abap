@@ -220,6 +220,7 @@ FORM f_seleciona_dados.
            vbap~posnr,                                          "Item do Documento de Vendas"
            vbap~matnr,                                          "Número Material"
            vbrp~vgbel,                                          "Nº documento do documento de referência"
+           vbrp~aubel AS vbeln_vf,                              "Documento de vendas
            vbrk~bukrs,                                          "Empresa"
            vbrk~zuonr,                                          "Nº Atribuição"
            vbrk~fksto                                           "Fatura Estornada"
@@ -237,7 +238,9 @@ FORM f_seleciona_dados.
     IF gt_vb[] IS INITIAL.
       FREE: gt_vb[].
     ELSE.
-      gr_vbeln = VALUE #( FOR lwa_vbeln IN gt_vb ( sign = 'I' option = 'EQ' low = lwa_vbeln(10) ) ).
+      gr_vbeln = VALUE #( FOR lwa_vbeln IN gt_vb
+                         LET doc_faturamento = lwa_vbeln-vbeln_vf IN
+                         ( sign = 'I' option = 'EQ' low = doc_faturamento ) ).
 
       SELECT bkpf~bukrs                                     "Empresa"
              bkpf~belnr                                     "Nº Documento de um Documento Contábil"
@@ -286,10 +289,10 @@ FORM f_seleciona_dados.
 
   IF s_vbelnf IS NOT INITIAL.
 
-    SELECT vbrp~vbeln AS vbeln_vf,                                        "Documento de Faturamento"
+    SELECT vbrp~vbeln AS vbeln_vf,                            "Documento de Faturamento"
            vbrp~posnr,                                        "Item do Documento de Faturamento"
            vbrp~vgbel,                                        "Nº Documento de Referência"
-           vbrp~aubel AS vbeln_va,                                        "Documento de vendas
+           vbrp~aubel AS vbeln_va,                            "Documento de vendas
            vbak~erdat,                                        "Data de Criação"
            vbak~vkorg,                                        "Organização de Vendas"
            vbak~vtweg,                                        "Canal de Distribuição"
@@ -301,7 +304,7 @@ FORM f_seleciona_dados.
       FROM vbrp
       INNER JOIN vbak ON  vbak~vbeln EQ vbrp~aubel
                       AND vbak~erdat EQ vbrp~erdat
-      LEFT JOIN  vbap ON  vbap~vgbel EQ vbak~vbeln
+      LEFT JOIN  vbap ON  vbap~vbeln EQ vbak~vbeln
                       AND vbap~erdat EQ vbak~erdat
       INNER JOIN vbrk ON  vbrk~vbeln EQ vbrp~vbeln
                       AND vbrk~erdat EQ vbrp~erdat
@@ -312,7 +315,9 @@ FORM f_seleciona_dados.
     IF gt_vb[] IS INITIAL.
       FREE: gt_vb[].
     ELSE.
-      gr_vbeln = VALUE #( FOR lwa_vbeln IN gt_vb ( sign = 'I' option = 'EQ' low = lwa_vbeln(10) ) ).
+      gr_vbeln = VALUE #( FOR lwa_vbeln IN gt_vb
+                         LET doc_faturamento = lwa_vbeln-vbeln_vf IN
+                         ( sign = 'I' option = 'EQ' low = doc_faturamento ) ).
 
       SELECT bkpf~bukrs                                    "Empresa"
              bkpf~belnr                                    "Nº documento de um documento contábil"
@@ -421,7 +426,7 @@ FORM f_seleciona_dados.
         FROM j_1bnflin
         INNER JOIN j_1bnfdoc ON j_1bnfdoc~docnum EQ j_1bnflin~docnum
         INTO CORRESPONDING FIELDS OF TABLE @gt_1bnf[]
-      WHERE j_1bnflin~refkey IN @s_erdat.
+      WHERE j_1bnflin~refkey IN @gr_vbeln[].
       IF gt_1bnf[] IS INITIAL.
         FREE: gt_1bnf[].
       ENDIF.
