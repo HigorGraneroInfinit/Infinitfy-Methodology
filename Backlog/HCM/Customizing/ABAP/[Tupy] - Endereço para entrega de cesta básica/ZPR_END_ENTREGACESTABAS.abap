@@ -15,33 +15,53 @@
 
 REPORT zpr_end_entregacestabas.
 
+
+*****************
+*** INFOTYPES ***
+*****************
+INFOTYPES: 0000. "Medidas
+INFOTYPES: 0001. "Atribuição organizacional
+INFOTYPES: 0002. "Dados pessoais
+INFOTYPES: 0006. "Endereços
+INFOTYPES: 0171. "Inform.Geral Benefícios
+INFOTYPES: 0377. "Planos Diversos
+
 ***************
 *** TABELAS ***
 ***************
-TABLES: pa0000.
+TABLES: pernr.
+TABLES: t500p.
+TABLES: t001p.
+TABLES: t7br0p.
+TABLES: t7brap.
+
+************************************
+*** Nós de Banco de Dados Lógico ***
+************************************
+NODES: peras.
 
 ***************
 ***  TYPES  ***
 ***************
 TYPES: BEGIN OF ty_saida,
-empresa TYPE p0001-bukrs,
-filial TYPE t7brap-filia,
-area TYPE p0001-werks,
-descricao_area TYPE t500p-name1,
-subarea TYPE p0001-btrtl,
-descricao_subarea TYPE t001p-btext,
-pernr TYPE p0000-pernr,
-nome_pessoa TYPE p0002-cname,
-periodo_inicio TYPE p0000-begda,
-periodo_final TYPE p0000-endda,
-rua TYPE p0006-stras,
-numero TYPE p0006-hsnmr,
-complemento TYPE p0006-posta,
-bairro TYPE p0006-ort02,
-cidade TYPE p0006-ort01,
-uf TYPE p0006-state,
-pais TYPE p0006-land1,
-cep TYPE p0006-pstlz,
+     empresa TYPE p0001-bukrs,
+     filial TYPE t7brap-filia,
+     area TYPE p0001-werks,
+     descricao_area TYPE t500p-name1,
+     subarea TYPE p0001-btrtl,
+     descricao_subarea TYPE t001p-btext,
+     pernr TYPE p0000-pernr,
+     nome_pessoa TYPE p0002-cname,
+     periodo_inicio TYPE p0000-begda,
+     periodo_final TYPE p0000-endda,
+     rua TYPE p0006-stras,
+     numero TYPE p0006-hsnmr,
+     complemento TYPE p0006-posta,
+     bairro TYPE p0006-ort02,
+     cidade TYPE p0006-ort01,
+     uf TYPE p0006-state,
+     pais TYPE p0006-land1,
+     cep TYPE p0006-pstlz,
 END OF ty_saida.
 
 *************************
@@ -49,37 +69,106 @@ END OF ty_saida.
 *************************
 DATA: it_saida TYPE TABLE OF ty_saida.
 
-***************************************
-*** PARAMETROS DE SELEÇÃO DE DADOS  ***
-***************************************
-SELECTION-SCREEN: BEGIN OF BLOCK b_main WITH FRAME TITLE text-001.
-SELECT-OPTIONS: p_data FOR pa0000-begda NO-EXTENSION OBLIGATORY.
-SELECTION-SCREEN: END OF BLOCK b_main.
+*****************
+*** CONSTANTS ***
+*****************
+CONSTANTS: gc_benef_cod_end_cest TYPE tvarvc-name VALUE
+'ZHR_BENEF_COD_END_CEST'.
+CONSTANTS: gc_benef_cod_benef TYPE tvarvc-name VALUE
+'ZHR_BENEF_COD_BENEF'.
+
+***************
+*  VARIÁVEIS  *
+***************
+DATA: gv_cod_cesta TYPE p0006-subty.
+DATA: gv_cod_benef TYPE p0377-subty.
+
+* Initialization
+INITIALIZATION.
+  "Período de Análise - Outro Período
+  pnptimed = 'I'.
 
 * START-OF-SELECTION
 START-OF-SELECTION.
-  PERFORM: zf_selecionar_dados,
-           zf_processar_dados.
+  FREE: it_saida.
+
+  IF pnpbegda IS INITIAL OR pnpendda IS INITIAL.
+    MESSAGE s208(00) DISPLAY LIKE sy-abcde+4(1) WITH text-e01.
+    LEAVE LIST-PROCESSING.
+  ENDIF.
+  PERFORM: zf_selecionar_tvarv.
+
+GET peras.
+  PERFORM: zf_selecionar_dados.
+
+  PERFORM: zf_processar_dados.
 
 * END-OF-SELECTION
 END-OF-SELECTION.
   PERFORM: zf_exibir_alv.
 
 *--------------------------------------------------------*
-*               Form  ZZ_SELECIONAR_DADOS                  *
-*---------------------------------------------d-----------*
+*               Form  ZF_SELECIONAR_TVARV                *
+*--------------------------------------------------------*
+*   SELECIONA OS DADOS DA TVARV                          *
+*--------------------------------------------------------*
+FORM zf_selecionar_tvarv.
+  SELECT SINGLE low
+  FROM tvarvc
+  INTO gv_cod_cesta WHERE name EQ gc_benef_cod_end_cest.
+
+  SELECT SINGLE low
+  FROM tvarvc
+  INTO gv_cod_benef WHERE name EQ gc_benef_cod_benef.
+ENDFORM.
+
+*--------------------------------------------------------*
+*               Form  ZF_SELECIONAR_DADOS                *
+*--------------------------------------------------------*
 *   SELECIONA OS DADOS A SEREM EXIBIDOS PELO RELATÓRIO   *
 *--------------------------------------------------------*
 FORM zf_selecionar_dados.
-  SELECT pernr
-  FROM pa0000
-  INTO TABLE @DATA(it_results)
-  WHERE pa0000~begda >= @p_data-low AND pa0000~endda <= @p_data-high.
+  "Leitura dos Infotipos
+  rp_provide_from_last p0000 space pn-begda pn-endda.
+  rp_provide_from_last p0001 space pn-begda pn-endda.
+  rp_provide_from_last p0002 space pn-begda pn-endda.
+  rp_provide_from_last p0006 gv_cod_cesta pn-begda pn-endda.
+  rp_provide_from_last p0171 space pn-begda pn-endda.
+  rp_provide_from_last p0377 gv_cod_benef pn-begda pn-endda.
+
+  rp-read-t001p p0001-werks p0001-btrtl space.
+
+  SELECT SINGLE brap~filia
+       FROM t7br0p AS brop
+       INNER JOIN t7brap AS brap ON brap~grpbr = brop~grpbr
+       INTO @DATA(lv_filial)
+       WHERE brop~werks = @p0001-werks AND brop~btrtl = @p0001-btrtl.
+
+  INSERT VALUE #( empresa = p0001-bukrs
+                  filial = lv_filial
+                  area = p0001-werks
+                  descricao_area = cl_hr_t500p=>read( p0001-werks
+)-name1
+                  subarea = p0001-btrtl
+                  descricao_subarea = t001p-btext
+                  pernr = p0000-pernr
+                  nome_pessoa = p0002-cname
+                  periodo_inicio = pn-begda
+                  periodo_final = pn-endda
+                  rua = p0006-stras
+                  numero = p0006-hsnmr
+                  complemento = p0006-posta
+                  bairro = p0006-ort02
+                  cidade = p0006-ort01
+                  uf = p0006-state
+                  pais = p0006-land1
+                  cep = p0006-pstlz
+     ) INTO TABLE it_saida.
 
 ENDFORM.
 
 *--------------------------------------------------------*
-*               Form  ZZ_PROCESSAR_DADOS                  *
+*               Form  ZF_PROCESSAR_DADOS                 *
 *--------------------------------------------------------*
 *         PROCESSA AS INFORMAÇÕES DO RELATÓRIO           *
 *--------------------------------------------------------*
