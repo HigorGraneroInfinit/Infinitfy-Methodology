@@ -128,21 +128,58 @@ ENDFORM.
 *   SELECIONA OS DADOS A SEREM EXIBIDOS PELO RELATÓRIO   *
 *--------------------------------------------------------*
 FORM zf_selecionar_dados.
+  DATA: ls_address1 TYPE addr1_val.
+
   "Leitura dos Infotipos
   rp_provide_from_last p0000 space pn-begda pn-endda.
   rp_provide_from_last p0001 space pn-begda pn-endda.
   rp_provide_from_last p0002 space pn-begda pn-endda.
-  rp_provide_from_last p0006 gv_cod_cesta pn-begda pn-endda.
   rp_provide_from_last p0171 space pn-begda pn-endda.
   rp_provide_from_last p0377 gv_cod_benef pn-begda pn-endda.
-
   rp-read-t001p p0001-werks p0001-btrtl space.
+  rp_provide_from_last p0006 gv_cod_cesta pn-begda pn-endda.
 
+  DATA(lv_usar_filial) = xsdbool( sy-subrc <> 0 ).
+
+  " Busca o código da filial
   SELECT SINGLE brap~filia
        FROM t7br0p AS brop
        INNER JOIN t7brap AS brap ON brap~grpbr = brop~grpbr
        INTO @DATA(lv_filial)
        WHERE brop~werks = @p0001-werks AND brop~btrtl = @p0001-btrtl.
+
+  IF lv_usar_filial = abap_true.
+    CALL FUNCTION
+  'J_1BREAD_BRANCH_DATA'
+      EXPORTING
+        branch                  =
+  lv_filial
+        bukrs                   =
+  p0001-bukrs
+     IMPORTING
+*                                          ADDRESS                 =
+*                                          BRANCH_DATA             =
+*                                          CGC_NUMBER              =
+       address1                =
+  ls_address1
+     EXCEPTIONS
+       branch_not_found        = 1
+       address_not_found       = 2
+       company_not_found       = 3
+       OTHERS                  = 4
+              .
+    IF sy-subrc = 0.
+      p0006-stras = ls_address1-name1.
+      p0006-hsnmr = ls_address1-addrnumber.
+      p0006-posta = ls_address1-house_num2.
+      p0006-ort02 = ls_address1-city2.
+      p0006-ort01 = ls_address1-city1.
+      p0006-state = ls_address1-region.
+      p0006-land1 = ls_address1-po_box_cty.
+      p0006-pstlz = ls_address1-post_code1.
+    ENDIF.
+
+  ENDIF.
 
   INSERT VALUE #( empresa = p0001-bukrs
                   filial = lv_filial
