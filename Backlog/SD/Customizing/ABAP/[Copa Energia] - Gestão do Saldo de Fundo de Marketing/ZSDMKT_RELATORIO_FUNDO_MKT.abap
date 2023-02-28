@@ -39,8 +39,10 @@ TYPES: BEGIN OF ty_vb,
          vkorg    TYPE vbak-vkorg,                               "Organização de Vendas"
          vtweg    TYPE vbak-vtweg,                               "Canal de Distribuição"
          spart    TYPE vbak-spart,                               "Setor de Atividade"
+         netwr    TYPE vbak-netwr,                               "Valor líquido"
          posnr    TYPE vbap-posnr,                               "Item do Documento de Vendas"
          matnr    TYPE vbap-matnr,                               "Número Material"
+         volum    TYPE vbap-volum,                               "Quantidade"
          vgbel    TYPE vbrp-vgbel,                               "Nº documento do documento de referência"
          vbeln_vf TYPE vbrk-vbeln ,                              "Documento de faturamento
          bukrs    TYPE vbrk-bukrs,                               "Empresa"
@@ -52,10 +54,10 @@ TYPES: BEGIN OF ty_vb,
          docnum TYPE j_1bnflin-docnum,                       "Nº do Document
          itmnum TYPE j_1bnflin-itmnum,                       "Nº do Item do
          refkey TYPE j_1bnflin-refkey,                       "Quantidade"
-         menge  TYPE j_1bnflin-menge,                        "Quantidade"
+*         menge  TYPE j_1bnflin-menge,                        "Quantidade"
          netwr  TYPE j_1bnflin-netwr,                       "Valor Liquido"
          docdat TYPE j_1bnfdoc-docdat,                       "Data Documento"
-         nfnum  TYPE j_1bnfdoc-nfnum,                        "Nº Nota Físcal
+         nfenum  TYPE j_1bnfdoc-nfenum,                        "Nº Nota Físcal
        END OF ty_1bnf,
 
        BEGIN OF ty_alv,
@@ -65,8 +67,8 @@ TYPES: BEGIN OF ty_vb,
          canal_distribuicao  TYPE vbak-vtweg,
          setor_atividade     TYPE vbak-spart,
          num_material        TYPE vbap-matnr,
-         quantidade          TYPE j_1bnflin-menge,
-         doc_faturamento     TYPE j_1bnflin-docnum,
+         quantidade          TYPE vbrp-volum,
+         doc_faturamento     TYPE vbrk-vbeln,
          data_criacao_fat    TYPE j_1bnfdoc-docdat,
          empresa             TYPE bseg-bukrs,
          doc_estornado       TYPE vbrk-fksto,
@@ -78,8 +80,8 @@ TYPES: BEGIN OF ty_vb,
          data_compensacao    TYPE bseg-augdt,
          num_documento       TYPE j_1bnfdoc-docnum,
          data_criacao_doc    TYPE j_1bnfdoc-docdat,
-         num_nota_fiscal     TYPE j_1bnfdoc-nfnum,
-         valor_liquido       TYPE j_1bnflin-netwr,
+         num_nota_fiscal     TYPE j_1bnfdoc-nfenum,
+         valor_liquido       TYPE vbak-netwr,
        END OF ty_alv.
 
 *&---------------------------------------------------------------------*
@@ -217,10 +219,12 @@ FORM f_seleciona_dados.
            vbak~vkorg,                                          "Organização de Vendas"
            vbak~vtweg,                                          "Canal de Distribuição"
            vbak~spart,                                          "Setor de Atividade"
+           vbak~netwr,                                          "Valor líquido"
            vbap~posnr,                                          "Item do Documento de Vendas"
            vbap~matnr,                                          "Número Material"
+           vbap~volum,                                          "Quantidade"
            vbrp~vgbel,                                          "Nº documento do documento de referência"
-           vbrp~aubel AS vbeln_vf,                              "Documento de vendas
+           vbrk~vbeln AS vbeln_vf,                              "Documento de Faturamento"
            vbrk~bukrs,                                          "Empresa"
            vbrk~zuonr,                                          "Nº Atribuição"
            vbrk~fksto                                           "Fatura Estornada"
@@ -273,10 +277,8 @@ FORM f_seleciona_dados.
       SELECT j_1bnflin~docnum,                              "Nº do Documento"
              j_1bnflin~itmnum,                              "Nº do Item do Documento"
              j_1bnflin~refkey,                              "Referência ao documento de origem"
-             j_1bnflin~menge,                               "Quantidade"
-             j_1bnflin~netwr,                               "Valor Liquido"
              j_1bnfdoc~docdat,                              "Data Documento"
-             j_1bnfdoc~nfnum                                "Nº Nota Físcal"
+             j_1bnfdoc~nfenum                                "Nº Nota Físcal"
         FROM j_1bnflin
         INNER JOIN j_1bnfdoc ON j_1bnfdoc~docnum EQ j_1bnflin~docnum
         INTO CORRESPONDING FIELDS OF TABLE @gt_1bnf[]
@@ -297,7 +299,9 @@ FORM f_seleciona_dados.
            vbak~vkorg,                                        "Organização de Vendas"
            vbak~vtweg,                                        "Canal de Distribuição"
            vbak~spart,                                        "Setor de Atividade"
+           vbak~netwr,                                        "Valor líquido"
            vbap~matnr,                                        "Nº Material"
+           vbap~volum,                                        "Quantidade"
            vbrk~bukrs,                                        "Empresa"
            vbrk~zuonr,                                        "Nº Atribuição"
            vbrk~fksto                                         "Fatura está estornada"
@@ -347,10 +351,8 @@ FORM f_seleciona_dados.
       SELECT j_1bnflin~docnum,                              "Nº do Documento"
              j_1bnflin~itmnum,                              "Nº do Item do Documento"
              j_1bnflin~refkey,                              "Referência ao documento de origem"
-             j_1bnflin~menge,                               "Quantidade"
-             j_1bnflin~netwr,                               "Valor Liquido"
              j_1bnfdoc~docdat,                              "Data Documento"
-             j_1bnfdoc~nfnum                                "Nº Nota Físcal"
+             j_1bnfdoc~nfenum                                "Nº Nota Físcal"
         FROM j_1bnflin
         INNER JOIN j_1bnfdoc ON j_1bnfdoc~docnum EQ j_1bnflin~docnum
         INTO CORRESPONDING FIELDS OF TABLE @gt_1bnf[]
@@ -367,8 +369,10 @@ FORM f_seleciona_dados.
            vbak~vkorg,                                          "Organização de Vendas"
            vbak~vtweg,                                          "Canal de Distribuição"
            vbak~spart,                                          "Setor de Atividade"
+           vbak~netwr,                                          "Valor líquido"
            vbap~posnr,                                          "Item do Documento de Vendas"
            vbap~matnr,                                          "Número Material"
+           vbap~volum,                                          "Quantidade"
            vbrp~vgbel,                                          "Nº documento do documento de referência"
            vbrk~vbeln AS vbeln_vf,                              "Documento de faturamento
            vbrk~bukrs,                                          "Empresa"
@@ -419,14 +423,12 @@ FORM f_seleciona_dados.
       SELECT j_1bnflin~docnum,                              "Nº do Documento"
              j_1bnflin~itmnum,                              "Nº do Item do Documento"
              j_1bnflin~refkey,                              "Referência ao documento de origem"
-             j_1bnflin~menge,                               "Quantidade"
-             j_1bnflin~netwr,                               "Valor Liquido"
              j_1bnfdoc~docdat,                              "Data Documento"
-             j_1bnfdoc~nfnum                                "Nº Nota Físcal"
+             j_1bnfdoc~nfenum                                "Nº Nota Físcal"
         FROM j_1bnflin
         INNER JOIN j_1bnfdoc ON j_1bnfdoc~docnum EQ j_1bnflin~docnum
         INTO CORRESPONDING FIELDS OF TABLE @gt_1bnf[]
-      WHERE j_1bnflin~refkey IN @gr_vbeln[].
+      WHERE j_1bnflin~refkey IN @gr_vbeln[] and j_1bnfdoc~docdat IN @s_erdat.
       IF gt_1bnf[] IS INITIAL.
         FREE: gt_1bnf[].
       ENDIF.
@@ -452,7 +454,6 @@ FORM f_monta_saida.
         gt_1bnf[] BY refkey docnum itmnum docdat.
 
   LOOP AT gt_vb[] INTO DATA(lwa_vb).
-
     gwa_alv-doc_vendas           = lwa_vb-vbeln_va.
     gwa_alv-data_criacao_vendas  = lwa_vb-erdat.
     gwa_alv-org_vendas           = lwa_vb-vkorg.
@@ -460,33 +461,29 @@ FORM f_monta_saida.
     gwa_alv-setor_atividade      = lwa_vb-spart.
     gwa_alv-num_material         = lwa_vb-matnr.
     gwa_alv-doc_estornado        = lwa_vb-fksto.
+    gwa_alv-quantidade           = lwa_vb-volum.
+    gwa_alv-doc_faturamento      = lwa_vb-vbeln_vf.
+    gwa_alv-valor_liquido        = lwa_vb-netwr.
 
-    READ TABLE gt_bkpf[] INTO DATA(lwa_bkpf) WITH KEY awkey = lwa_vb-vbeln_va BINARY SEARCH.
+    READ TABLE gt_bkpf[] INTO DATA(lwa_bkpf) WITH KEY awkey = lwa_vb-vbeln_vf BINARY SEARCH.
     IF gt_bkpf[] IS NOT INITIAL.
 
       READ TABLE gt_bseg[] INTO DATA(lwa_bseg) WITH KEY belnr = lwa_bkpf-belnr BINARY SEARCH.
       IF gt_bseg[] IS NOT INITIAL.
-
         gwa_alv-empresa          = lwa_bseg-bukrs.
         gwa_alv-doc_contabil     = lwa_bseg-belnr.
         gwa_alv-exercicio        = lwa_bseg-gjahr.
         gwa_alv-doc_compensacao  = lwa_bseg-augbl.
         gwa_alv-data_compensacao = lwa_bseg-augdt.
-
       ENDIF.
     ENDIF.
 
-    READ TABLE gt_1bnf INTO DATA(lwa_1bnf) WITH KEY refkey = lwa_vb-vbeln_va BINARY SEARCH.
+    READ TABLE gt_1bnf INTO DATA(lwa_1bnf) WITH KEY refkey = lwa_vb-vbeln_vf BINARY SEARCH.
     IF gt_1bnf[] IS NOT INITIAL.
-
-      gwa_alv-quantidade         = lwa_1bnf-menge.
-      gwa_alv-doc_faturamento    = lwa_1bnf-docnum.
       gwa_alv-data_criacao_fat   = lwa_1bnf-docdat.
       gwa_alv-num_documento      = lwa_1bnf-docnum.
       gwa_alv-data_criacao_doc   = lwa_1bnf-docdat.
-      gwa_alv-num_nota_fiscal    = lwa_1bnf-nfnum.
-      gwa_alv-valor_liquido      = lwa_1bnf-netwr.
-
+      gwa_alv-num_nota_fiscal    = lwa_1bnf-nfenum.
     ENDIF.
 
     APPEND gwa_alv TO gt_alv.
