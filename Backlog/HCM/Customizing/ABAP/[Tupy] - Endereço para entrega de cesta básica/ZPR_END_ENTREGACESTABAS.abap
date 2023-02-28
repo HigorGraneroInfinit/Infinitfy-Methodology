@@ -76,12 +76,58 @@ CONSTANTS: gc_benef_cod_end_cest TYPE tvarvc-name VALUE
 'ZHR_BENEF_COD_END_CEST'.
 CONSTANTS: gc_benef_cod_benef TYPE tvarvc-name VALUE
 'ZHR_BENEF_COD_BENEF'.
+CONSTANTS: gc_stat_ativo TYPE p0000-stat2 VALUE '3'.
 
 ***************
 *  VARIÁVEIS  *
 ***************
-DATA: gv_cod_cesta TYPE p0006-subty.
-DATA: gv_cod_benef TYPE p0377-subty.
+DATA: gv_cod_cesta TYPE p0006-subty ##NEEDED.
+DATA: gv_cod_benef TYPE p0377-subty ##NEEDED.
+DATA: gv_path      TYPE string ##NEEDED.
+
+***************************************
+*** PARAMETROS DE SELEÇÃO DE DADOS  ***
+***************************************
+SELECTION-SCREEN: BEGIN OF BLOCK b_oper WITH FRAME TITLE text-002.
+SELECTION-SCREEN BEGIN OF LINE.
+PARAMETERS: p_alv RADIOBUTTON GROUP rad1 DEFAULT 'X' USER-COMMAND
+rd1.
+SELECTION-SCREEN COMMENT 4(3) text-rb1.
+SELECTION-SCREEN END OF LINE.
+
+SELECTION-SCREEN BEGIN OF LINE.
+PARAMETERS: p_xls RADIOBUTTON GROUP rad1.
+SELECTION-SCREEN COMMENT 4(5) text-rb2.
+SELECTION-SCREEN END OF LINE.
+
+PARAMETERS: p_file TYPE rlgrap-filename MODIF ID fle.
+SELECTION-SCREEN: END OF BLOCK b_oper.
+
+* AT SELECTION-SCREEN OUTPUT
+AT SELECTION-SCREEN OUTPUT.
+  LOOP AT SCREEN.
+    IF screen-group1 EQ 'FLE'.
+      screen-active = COND #( WHEN p_xls = abap_true THEN 1 ELSE 0 ).
+      MODIFY SCREEN.
+    ENDIF.
+  ENDLOOP.
+
+* AT SELECTION-SCREEN
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_file.
+  CALL METHOD cl_gui_frontend_services=>directory_browse
+    CHANGING
+      selected_folder      = gv_path
+    EXCEPTIONS
+      cntl_error           = 1
+      error_no_gui         = 2
+      not_supported_by_gui = 3
+      OTHERS               = 4.
+
+  IF sy-subrc <> 0.
+    CLEAR: p_file, gv_path.
+  ELSE.
+    p_file = gv_path.
+  ENDIF.
 
 * Initialization
 INITIALIZATION.
@@ -95,17 +141,22 @@ START-OF-SELECTION.
   IF pnpbegda IS INITIAL OR pnpendda IS INITIAL.
     MESSAGE s208(00) DISPLAY LIKE sy-abcde+4(1) WITH text-e01.
     LEAVE LIST-PROCESSING.
+  ELSEIF p_xls = abap_true AND p_file IS INITIAL.
+    MESSAGE s208(00) DISPLAY LIKE sy-abcde+4(1) WITH text-e03.
+    LEAVE LIST-PROCESSING.
   ENDIF.
   PERFORM: zf_selecionar_tvarv.
 
 GET peras.
   PERFORM: zf_selecionar_dados.
 
-  PERFORM: zf_processar_dados.
-
 * END-OF-SELECTION
 END-OF-SELECTION.
-  PERFORM: zf_exibir_alv.
+  IF p_alv = abap_true.
+    PERFORM zf_exibir_alv.
+  ELSEIF p_xls = abap_true.
+    PERFORM: zf_salvar_excel.
+  ENDIF.
 
 *--------------------------------------------------------*
 *               Form  ZF_SELECIONAR_TVARV                *
@@ -139,78 +190,70 @@ FORM zf_selecionar_dados.
   rp-read-t001p p0001-werks p0001-btrtl space.
   rp_provide_from_last p0006 gv_cod_cesta pn-begda pn-endda.
 
-  DATA(lv_usar_filial) = xsdbool( sy-subrc <> 0 ).
+  IF p0000-stat2 = gc_stat_ativo AND p0377 IS NOT INITIAL.
+    DATA(lv_usar_filial) = xsdbool( sy-subrc <> 0 ).
 
-  " Busca o código da filial
-  SELECT SINGLE brap~filia
-       FROM t7br0p AS brop
-       INNER JOIN t7brap AS brap ON brap~grpbr = brop~grpbr
-       INTO @DATA(lv_filial)
-       WHERE brop~werks = @p0001-werks AND brop~btrtl = @p0001-btrtl.
+    " Busca o código da filial
+    SELECT SINGLE brap~filia
+         FROM t7br0p AS brop
+         INNER JOIN t7brap AS brap ON brap~grpbr = brop~grpbr
+         INTO @DATA(lv_filial)
+         WHERE brop~werks = @p0001-werks AND brop~btrtl = @p0001-btrtl.
 
-  IF lv_usar_filial = abap_true.
-    CALL FUNCTION
-  'J_1BREAD_BRANCH_DATA'
-      EXPORTING
-        branch                  =
-  lv_filial
-        bukrs                   =
-  p0001-bukrs
-     IMPORTING
+    IF lv_usar_filial = abap_true.
+      CALL FUNCTION
+    'J_1BREAD_BRANCH_DATA'
+        EXPORTING
+          branch                  =
+    lv_filial
+          bukrs                   =
+    p0001-bukrs
+       IMPORTING
 *                                          ADDRESS                 =
 *                                          BRANCH_DATA             =
 *                                          CGC_NUMBER              =
-       address1                =
-  ls_address1
-     EXCEPTIONS
-       branch_not_found        = 1
-       address_not_found       = 2
-       company_not_found       = 3
-       OTHERS                  = 4
-              .
-    IF sy-subrc = 0.
-      p0006-stras = ls_address1-name1.
-      p0006-hsnmr = ls_address1-addrnumber.
-      p0006-posta = ls_address1-house_num2.
-      p0006-ort02 = ls_address1-city2.
-      p0006-ort01 = ls_address1-city1.
-      p0006-state = ls_address1-region.
-      p0006-land1 = ls_address1-po_box_cty.
-      p0006-pstlz = ls_address1-post_code1.
+         address1                =
+    ls_address1
+       EXCEPTIONS
+         branch_not_found        = 1
+         address_not_found       = 2
+         company_not_found       = 3
+         OTHERS                  = 4
+                .
+      IF sy-subrc = 0.
+        p0006-stras = ls_address1-name1.
+        p0006-hsnmr = ls_address1-addrnumber.
+        p0006-posta = ls_address1-house_num2.
+        p0006-ort02 = ls_address1-city2.
+        p0006-ort01 = ls_address1-city1.
+        p0006-state = ls_address1-region.
+        p0006-land1 = ls_address1-po_box_cty.
+        p0006-pstlz = ls_address1-post_code1.
+      ENDIF.
+
     ENDIF.
 
+    INSERT VALUE #( empresa = p0001-bukrs
+                    filial = lv_filial
+                    area = p0001-werks
+                    descricao_area = cl_hr_t500p=>read( p0001-werks
+  )-name1
+                    subarea = p0001-btrtl
+                    descricao_subarea = t001p-btext
+                    pernr = p0000-pernr
+                    nome_pessoa = p0002-cname
+                    periodo_inicio = pn-begda
+                    periodo_final = pn-endda
+                    rua = p0006-stras
+                    numero = p0006-hsnmr
+                    complemento = p0006-posta
+                    bairro = p0006-ort02
+                    cidade = p0006-ort01
+                    uf = p0006-state
+                    pais = p0006-land1
+                    cep = p0006-pstlz
+       ) INTO TABLE it_saida.
   ENDIF.
-
-  INSERT VALUE #( empresa = p0001-bukrs
-                  filial = lv_filial
-                  area = p0001-werks
-                  descricao_area = cl_hr_t500p=>read( p0001-werks
-)-name1
-                  subarea = p0001-btrtl
-                  descricao_subarea = t001p-btext
-                  pernr = p0000-pernr
-                  nome_pessoa = p0002-cname
-                  periodo_inicio = pn-begda
-                  periodo_final = pn-endda
-                  rua = p0006-stras
-                  numero = p0006-hsnmr
-                  complemento = p0006-posta
-                  bairro = p0006-ort02
-                  cidade = p0006-ort01
-                  uf = p0006-state
-                  pais = p0006-land1
-                  cep = p0006-pstlz
-     ) INTO TABLE it_saida.
-
-ENDFORM.
-
-*--------------------------------------------------------*
-*               Form  ZF_PROCESSAR_DADOS                 *
-*--------------------------------------------------------*
-*         PROCESSA AS INFORMAÇÕES DO RELATÓRIO           *
-*--------------------------------------------------------*
-FORM zf_processar_dados.
-
 ENDFORM.
 
 *--------------------------------------------------------*
@@ -244,7 +287,71 @@ FORM zf_exibir_alv.
       program_error      = 1
       OTHERS             = 2.
   IF sy-subrc NE 0.
-    MESSAGE s208(00) DISPLAY LIKE sy-abcde+4(1) WITH text-e01.
+    MESSAGE s208(00) DISPLAY LIKE sy-abcde+4(1) WITH text-e02.
   ENDIF.
 
+ENDFORM.
+
+*--------------------------------------------------------*
+*                 Form  ZF_SALVAR_EXCEL                  *
+*--------------------------------------------------------*
+*        GERA O ARQUIVO EXCEL E SALVA LOCALMENTE         *
+*--------------------------------------------------------*
+FORM zf_salvar_excel.
+  DATA(lt_header) = VALUE string_table(
+  ( CONV string( text-c01 ) ) "Empresa
+  ( CONV string( text-c02 ) ) "Filial
+  ( CONV string( text-c03 ) ) "Área
+  ( CONV string( text-c04 ) ) "Descrição Área
+  ( CONV string( text-c05 ) ) "Subárea
+  ( CONV string( text-c06 ) ) "Descrição Subárea
+  ( CONV string( text-c07 ) ) "Pernr
+  ( CONV string( text-c08 ) ) "Nome Pessoa
+  ( CONV string( text-c09 ) ) "Período Início
+  ( CONV string( text-c10 ) ) "Período Final
+  ( CONV string( text-c11 ) ) "Rua
+  ( CONV string( text-c12 ) ) "Número
+  ( CONV string( text-c13 ) ) "Complemento
+  ( CONV string( text-c14 ) ) "Bairro
+  ( CONV string( text-c15 ) ) "Cidade
+  ( CONV string( text-c16 ) ) "UF
+  ( CONV string( text-c17 ) ) "PAÍS
+  ( CONV string( text-c18 ) ) "CEP
+ ).
+
+  CALL FUNCTION 'GUI_DOWNLOAD'
+    EXPORTING
+      filename                = gv_path
+      filetype                = 'ASC'
+      write_field_separator   = abap_true
+    TABLES
+      data_tab                = it_saida
+      fieldnames              = lt_header
+    EXCEPTIONS
+      file_write_error        = 1
+      no_batch                = 2
+      gui_refuse_filetransfer = 3
+      invalid_type            = 4
+      no_authority            = 5
+      unknown_error           = 6
+      header_not_allowed      = 7
+      separator_not_allowed   = 8
+      filesize_not_allowed    = 9
+      header_too_long         = 10
+      dp_error_create         = 11
+      dp_error_send           = 12
+      dp_error_write          = 13
+      unknown_dp_error        = 14
+      access_denied           = 15
+      dp_out_of_memory        = 16
+      disk_full               = 17
+      dp_timeout              = 18
+      file_not_found          = 19
+      dataprovider_exception  = 20
+      control_flush_error     = 21
+      OTHERS                  = 22.
+
+  IF sy-subrc <> 0.
+* Implement suitable error handling here
+  ENDIF.
 ENDFORM.
