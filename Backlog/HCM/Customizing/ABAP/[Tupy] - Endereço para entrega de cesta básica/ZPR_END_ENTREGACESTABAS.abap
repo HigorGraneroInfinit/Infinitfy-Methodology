@@ -114,6 +114,7 @@ AT SELECTION-SCREEN OUTPUT.
 
 * AT SELECTION-SCREEN
 AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_file.
+  CLEAR: p_file, gv_path.
   CALL METHOD cl_gui_frontend_services=>directory_browse
     CHANGING
       selected_folder      = gv_path
@@ -123,11 +124,9 @@ AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_file.
       not_supported_by_gui = 3
       OTHERS               = 4.
 
-  IF sy-subrc <> 0.
-    CLEAR: p_file, gv_path.
-  ELSE.
-    p_file = gv_path.
-  ENDIF.
+  gv_path = |{ gv_path }\\{ text-nam }{ text-xls }|.
+  p_file = COND #( WHEN sy-subrc = 0 THEN replace( val = gv_path sub =
+'\\' with = '\' ) ).
 
 * Initialization
 INITIALIZATION.
@@ -145,6 +144,7 @@ START-OF-SELECTION.
     MESSAGE s208(00) DISPLAY LIKE sy-abcde+4(1) WITH text-e03.
     LEAVE LIST-PROCESSING.
   ENDIF.
+
   PERFORM: zf_selecionar_tvarv.
 
 GET peras.
@@ -298,27 +298,33 @@ ENDFORM.
 *        GERA O ARQUIVO EXCEL E SALVA LOCALMENTE         *
 *--------------------------------------------------------*
 FORM zf_salvar_excel.
-  DATA(lt_header) = VALUE string_table(
-  ( CONV string( text-c01 ) ) "Empresa
-  ( CONV string( text-c02 ) ) "Filial
-  ( CONV string( text-c03 ) ) "Área
-  ( CONV string( text-c04 ) ) "Descrição Área
-  ( CONV string( text-c05 ) ) "Subárea
-  ( CONV string( text-c06 ) ) "Descrição Subárea
-  ( CONV string( text-c07 ) ) "Pernr
-  ( CONV string( text-c08 ) ) "Nome Pessoa
-  ( CONV string( text-c09 ) ) "Período Início
-  ( CONV string( text-c10 ) ) "Período Final
-  ( CONV string( text-c11 ) ) "Rua
-  ( CONV string( text-c12 ) ) "Número
-  ( CONV string( text-c13 ) ) "Complemento
-  ( CONV string( text-c14 ) ) "Bairro
-  ( CONV string( text-c15 ) ) "Cidade
-  ( CONV string( text-c16 ) ) "UF
-  ( CONV string( text-c17 ) ) "PAÍS
-  ( CONV string( text-c18 ) ) "CEP
+  TYPES: BEGIN OF ly_header,
+      column TYPE char40,
+       END OF ly_header.
+  TYPES: ls_header TYPE TABLE OF ly_header WITH EMPTY KEY.
+
+  DATA(lt_header) = VALUE ls_header(
+  ( CONV ly_header-column( text-c01 ) ) "Empresa
+  ( CONV ly_header-column( text-c02 ) ) "Filial
+  ( CONV ly_header-column( text-c03 ) ) "Área
+  ( CONV ly_header-column( text-c04 ) ) "Descrição Área
+  ( CONV ly_header-column( text-c05 ) ) "Subárea
+  ( CONV ly_header-column( text-c06 ) ) "Descrição Subárea
+  ( CONV ly_header-column( text-c07 ) ) "Pernr
+  ( CONV ly_header-column( text-c08 ) ) "Nome Pessoa
+  ( CONV ly_header-column( text-c09 ) ) "Período Início
+  ( CONV ly_header-column( text-c10 ) ) "Período Final
+  ( CONV ly_header-column( text-c11 ) ) "Rua
+  ( CONV ly_header-column( text-c12 ) ) "Número
+  ( CONV ly_header-column( text-c13 ) ) "Complemento
+  ( CONV ly_header-column( text-c14 ) ) "Bairro
+  ( CONV ly_header-column( text-c15 ) ) "Cidade
+  ( CONV ly_header-column( text-c16 ) ) "UF
+  ( CONV ly_header-column( text-c17 ) ) "PAÍS
+  ( CONV ly_header-column( text-c18 ) ) "CEP
  ).
 
+  gv_path = COND #( WHEN gv_path IS INITIAL THEN p_file ).
   CALL FUNCTION 'GUI_DOWNLOAD'
     EXPORTING
       filename                = gv_path
