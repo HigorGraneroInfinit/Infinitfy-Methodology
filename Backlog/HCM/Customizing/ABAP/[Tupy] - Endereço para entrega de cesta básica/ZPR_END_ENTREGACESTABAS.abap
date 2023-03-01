@@ -67,16 +67,16 @@ END OF ty_saida.
 *************************
 ***  INTERNAL TABLES  ***
 *************************
-DATA: it_saida TYPE TABLE OF ty_saida.
+DATA: it_saida TYPE TABLE OF ty_saida ##NEEDED.
 
 *****************
 *** CONSTANTS ***
 *****************
-CONSTANTS: gc_benef_cod_end_cest TYPE tvarvc-name VALUE
-'ZHR_BENEF_COD_END_CEST'.
-CONSTANTS: gc_benef_cod_benef TYPE tvarvc-name VALUE
-'ZHR_BENEF_COD_BENEF'.
-CONSTANTS: gc_stat_ativo TYPE p0000-stat2 VALUE '3'.
+CONSTANTS: gc_benef_cod_end_cest TYPE tvarvc-name VALUE 'ZHR_BENEF_COD_END_CEST' ##NEEDED.
+CONSTANTS: gc_benef_cod_benef TYPE tvarvc-name VALUE 'zhr_benef_cod_benef' ##NEEDED.
+CONSTANTS: gc_stat_ativo TYPE p0000-stat2 VALUE '3' ##NEEDED.
+CONSTANTS: gc_extensao_excel TYPE string VALUE '.xls' ##NEEDED.
+CONSTANTS: gc_nome_arquivo TYPE string VALUE 'REL_ENT_CESTBASICA' ##NEEDED.
 
 ***************
 *  VARIÁVEIS  *
@@ -90,8 +90,7 @@ DATA: gv_path      TYPE string ##NEEDED.
 ***************************************
 SELECTION-SCREEN: BEGIN OF BLOCK b_oper WITH FRAME TITLE text-002.
 SELECTION-SCREEN BEGIN OF LINE.
-PARAMETERS: p_alv RADIOBUTTON GROUP rad1 DEFAULT 'X' USER-COMMAND
-rd1.
+PARAMETERS: p_alv RADIOBUTTON GROUP rad1 DEFAULT 'X' USER-COMMAND rd1.
 SELECTION-SCREEN COMMENT 4(3) text-rb1.
 SELECTION-SCREEN END OF LINE.
 
@@ -114,7 +113,6 @@ AT SELECTION-SCREEN OUTPUT.
 
 * AT SELECTION-SCREEN
 AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_file.
-  CLEAR: p_file, gv_path.
   CALL METHOD cl_gui_frontend_services=>directory_browse
     CHANGING
       selected_folder      = gv_path
@@ -124,9 +122,13 @@ AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_file.
       not_supported_by_gui = 3
       OTHERS               = 4.
 
-  gv_path = |{ gv_path }\\{ text-nam }{ text-xls }|.
-  p_file = COND #( WHEN sy-subrc = 0 THEN replace( val = gv_path sub =
-'\\' with = '\' ) ).
+  IF sy-subrc <> 0.
+    CLEAR: p_file, gv_path.
+  ELSE.
+    gv_path = |{ gv_path }\\{ gc_nome_arquivo }{ gc_extensao_excel }|.
+    p_file = replace( val = gv_path sub = '\\' with = '\' ).
+  ENDIF.
+
 
 * Initialization
 INITIALIZATION.
@@ -189,7 +191,10 @@ FORM zf_selecionar_dados.
   rp_provide_from_last p0377 gv_cod_benef pn-begda pn-endda.
   rp-read-t001p p0001-werks p0001-btrtl space.
   rp_provide_from_last p0006 gv_cod_cesta pn-begda pn-endda.
-
+  
+  " Verifica se durante o mês de processamento do benefício, 
+  " o funcionário possui pelo menos um dia de atividade registrada
+  " e o subtipo da cesta básica para inclusão da pessoa no relatório
   IF p0000-stat2 = gc_stat_ativo AND p0377 IS NOT INITIAL.
     DATA(lv_usar_filial) = xsdbool( sy-subrc <> 0 ).
 
@@ -200,26 +205,21 @@ FORM zf_selecionar_dados.
          INTO @DATA(lv_filial)
          WHERE brop~werks = @p0001-werks AND brop~btrtl = @p0001-btrtl.
 
+    " Caso não seja encontrado no infotipo P0006 o subtipo da tabela TVARV,
+    " utiliza o endereço da filial
     IF lv_usar_filial = abap_true.
-      CALL FUNCTION
-    'J_1BREAD_BRANCH_DATA'
+      CALL FUNCTION 'J_1BREAD_BRANCH_DATA'
         EXPORTING
-          branch                  =
-    lv_filial
-          bukrs                   =
-    p0001-bukrs
+          branch                  = lv_filial
+          bukrs                   = p0001-bukrs
        IMPORTING
-*                                          ADDRESS                 =
-*                                          BRANCH_DATA             =
-*                                          CGC_NUMBER              =
-         address1                =
-    ls_address1
+         address1                = ls_address1
        EXCEPTIONS
          branch_not_found        = 1
          address_not_found       = 2
          company_not_found       = 3
-         OTHERS                  = 4
-                .
+         OTHERS                  = 4.
+
       IF sy-subrc = 0.
         p0006-stras = ls_address1-name1.
         p0006-hsnmr = ls_address1-addrnumber.
@@ -236,8 +236,7 @@ FORM zf_selecionar_dados.
     INSERT VALUE #( empresa = p0001-bukrs
                     filial = lv_filial
                     area = p0001-werks
-                    descricao_area = cl_hr_t500p=>read( p0001-werks
-  )-name1
+                    descricao_area = cl_hr_t500p=>read( p0001-werks )-name1
                     subarea = p0001-btrtl
                     descricao_subarea = t001p-btext
                     pernr = p0000-pernr
@@ -324,7 +323,7 @@ FORM zf_salvar_excel.
   ( CONV ly_header-column( text-c18 ) ) "CEP
  ).
 
-  gv_path = COND #( WHEN gv_path IS INITIAL THEN p_file ).
+  gv_path = COND #( WHEN gv_path IS INITIAL THEN p_file ELSE gv_path ).
   CALL FUNCTION 'GUI_DOWNLOAD'
     EXPORTING
       filename                = gv_path
