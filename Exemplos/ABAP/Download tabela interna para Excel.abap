@@ -8,7 +8,6 @@ TYPES: BEGIN OF ly_header,
   ( CONV ly_header-column( text-c02 ) ) "Coluna 2
  ).
 
-  gv_path = COND #( WHEN gv_path IS INITIAL THEN p_file ELSE gv_path ).
   CALL FUNCTION 'GUI_DOWNLOAD'
     EXPORTING
       filename                = gv_path
