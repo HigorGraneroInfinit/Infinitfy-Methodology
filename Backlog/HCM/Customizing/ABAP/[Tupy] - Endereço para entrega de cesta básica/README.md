@@ -1,5 +1,7 @@
 # Endereço para entrega de cesta básica
 
+Criar um programa que utilize o banco de dados lógico PNPCE, utilizando os infotipos 0000, 0001, 0002, 0006, 0171 e 0377. O programa deverá exibir um layout ALV com a possibilidade de exportação para o Excel. Na tela de seleção, deve-se indicar a data inicial e final da folha de pagamento.
+
 ## Tabelas utilizadas
 
 ##### PA0000 - Registro mestre HR infotipo 0000 (Medidas)
