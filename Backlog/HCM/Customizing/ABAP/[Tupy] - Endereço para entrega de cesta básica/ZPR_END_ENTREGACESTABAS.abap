@@ -1,7 +1,7 @@
 *&---------------------------------------------------------------------*
 *& Report  ZPR_END_ENTREGACESTABAS
 *&---------------------------------------------------------------------*
-*& Nome: GAP_01_ECP_01
+*& Nome: GAP_01_ECP_01 - Endereço para entrega de cesta básica
 *& Tipo: Report
 *& Objetivo: atender a distribuição de cesta básica aos colaboradores
 *& Data/Hora: Segunda, Fevereiro 27, 2023 (GMT-3) - 08:00
@@ -72,11 +72,14 @@ DATA: it_saida TYPE TABLE OF ty_saida ##NEEDED.
 *****************
 *** CONSTANTS ***
 *****************
-CONSTANTS: gc_benef_cod_end_cest TYPE tvarvc-name VALUE 'ZHR_BENEF_COD_END_CEST' ##NEEDED.
-CONSTANTS: gc_benef_cod_benef TYPE tvarvc-name VALUE 'zhr_benef_cod_benef' ##NEEDED.
+CONSTANTS: gc_benef_cod_end_cest TYPE tvarvc-name VALUE
+'ZHR_BENEF_COD_END_CEST' ##NEEDED.
+CONSTANTS: gc_benef_cod_benef TYPE tvarvc-name VALUE
+'zhr_benef_cod_benef' ##NEEDED.
 CONSTANTS: gc_stat_ativo TYPE p0000-stat2 VALUE '3' ##NEEDED.
 CONSTANTS: gc_extensao_excel TYPE string VALUE '.xls' ##NEEDED.
-CONSTANTS: gc_nome_arquivo TYPE string VALUE 'REL_ENT_CESTBASICA' ##NEEDED.
+CONSTANTS: gc_nome_arquivo TYPE string VALUE 'REL_ENT_CESTBASICA'
+##NEEDED.
 
 ***************
 *  VARIÁVEIS  *
@@ -191,8 +194,8 @@ FORM zf_selecionar_dados.
   rp_provide_from_last p0377 gv_cod_benef pn-begda pn-endda.
   rp-read-t001p p0001-werks p0001-btrtl space.
   rp_provide_from_last p0006 gv_cod_cesta pn-begda pn-endda.
-  
-  " Verifica se durante o mês de processamento do benefício, 
+
+  " Verifica se durante o mês de processamento do benefício,
   " o funcionário possui pelo menos um dia de atividade registrada
   " e o subtipo da cesta básica para inclusão da pessoa no relatório
   IF p0000-stat2 = gc_stat_ativo AND p0377 IS NOT INITIAL.
@@ -205,8 +208,8 @@ FORM zf_selecionar_dados.
          INTO @DATA(lv_filial)
          WHERE brop~werks = @p0001-werks AND brop~btrtl = @p0001-btrtl.
 
-    " Caso não seja encontrado no infotipo P0006 o subtipo da tabela TVARV,
-    " utiliza o endereço da filial
+    " Caso não seja encontrado no infotipo P0006 o subtipo da tabela
+    " tvarv utiliza o endereço da filial
     IF lv_usar_filial = abap_true.
       CALL FUNCTION 'J_1BREAD_BRANCH_DATA'
         EXPORTING
@@ -236,7 +239,8 @@ FORM zf_selecionar_dados.
     INSERT VALUE #( empresa = p0001-bukrs
                     filial = lv_filial
                     area = p0001-werks
-                    descricao_area = cl_hr_t500p=>read( p0001-werks )-name1
+                    descricao_area = cl_hr_t500p=>read( p0001-werks
+)-name1
                     subarea = p0001-btrtl
                     descricao_subarea = t001p-btext
                     pernr = p0000-pernr
